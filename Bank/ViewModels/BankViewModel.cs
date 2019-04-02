@@ -8,18 +8,32 @@ using System.Threading.Tasks;
 
 namespace Bank.ViewModels
 {
+    /// <summary>
+    /// The BankViewModel class represents the view model for the Bank module.
+    /// </summary>
     public class BankViewModel : BindableBase
     {
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
-        }
+        #region Fields
+        #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public BankViewModel()
         {
-            Message = "Bank Module";
         }
+
+        #endregion
+
+        #region Events
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Methods
+        #endregion
     }
 }

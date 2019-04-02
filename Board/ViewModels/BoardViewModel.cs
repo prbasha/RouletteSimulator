@@ -8,18 +8,32 @@ using System.Threading.Tasks;
 
 namespace Board.ViewModels
 {
+    /// <summary>
+    /// The BoardViewModel class represents the view model for the Board module.
+    /// </summary>
     public class BoardViewModel : BindableBase
     {
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
-        }
+        #region Fields
+        #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public BoardViewModel()
         {
-            Message = "Board Module";
         }
+
+        #endregion
+
+        #region Events
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Methods
+        #endregion
     }
 }

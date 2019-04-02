@@ -16,13 +16,32 @@ using System.Windows.Shapes;
 namespace Player.Views
 {
     /// <summary>
-    /// Interaction logic for PlayerView.xaml
+    /// The PlayerView class represents the view for the Player module.
     /// </summary>
     public partial class PlayerView : UserControl
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public PlayerView()
         {
             InitializeComponent();
         }
+
+        #endregion
+
+        #region Events
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Methods
+        #endregion
     }
 }

@@ -2,18 +2,32 @@
 
 namespace RouletteSimulator.ViewModels
 {
+    /// <summary>
+    /// The RouletteSimulatorViewModel class represents the view model for the Roulette Simulator.
+    /// </summary>
     public class RouletteSimulatorViewModel : BindableBase
     {
-        private string _title = "Roulette Simulator";
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
+        #region Fields
+        #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public RouletteSimulatorViewModel()
         {
-
         }
+
+        #endregion
+
+        #region Events
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Methods
+        #endregion
     }
 }

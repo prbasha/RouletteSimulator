@@ -8,18 +8,32 @@ using System.Threading.Tasks;
 
 namespace Dealer.ViewModels
 {
+    /// <summary>
+    /// The DealerViewModel class represents the view model for the Dealer module.
+    /// </summary>
     public class DealerViewModel : BindableBase
     {
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
-        }
+        #region Fields
+        #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public DealerViewModel()
         {
-            Message = "Dealer Module";
         }
+
+        #endregion
+
+        #region Events
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Methods
+        #endregion
     }
 }
