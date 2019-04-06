@@ -77,7 +77,12 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\RouletteSimulator.Core\RouletteSimulator.Core.csproj">
+      <Project>{1fe47152-0306-4dcc-80d6-4de830751832}</Project>
+      <Name>RouletteSimulator.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\BoardView.xaml">
       <SubType>Designer</SubType>

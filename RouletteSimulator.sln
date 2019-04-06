@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Player", "Player\Player.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheel", "Wheel\Wheel.csproj", "{E94B74A8-D788-429E-9417-F5A906136D24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RouletteSimulator.Core", "RouletteSimulator.Core\RouletteSimulator.Core.csproj", "{1FE47152-0306-4DCC-80D6-4DE830751832}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{E94B74A8-D788-429E-9417-F5A906136D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E94B74A8-D788-429E-9417-F5A906136D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E94B74A8-D788-429E-9417-F5A906136D24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FE47152-0306-4DCC-80D6-4DE830751832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FE47152-0306-4DCC-80D6-4DE830751832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FE47152-0306-4DCC-80D6-4DE830751832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FE47152-0306-4DCC-80D6-4DE830751832}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

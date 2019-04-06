@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using RouletteSimulator.Core.Models.BoardModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace Board.ViewModels
     public class BoardViewModel : BindableBase
     {
         #region Fields
+
+        private RouletteBoard _rouletteBoard;
+
         #endregion
 
         #region Constructors
