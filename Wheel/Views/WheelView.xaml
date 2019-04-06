@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Wheel.Views.WheelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Wheel.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             Height="Auto" Width="Auto"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True" >
+    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TextBlock Text="WHEEL"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+        </TextBlock>
+    </Grid>
+</UserControl>

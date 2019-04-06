@@ -5,8 +5,8 @@ using System.Windows;
 using Dealer;
 using Player;
 using Board;
-using Wheel;
 using Bank;
+using Wheel;
 
 namespace RouletteSimulator
 {

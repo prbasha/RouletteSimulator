@@ -8,6 +8,22 @@
              Height="Auto" Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
+    <UserControl.Resources>
+        <Style x:Key="BaseButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="LimeGreen"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <Setter Property="Padding" Value="0,0,0,0"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+        </Style>
+        <Style x:Key="StraightBetButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="LimeGreen"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <Setter Property="Padding" Value="0,0,0,0"></Setter>
+            <!--TBD: Mouse over and pressed - bind to "Bet" model class.-->
+        </Style>
+    </UserControl.Resources>
     <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -34,57 +50,35 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Column="0" Grid.Row="1" Grid.RowSpan="3"></Button>
-            <Button Grid.Column="0" Grid.Row="4" Grid.RowSpan="3"></Button>
-            <Button Grid.Column="0" Grid.Row="7" Grid.RowSpan="3"></Button>
-            <Button Grid.Column="0" Grid.Row="10" Grid.RowSpan="3"></Button>
-            <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="4"></Button>
-            <Button Grid.Column="1" Grid.Row="5" Grid.RowSpan="4"></Button>
-            <Button Grid.Column="1" Grid.Row="9" Grid.RowSpan="4"></Button>
-            <Button Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3"></Button>
-            <Button Grid.Column="2" Grid.Row="1"></Button>
-            <Button Grid.Column="2" Grid.Row="2"></Button>
-            <Button Grid.Column="2" Grid.Row="3"></Button>
-            <Button Grid.Column="2" Grid.Row="4"></Button>
-            <Button Grid.Column="2" Grid.Row="5"></Button>
-            <Button Grid.Column="2" Grid.Row="6"></Button>
-            <Button Grid.Column="2" Grid.Row="7"></Button>
-            <Button Grid.Column="2" Grid.Row="8"></Button>
-            <Button Grid.Column="2" Grid.Row="9"></Button>
-            <Button Grid.Column="2" Grid.Row="10"></Button>
-            <Button Grid.Column="2" Grid.Row="11"></Button>
-            <Button Grid.Column="2" Grid.Row="12"></Button>
-            <Button Grid.Column="2" Grid.Row="13"></Button>
-            <Button Grid.Column="3" Grid.Row="1"></Button>
-            <Button Grid.Column="3" Grid.Row="2"></Button>
-            <Button Grid.Column="3" Grid.Row="3"></Button>
-            <Button Grid.Column="3" Grid.Row="4"></Button>
-            <Button Grid.Column="3" Grid.Row="5"></Button>
-            <Button Grid.Column="3" Grid.Row="6"></Button>
-            <Button Grid.Column="3" Grid.Row="7"></Button>
-            <Button Grid.Column="3" Grid.Row="8"></Button>
-            <Button Grid.Column="3" Grid.Row="9"></Button>
-            <Button Grid.Column="3" Grid.Row="10"></Button>
-            <Button Grid.Column="3" Grid.Row="11"></Button>
-            <Button Grid.Column="3" Grid.Row="12"></Button>
-            <Button Grid.Column="3" Grid.Row="13"></Button>
-            <Button Grid.Column="4" Grid.Row="1"></Button>
-            <Button Grid.Column="4" Grid.Row="2"></Button>
-            <Button Grid.Column="4" Grid.Row="3"></Button>
-            <Button Grid.Column="4" Grid.Row="4"></Button>
-            <Button Grid.Column="4" Grid.Row="5"></Button>
-            <Button Grid.Column="4" Grid.Row="6"></Button>
-            <Button Grid.Column="4" Grid.Row="7"></Button>
-            <Button Grid.Column="4" Grid.Row="8"></Button>
-            <Button Grid.Column="4" Grid.Row="9"></Button>
-            <Button Grid.Column="4" Grid.Row="10"></Button>
-            <Button Grid.Column="4" Grid.Row="11"></Button>
-            <Button Grid.Column="4" Grid.Row="12"></Button>
-            <Button Grid.Column="4" Grid.Row="13"></Button>
-            <Button Grid.Column="5" Grid.Row="1" Grid.RowSpan="6"></Button>
-            <Button Grid.Column="5" Grid.Row="7" Grid.RowSpan="6"></Button>
+            <!--Outside bets-->
+            <Button Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="0" Grid.Row="10" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="1" Grid.Row="9" Grid.RowSpan="4" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="2" Grid.Row="13" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="3" Grid.Row="13" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="4" Grid.Row="13" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" Style="{StaticResource BaseButtonStyle}"></Button>
+            <Button Grid.Column="5" Grid.Row="7" Grid.RowSpan="6" Style="{StaticResource BaseButtonStyle}"></Button>
+            <!--Inside bets-->
+            <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3"></UniformGrid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource StraightBetButtonStyle}"></Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
-        <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!--<Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -169,69 +163,129 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Column="8" Grid.Row="3"></Button>
-            <Button Grid.Column="9" Grid.Row="3"></Button>
-            <Button Grid.Column="10" Grid.Row="3"></Button>
-            <Button Grid.Column="11" Grid.Row="3"></Button>
-            <Button Grid.Column="12" Grid.Row="3"></Button>
-            <Button Grid.Column="13" Grid.Row="3"></Button>
-            <Button Grid.Column="14" Grid.Row="3"></Button>
-            <Button Grid.Column="15" Grid.Row="3"></Button>
-            <Button Grid.Column="16" Grid.Row="3"></Button>
-            <Button Grid.Column="17" Grid.Row="3"></Button>
-            <Button Grid.Column="18" Grid.Row="3"></Button>
-            <Button Grid.Column="19" Grid.Row="3"></Button>
-            <Button Grid.Column="8" Grid.Row="4"></Button>
-            <Button Grid.Column="9" Grid.Row="4"></Button>
-            <Button Grid.Column="10" Grid.Row="4"></Button>
-            <Button Grid.Column="11" Grid.Row="4"></Button>
-            <Button Grid.Column="12" Grid.Row="4"></Button>
-            <Button Grid.Column="13" Grid.Row="4"></Button>
-            <Button Grid.Column="14" Grid.Row="4"></Button>
-            <Button Grid.Column="15" Grid.Row="4"></Button>
-            <Button Grid.Column="16" Grid.Row="4"></Button>
-            <Button Grid.Column="17" Grid.Row="4"></Button>
-            <Button Grid.Column="18" Grid.Row="4"></Button>
-            <Button Grid.Column="19" Grid.Row="4"></Button>
-            
-            <Button Grid.Column="11" Grid.Row="5"></Button>
-            <Button Grid.Column="11" Grid.Row="6"></Button>
-            <Button Grid.Column="12" Grid.Row="5"></Button>
-            <Button Grid.Column="12" Grid.Row="6"></Button>
-            <Button Grid.Column="15" Grid.Row="5"></Button>
-            <Button Grid.Column="15" Grid.Row="6"></Button>
-            <Button Grid.Column="16" Grid.Row="5"></Button>
-            <Button Grid.Column="16" Grid.Row="6"></Button>
-            <Button Grid.Column="19" Grid.Row="5"></Button>
-            <Button Grid.Column="19" Grid.Row="6"></Button>
-            <Button Grid.Column="20" Grid.Row="5"></Button>
-            <Button Grid.Column="20" Grid.Row="6"></Button>
+            <Button Grid.Column="8" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
 
-            <Button Grid.Column="8" Grid.Row="7"></Button>
-            <Button Grid.Column="9" Grid.Row="7"></Button>
-            <Button Grid.Column="10" Grid.Row="7"></Button>
-            <Button Grid.Column="11" Grid.Row="7"></Button>
-            <Button Grid.Column="12" Grid.Row="7"></Button>
-            <Button Grid.Column="13" Grid.Row="7"></Button>
-            <Button Grid.Column="14" Grid.Row="7"></Button>
-            <Button Grid.Column="15" Grid.Row="7"></Button>
-            <Button Grid.Column="16" Grid.Row="7"></Button>
-            <Button Grid.Column="17" Grid.Row="7"></Button>
-            <Button Grid.Column="18" Grid.Row="7"></Button>
-            <Button Grid.Column="19" Grid.Row="7"></Button>
-            <Button Grid.Column="8" Grid.Row="8"></Button>
-            <Button Grid.Column="9" Grid.Row="8"></Button>
-            <Button Grid.Column="10" Grid.Row="8"></Button>
-            <Button Grid.Column="11" Grid.Row="8"></Button>
-            <Button Grid.Column="12" Grid.Row="8"></Button>
-            <Button Grid.Column="13" Grid.Row="8"></Button>
-            <Button Grid.Column="14" Grid.Row="8"></Button>
-            <Button Grid.Column="15" Grid.Row="8"></Button>
-            <Button Grid.Column="16" Grid.Row="8"></Button>
-            <Button Grid.Column="17" Grid.Row="8"></Button>
-            <Button Grid.Column="18" Grid.Row="8"></Button>
-            <Button Grid.Column="19" Grid.Row="8"></Button>
-        </Grid>
+            <Button Grid.Column="11" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="9" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="9" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="9" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="15" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="15" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="15" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="15" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="15" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="17" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="17" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="17" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="19" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="19" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="19" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="19" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="19" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="21" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="21" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="21" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="23" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="23" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="23" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="23" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="23" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="25" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="25" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="25" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="27" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="27" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="27" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="27" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="27" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="29" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="29" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="29" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="31" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="31" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="31" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="31" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="31" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+
+
+
+            <Button Grid.Column="11" Grid.Row="33" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="33" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="33" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="35" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="35" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="35" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="35" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="35" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="37" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="37" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="37" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="39" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="39" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="39" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="39" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="39" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="41" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="41" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="41" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="43" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="43" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="43" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="43" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="43" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="11" Grid.Row="45" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="45" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="19" Grid.Row="45" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+
+            <Button Grid.Column="8" Grid.Row="47" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="11" Grid.Row="47" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="13" Grid.Row="47" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="15" Grid.Row="47" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+            <Button Grid.Column="17" Grid.Row="47" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
+
+
+
+
+        </Grid>-->
         <Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.-->
         </Canvas>

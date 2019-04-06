@@ -4,20 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BA2C1305-AF66-41E1-BB19-E391981F646A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{E94B74A8-D788-429E-9417-F5A906136D24}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RouletteSimulator</RootNamespace>
-    <AssemblyName>RouletteSimulator</AssemblyName>
+    <RootNamespace>Wheel</RootNamespace>
+    <AssemblyName>Wheel</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +25,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -52,25 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="Views\RouletteSimulatorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\RouletteSimulatorViewModel.cs" />
-    <Compile Include="Views\RouletteSimulatorView.xaml.cs">
-      <DependentUpon>RouletteSimulatorView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="WheelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,6 +63,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\WheelViewModel.cs" />
+    <Compile Include="Views\WheelView.xaml.cs">
+      <DependentUpon>WheelView.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -92,31 +75,18 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Prism.Unity" Version="7.1.0.431&#xD;" />
+    <PackageReference Include="Prism.Wpf">
+      <Version>7.1.0.431</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bank\Bank.csproj">
-      <Project>{c320cf94-d6b1-4431-b17b-b07f7cfba81e}</Project>
-      <Name>Bank</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Board\Board.csproj">
-      <Project>{4676ecfe-e3a6-45c3-afb6-acdf0e131970}</Project>
-      <Name>Board</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dealer\Dealer.csproj">
-      <Project>{9635bfc4-4d3a-486e-8d6d-87803dfc46d0}</Project>
-      <Name>Dealer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Player\Player.csproj">
-      <Project>{41ad8ccb-b19b-402f-9bbd-0c32a6a1d7d8}</Project>
-      <Name>Player</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Wheel\Wheel.csproj">
-      <Project>{e94b74a8-d788-429e-9417-f5a906136d24}</Project>
-      <Name>Wheel</Name>
-    </ProjectReference>
+    <Page Include="Views\WheelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
