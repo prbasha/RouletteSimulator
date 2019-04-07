@@ -8,13 +8,14 @@ using RouletteSimulator.Core.Enumerations;
 namespace RouletteSimulator.Core.Models.BoardModels
 {
     /// <summary>
-    /// The SplitBet class represents a single split bet.
+    /// The CornerBet class represents a single double-street bet.
     /// </summary>
-    public class SplitBet : StraightBet
+    public class DoubleStreetBet : CornerBet
     {
         #region Fields
-        
-        protected int _secondNumber;
+
+        protected int _fifthNumber;
+        protected int _sixthNumber;
 
         #endregion
 
@@ -23,9 +24,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public SplitBet() : base()
+        public DoubleStreetBet() : base()
         {
-            _betType = BetType.Split;
+            _betType = BetType.DoubleStreet;
         }
 
         #endregion
@@ -42,7 +43,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             get
             {
-                return Constants.SplitExposure;
+                return Constants.CornerExposure;
             }
         }
 
@@ -53,22 +54,37 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             get
             {
-                return Constants.SplitOutcome;
+                return Constants.CornerOutcome;
             }
         }
-        
+
         /// <summary>
-        /// Gets or sets the second number to bet on.
+        /// Gets or sets the fifth number to bet on.
         /// </summary>
-        public int SecondNumber
+        public int FifthNumber
         {
             get
             {
-                return _secondNumber;
+                return _fifthNumber;
             }
             set
             {
-                SetProperty(ref _secondNumber, value);
+                SetProperty(ref _fifthNumber, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the sixth number to bet on.
+        /// </summary>
+        public int SixthNumber
+        {
+            get
+            {
+                return _sixthNumber;
+            }
+            set
+            {
+                SetProperty(ref _sixthNumber, value);
             }
         }
 
@@ -85,11 +101,20 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             try
             {
-                return (winningNumber == _firstNumber || winningNumber == _secondNumber) ? CalculateWinnings() : 0;
+                if (winningNumber == _firstNumber || winningNumber == _secondNumber || 
+                    winningNumber == _thirdNumber || winningNumber == _fourthNumber ||
+                    winningNumber == _fifthNumber || winningNumber == _sixthNumber)
+                {
+                    return CalculateWinnings();
+                }
+                else
+                {
+                    return 0;
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("SplitBet.CalculateWinnings(int winningNumber): " + ex.ToString());
+                throw new Exception("CornerBet.CalculateWinnings(int winningNumber): " + ex.ToString());
             }
         }
 

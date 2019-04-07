@@ -8,13 +8,13 @@ using RouletteSimulator.Core.Enumerations;
 namespace RouletteSimulator.Core.Models.BoardModels
 {
     /// <summary>
-    /// The SplitBet class represents a single split bet.
+    /// The CornerBet class represents a single corner bet.
     /// </summary>
-    public class SplitBet : StraightBet
+    public class CornerBet : StreetBet
     {
         #region Fields
-        
-        protected int _secondNumber;
+
+        protected int _fourthNumber;
 
         #endregion
 
@@ -23,9 +23,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public SplitBet() : base()
+        public CornerBet() : base()
         {
-            _betType = BetType.Split;
+            _betType = BetType.Corner;
         }
 
         #endregion
@@ -42,7 +42,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             get
             {
-                return Constants.SplitExposure;
+                return Constants.CornerExposure;
             }
         }
 
@@ -53,22 +53,22 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             get
             {
-                return Constants.SplitOutcome;
+                return Constants.CornerOutcome;
             }
         }
-        
+
         /// <summary>
-        /// Gets or sets the second number to bet on.
+        /// Gets or sets the fourth number to bet on.
         /// </summary>
-        public int SecondNumber
+        public int FourthNumber
         {
             get
             {
-                return _secondNumber;
+                return _fourthNumber;
             }
             set
             {
-                SetProperty(ref _secondNumber, value);
+                SetProperty(ref _fourthNumber, value);
             }
         }
 
@@ -85,11 +85,11 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             try
             {
-                return (winningNumber == _firstNumber || winningNumber == _secondNumber) ? CalculateWinnings() : 0;
+                return (winningNumber == _firstNumber || winningNumber == _secondNumber || winningNumber == _thirdNumber || winningNumber == _fourthNumber) ? CalculateWinnings() : 0;
             }
             catch (Exception ex)
             {
-                throw new Exception("SplitBet.CalculateWinnings(int winningNumber): " + ex.ToString());
+                throw new Exception("CornerBet.CalculateWinnings(int winningNumber): " + ex.ToString());
             }
         }
 

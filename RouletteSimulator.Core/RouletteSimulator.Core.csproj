@@ -58,6 +58,8 @@
     <Compile Include="Models\BoardModels\Bet.cs" />
     <Compile Include="Models\BoardModels\Constants.cs" />
     <Compile Include="Models\BoardModels\ColumnBet.cs" />
+    <Compile Include="Models\BoardModels\CornerBet.cs" />
+    <Compile Include="Models\BoardModels\DoubleStreetBet.cs" />
     <Compile Include="Models\BoardModels\DozenBet.cs" />
     <Compile Include="Models\BoardModels\EvenOddBet.cs" />
     <Compile Include="Models\BoardModels\LowHighBet.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Models\BoardModels\RouletteBoard.cs" />
     <Compile Include="Models\BoardModels\SplitBet.cs" />
     <Compile Include="Models\BoardModels\StraightBet.cs" />
+    <Compile Include="Models\BoardModels\StreetBet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

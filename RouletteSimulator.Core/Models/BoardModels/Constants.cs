@@ -18,6 +18,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public const int SplitOutcome = 1;
         public const int StreetExposure = 11;
         public const int StreetOutcome = 1;
+        public const int TrioExposure = 11;
+        public const int TrioOutcome = 1;
+        public const int FirstFourExposure = 8;
+        public const int FirstFourOutcome = 1;
         public const int CornerExposure = 8;
         public const int CornerOutcome = 1;
         public const int DoubleStreetExposure = 5;
