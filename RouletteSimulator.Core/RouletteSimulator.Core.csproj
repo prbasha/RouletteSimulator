@@ -63,6 +63,8 @@
     <Compile Include="Models\BoardModels\LowHighBet.cs" />
     <Compile Include="Models\BoardModels\RedBlackBet.cs" />
     <Compile Include="Models\BoardModels\RouletteBoard.cs" />
+    <Compile Include="Models\BoardModels\SplitBet.cs" />
+    <Compile Include="Models\BoardModels\StraightBet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

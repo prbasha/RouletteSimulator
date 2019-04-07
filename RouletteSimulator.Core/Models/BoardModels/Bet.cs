@@ -17,7 +17,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #region Fields
 
         protected BetType _betType;
-        protected int _betAmount = 0;
+        protected int _betAmount;
         
         #endregion
 
@@ -28,6 +28,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// </summary>
         public Bet()
         {
+            _betAmount = 0;
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// Creates a Bet for the provided bet type.
         /// </summary>
         /// <param name="betType"></param>
-        public Bet(BetType betType)
+        public Bet(BetType betType) : this()
         {
             _betType = betType;
         }
@@ -55,6 +56,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
             get
             {
                 return _betType;
+            }
+            set
+            {
+                SetProperty(ref _betType, value);
             }
         }
 
@@ -105,6 +110,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
             if (amount > 0)
             {
                 BetAmount = BetAmount + amount;
+                // TBD: update chips collection.
             }
         }
 

@@ -9,19 +9,25 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <UserControl.Resources>
-        <Style x:Key="BaseButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="LimeGreen"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
+        <Style x:Key="OutsideBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="LimeGreen"></Setter>
+            <Setter Property="Stroke" Value="Black"></Setter>
+            <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <Setter Property="Padding" Value="0,0,0,0"></Setter>
-            <Setter Property="BorderThickness" Value="1"></Setter>
         </Style>
-        <Style x:Key="StraightBetButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="LimeGreen"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
+        <Style x:Key="InsideStraightBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="LimeGreen"></Setter>
+            <Setter Property="Stroke" Value="Black"></Setter>
+            <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <Setter Property="Padding" Value="0,0,0,0"></Setter>
-            <!--TBD: Mouse over and pressed - bind to "Bet" model class.-->
+            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+        </Style>
+        <Style x:Key="InsideSplitBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="Transparent"></Setter>
+            <Setter Property="Stroke" Value="Black"></Setter>
+            <Setter Property="StrokeThickness" Value="1"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
         </Style>
     </UserControl.Resources>
     <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -51,20 +57,20 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <!--Outside bets-->
-            <Button Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="0" Grid.Row="10" Grid.RowSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="1" Grid.Row="9" Grid.RowSpan="4" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="2" Grid.Row="13" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="3" Grid.Row="13" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="4" Grid.Row="13" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" Style="{StaticResource BaseButtonStyle}"></Button>
-            <Button Grid.Column="5" Grid.Row="7" Grid.RowSpan="6" Style="{StaticResource BaseButtonStyle}"></Button>
-            <!--Straight bets-->
+            <Rectangle Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="0" Grid.Row="10" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="1" Grid.Row="9" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="2" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="3" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="4" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <Rectangle Grid.Column="5" Grid.Row="7" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
+            <!--Inside straight bets-->
             <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -73,219 +79,77 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Style="{StaticResource StraightBetButtonStyle}"></Button>
+                        <Rectangle Style="{StaticResource InsideStraightBetRectangleStyle}"></Rectangle>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <!--Inside horizontal split bets-->
+            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.175*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.65*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.175*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding RouletteBoard.HorizontalSplitBets, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2"></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!--TBD fine tune column/row width/height-->
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}"></Rectangle>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <!--Inside vertical split bets-->
+            <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="13">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.0385*"></RowDefinition>
+                    <RowDefinition Height="0.923*"></RowDefinition>
+                    <RowDefinition Height="0.0385*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding RouletteBoard.VerticalSplitBets, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3"></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!--TBD fine tune column/row width/height-->
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}"></Rectangle>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
         </Grid>
-        <!--<Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Button Grid.Column="8" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="9" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="9" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="9" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="11" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="11" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="15" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="15" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="15" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="15" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="15" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="17" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="17" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="17" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="19" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="19" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="19" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="19" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="19" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="21" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="21" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="21" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="23" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="23" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="23" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="23" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="23" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="25" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="25" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="25" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="27" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="27" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="27" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="27" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="27" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="29" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="29" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="29" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="31" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="31" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="31" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="31" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="31" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-
-
-
-            <Button Grid.Column="11" Grid.Row="33" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="33" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="33" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="35" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="35" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="35" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="35" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="35" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="37" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="37" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="37" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="39" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="39" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="39" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="39" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="39" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="41" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="41" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="41" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="43" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="43" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="43" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="43" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="43" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="11" Grid.Row="45" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="45" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="19" Grid.Row="45" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-
-            <Button Grid.Column="8" Grid.Row="47" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="11" Grid.Row="47" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="13" Grid.Row="47" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="15" Grid.Row="47" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
-            <Button Grid.Column="17" Grid.Row="47" Grid.ColumnSpan="3" Grid.RowSpan="2"></Button>
-
-
-
-
-        </Grid>-->
         <Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.-->
         </Canvas>

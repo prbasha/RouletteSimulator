@@ -20,7 +20,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public EvenOddBet()
+        public EvenOddBet() : base()
         {
         }
 

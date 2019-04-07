@@ -14,10 +14,8 @@ namespace Board.ViewModels
     /// </summary>
     public class BoardViewModel : BindableBase
     {
+
         #region Fields
-
-        private RouletteBoard _rouletteBoard;
-
         #endregion
 
         #region Constructors
@@ -27,6 +25,7 @@ namespace Board.ViewModels
         /// </summary>
         public BoardViewModel()
         {
+            RouletteBoard = new RouletteBoard();
         }
 
         #endregion
@@ -35,6 +34,12 @@ namespace Board.ViewModels
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the roulette board.
+        /// </summary>
+        public RouletteBoard RouletteBoard { get; }
+
         #endregion
 
         #region Methods

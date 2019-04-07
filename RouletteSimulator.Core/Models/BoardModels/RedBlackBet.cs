@@ -20,7 +20,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public RedBlackBet()
+        public RedBlackBet() : base()
         {
         }
 
@@ -42,7 +42,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         #endregion
 
-        #region Redts
+        #region Events
         #endregion
 
         #region Properties
