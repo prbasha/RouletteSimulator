@@ -29,6 +29,27 @@
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
             <!--TBD: Mouse over and click - bind to "Bet" model class.-->
         </Style>
+        <Style x:Key="InsideStreetBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="Transparent"></Setter>
+            <Setter Property="Stroke" Value="Black"></Setter>
+            <Setter Property="StrokeThickness" Value="1"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+        </Style>
+        <Style x:Key="InsideCornerBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="Transparent"></Setter>
+            <Setter Property="Stroke" Value="Black"></Setter>
+            <Setter Property="StrokeThickness" Value="1"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+        </Style>
+        <Style x:Key="InsideDoubleStreetBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="Transparent"></Setter>
+            <Setter Property="Stroke" Value="Black"></Setter>
+            <Setter Property="StrokeThickness" Value="1"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+        </Style>
     </UserControl.Resources>
     <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -98,7 +119,6 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <!--TBD fine tune column/row width/height-->
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -131,7 +151,6 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <!--TBD fine tune column/row width/height-->
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -149,6 +168,116 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
+            <!--Inside street bets-->
+            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.625*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding RouletteBoard.StreetBets, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="1"></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideStreetBetRectangleStyle}"></Rectangle>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <!--Inside corner bets-->
+            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.17*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.66*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.17*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.04*"></RowDefinition>
+                    <RowDefinition Height="0.92*"></RowDefinition>
+                    <RowDefinition Height="0.04*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding RouletteBoard.CornerBets, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2"></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideCornerBetRectangleStyle}"></Rectangle>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <!--Inside double street bets-->
+            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.625*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.0415*"></RowDefinition>
+                    <RowDefinition Height="0.917*"></RowDefinition>
+                    <RowDefinition Height="0.0415*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding RouletteBoard.DoubleStreetBets, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="1"></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideDoubleStreetBetRectangleStyle}"></Rectangle>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <!--Zero bet-->
+            <!--Trio bet 1-->
+            <!--Trio bet 2-->
+            <!--First four bet-->
         </Grid>
         <Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.-->
