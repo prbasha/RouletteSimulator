@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Prism.Commands;
 using RouletteSimulator.Core.Enumerations;
 
 namespace RouletteSimulator.Core.Models.BoardModels
@@ -71,7 +73,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 SetProperty(ref _firstNumber, value);
             }
         }
-
+        
         #endregion
 
         #region Methods
@@ -92,7 +94,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 throw new Exception("StraightBet.CalculateWinnings(int winningNumber): " + ex.ToString());
             }
         }
-
+        
         #endregion
     }
 }

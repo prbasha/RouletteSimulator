@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Board.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              Height="Auto" Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
@@ -16,18 +17,30 @@
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
         </Style>
         <Style x:Key="InsideStraightBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="LimeGreen"></Setter>
             <Setter Property="Stroke" Value="Black"></Setter>
             <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsHighLighted}" Value="False">
+                    <Setter Property="Fill" Value="LimeGreen"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsHighLighted}" Value="True">
+                    <Setter Property="Fill" Value="LightGray"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="InsideSplitBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"></Setter>
             <Setter Property="Stroke" Value="Black"></Setter>
             <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsHighLighted}" Value="False">
+                    <Setter Property="Fill" Value="LimeGreen"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsHighLighted}" Value="True">
+                    <Setter Property="Fill" Value="LightGray"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="InsideStreetBetRectangleStyle" TargetType="Rectangle">
             <Setter Property="Fill" Value="Transparent"></Setter>
@@ -50,9 +63,15 @@
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
             <!--TBD: Mouse over and click - bind to "Bet" model class.-->
         </Style>
+        <Style x:Key="InsideBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="Transparent"></Setter>
+            <Setter Property="Stroke" Value="Black"></Setter>
+            <Setter Property="StrokeThickness" Value="1"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LimeGreen">
+        <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -77,34 +96,81 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <!--Outside bets-->
-            <Rectangle Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="0" Grid.Row="10" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="1" Grid.Row="9" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="2" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="3" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="4" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <Rectangle Grid.Column="5" Grid.Row="7" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}"></Rectangle>
-            <!--Inside straight bets-->
-            <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}">
+            <!--Even bet-->
+            <Rectangle Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Odd bet-->
+            <Rectangle Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Red bet-->
+            <Rectangle Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Black bet-->
+            <Rectangle Grid.Column="0" Grid.Row="10" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--First twelve bet-->
+            <Rectangle Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Second twelve bet-->
+            <Rectangle Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Third twelve bet-->
+            <Rectangle Grid.Column="1" Grid.Row="9" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--First column bet-->
+            <Rectangle Grid.Column="2" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Second column bet-->
+            <Rectangle Grid.Column="3" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Third column bet-->
+            <Rectangle Grid.Column="4" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Low bet-->
+            <Rectangle Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--High bet-->
+            <Rectangle Grid.Column="5" Grid.Row="7" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Zero bet-->
+            <Rectangle Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
+                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            </Rectangle>
+            <!--Straight bets-->
+            <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}" Background="Transparent">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3"></UniformGrid>
+                        <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3" Background="Transparent"></UniformGrid>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Rectangle Style="{StaticResource InsideStraightBetRectangleStyle}"></Rectangle>
+                        <Rectangle Style="{StaticResource InsideStraightBetRectangleStyle}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Rectangle>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <!--Inside horizontal split bets-->
+            <!--Horizontal split bets-->
             <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.175*"></ColumnDefinition>
@@ -130,13 +196,22 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}"></Rectangle>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeave">
+                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Rectangle>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <!--Inside vertical split bets-->
+            <!--Vertical split bets-->
             <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="13">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.0385*"></RowDefinition>
@@ -168,7 +243,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <!--Inside street bets-->
+            <!--Street bets-->
             <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.625*"></ColumnDefinition>
@@ -200,7 +275,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <!--Inside corner bets-->
+            <!--Corner bets-->
             <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.17*"></ColumnDefinition>
@@ -237,7 +312,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <!--Inside double street bets-->
+            <!--Double street bets-->
             <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.625*"></ColumnDefinition>
@@ -274,13 +349,77 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <!--Zero bet-->
-            <!--Trio bet 1-->
-            <!--Trio bet 2-->
-            <!--First four bet-->
+            <!--Trio bets and first four bet-->
+            <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.75*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.275*"></RowDefinition>
+                    <RowDefinition Height="0.45*"></RowDefinition>
+                    <RowDefinition Height="0.275*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!--Trio bet 1-->
+                        <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
+                            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+                        </Rectangle>
+                    </Grid>
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!--Trio bet 2-->
+                        <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
+                            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+                        </Rectangle>
+                    </Grid>
+                    <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!--First four bet-->
+                        <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
+                            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+                        </Rectangle>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Grid>
-        <Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.-->
-        </Canvas>
+        <!--<Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            --><!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.--><!--
+        </Canvas>-->
     </Grid>
 </UserControl>

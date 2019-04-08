@@ -1,10 +1,12 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace RouletteSimulator.Core.Models.BoardModels
 {
@@ -18,6 +20,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         protected BetType _betType;
         protected int _betAmount;
+        protected bool _isHighLighted;
         
         #endregion
 
@@ -29,6 +32,11 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public Bet()
         {
             _betAmount = 0;
+            _isHighLighted = false;
+
+            // Commands.
+            HighLightBetCommand = new DelegateCommand<object>(HighLightBet);
+            ClearHighLightBetCommand = new DelegateCommand<object>(ClearHighLightBet);
         }
 
         /// <summary>
@@ -82,6 +90,21 @@ namespace RouletteSimulator.Core.Models.BoardModels
         }
 
         /// <summary>
+        /// Gets or sets the highlighted flag.
+        /// </summary>
+        public bool IsHighLighted
+        {
+            get
+            {
+                return _isHighLighted;
+            }
+            private set
+            {
+                SetProperty(ref _isHighLighted, value);
+            }
+        }
+
+        /// <summary>
         /// Gets the exposure.
         /// </summary>
         public abstract int Exposure
@@ -97,9 +120,37 @@ namespace RouletteSimulator.Core.Models.BoardModels
             get;
         }
 
+        /// <summary>
+        /// Gets or sets the HighLightBetCommand.
+        /// </summary>
+        public ICommand HighLightBetCommand { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the ClearHighLightBetCommand.
+        /// </summary>
+        public ICommand ClearHighLightBetCommand { get; private set; }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The HighLightBet method is called to highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected virtual void HighLightBet(object parameter)
+        {
+            IsHighLighted = true;
+        }
+
+        /// <summary>
+        /// The ClearHighLightBet method is called to un-highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected virtual void ClearHighLightBet(object parameter)
+        {
+            IsHighLighted = false;
+        }
 
         /// <summary>
         /// The PlaceBet method is called to place a bet for the provided amount.

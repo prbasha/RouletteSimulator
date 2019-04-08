@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Board.ViewModels
 {
@@ -14,7 +15,6 @@ namespace Board.ViewModels
     /// </summary>
     public class BoardViewModel : BindableBase
     {
-
         #region Fields
         #endregion
 
@@ -25,6 +25,7 @@ namespace Board.ViewModels
         /// </summary>
         public BoardViewModel()
         {
+            // Models.
             RouletteBoard = new RouletteBoard();
         }
 
@@ -39,7 +40,7 @@ namespace Board.ViewModels
         /// Gets the roulette board.
         /// </summary>
         public RouletteBoard RouletteBoard { get; }
-
+        
         #endregion
 
         #region Methods
