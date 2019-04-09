@@ -31,6 +31,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event HighLightCornerBet OnHighLightCornerBet;
+        public static event ClearHighLightCornerBet OnClearHighLightCornerBet;
+
         #endregion
 
         #region Properties
@@ -75,6 +79,24 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The HighLightBet method is called to highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected override void HighLightBet(object parameter)
+        {
+            OnHighLightCornerBet?.Invoke(this);
+        }
+
+        /// <summary>
+        /// The ClearHighLightBet method is called to un-highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected override void ClearHighLightBet(object parameter)
+        {
+            OnClearHighLightCornerBet?.Invoke(this);
+        }
 
         /// <summary>
         /// The CalculateWinnings method calculates the winnings for this bet, for a provided winning number.

@@ -208,6 +208,16 @@ namespace RouletteSimulator.Core.Models.BoardModels
                     new DoubleStreetBet() {FirstNumber = 28, SecondNumber = 29, ThirdNumber = 30, FourthNumber = 31, FifthNumber = 32, SixthNumber = 33},
                     new DoubleStreetBet() {FirstNumber = 31, SecondNumber = 32, ThirdNumber = 33, FourthNumber = 34, FifthNumber = 35, SixthNumber = 36}
                 };
+
+                // Listen to events.
+                SplitBet.OnHighLightSplitBet += new HighLightSplitBet(HighLightSplitBetEventHandler);
+                SplitBet.OnClearHighLightSplitBet += new ClearHighLightSplitBet(ClearHighLightSplitBetEventHandler);
+                StreetBet.OnHighLightStreetBet += new HighLightStreetBet(HighLightStreetBetEventHandler);
+                StreetBet.OnClearHighLightStreetBet += new ClearHighLightStreetBet(ClearHighLightStreetBetEventHandler);
+                CornerBet.OnHighLightCornerBet += new HighLightCornerBet(HighLightCornerBetEventHandler);
+                CornerBet.OnClearHighLightCornerBet += new ClearHighLightCornerBet(ClearHighLightCornerBetEventHandler);
+                DoubleStreetBet.OnHighLightDoubleStreetBet += new HighLightDoubleStreetBet(HighLightDoubleStreetBetEventHandler);
+                DoubleStreetBet.OnClearHighLightDoubleStreetBet += new ClearHighLightDoubleStreetBet(ClearHighLightDoubleStreetBetEventHandler);
             }
             catch (Exception ex)
             {
@@ -335,6 +345,329 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The HighLightSplitBetEventHandler method is called to handle a HighLightSplitBet event.
+        /// </summary>
+        /// <param name="splitBet"></param>
+        private void HighLightSplitBetEventHandler(SplitBet splitBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == splitBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = true;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == splitBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = true;
+                }
+
+                if (splitBet.FirstNumber == ZeroBet.FirstNumber)
+                {
+                    ZeroBet.IsHighLighted = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightSplitBetEventHandler(SplitBet splitBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightSplitBetEventHandler method is called to handle a ClearHighLightSplitBet event.
+        /// </summary>
+        /// <param name="splitBet"></param>
+        private void ClearHighLightSplitBetEventHandler(SplitBet splitBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == splitBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = false;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == splitBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = false;
+                }
+
+                if (splitBet.FirstNumber == ZeroBet.FirstNumber)
+                {
+                    ZeroBet.IsHighLighted = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightSplitBetEventHandler(SplitBet splitBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightStreetBetEventHandler method is called to handle a HighLightStreetBet event.
+        /// </summary>
+        /// <param name="streetBet"></param>
+        private void HighLightStreetBetEventHandler(StreetBet streetBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == streetBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = true;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == streetBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = true;
+                }
+
+                StraightBet straightBet3 = StraightBets.SingleOrDefault(x => x.FirstNumber == streetBet.ThirdNumber);
+                if (straightBet3 != null)
+                {
+                    straightBet3.IsHighLighted = true;
+                }
+
+                if (streetBet.FirstNumber == ZeroBet.FirstNumber)
+                {
+                    ZeroBet.IsHighLighted = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightStreetBetEventHandler(StreetBet streetBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightStreetBetEventHandler method is called to handle a ClearHighLightStreetBet event.
+        /// </summary>
+        /// <param name="streetBet"></param>
+        private void ClearHighLightStreetBetEventHandler(StreetBet streetBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == streetBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = false;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == streetBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = false;
+                }
+
+                StraightBet straightBet3 = StraightBets.SingleOrDefault(x => x.FirstNumber == streetBet.ThirdNumber);
+                if (straightBet3 != null)
+                {
+                    straightBet3.IsHighLighted = false;
+                }
+
+                if (streetBet.FirstNumber == ZeroBet.FirstNumber)
+                {
+                    ZeroBet.IsHighLighted = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightStreetBetEventHandler(StreetBet streetBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightCornerBetEventHandler method is called to handle a HighLightCornerBet event.
+        /// </summary>
+        /// <param name="cornerBet"></param>
+        private void HighLightCornerBetEventHandler(CornerBet cornerBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = true;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = true;
+                }
+
+                StraightBet straightBet3 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.ThirdNumber);
+                if (straightBet3 != null)
+                {
+                    straightBet3.IsHighLighted = true;
+                }
+
+                StraightBet straightBet4 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.FourthNumber);
+                if (straightBet4 != null)
+                {
+                    straightBet4.IsHighLighted = true;
+                }
+
+                if (cornerBet.FirstNumber == ZeroBet.FirstNumber)
+                {
+                    ZeroBet.IsHighLighted = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightCornerBetEventHandler(CornerBet cornerBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightCornerBetEventHandler method is called to handle a ClearHighLightCornerBet event.
+        /// </summary>
+        /// <param name="cornerBet"></param>
+        private void ClearHighLightCornerBetEventHandler(CornerBet cornerBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = false;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = false;
+                }
+
+                StraightBet straightBet3 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.ThirdNumber);
+                if (straightBet3 != null)
+                {
+                    straightBet3.IsHighLighted = false;
+                }
+
+                StraightBet straightBet4 = StraightBets.SingleOrDefault(x => x.FirstNumber == cornerBet.FourthNumber);
+                if (straightBet4 != null)
+                {
+                    straightBet4.IsHighLighted = false;
+                }
+
+                if (cornerBet.FirstNumber == ZeroBet.FirstNumber)
+                {
+                    ZeroBet.IsHighLighted = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightCornerBetEventHandler(CornerBet cornerBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightDoubleStreetBetEventHandler method is called to handle a HighLightDoubleStreetBet event.
+        /// </summary>
+        /// <param name="doubleStreetBet"></param>
+        private void HighLightDoubleStreetBetEventHandler(DoubleStreetBet doubleStreetBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = true;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = true;
+                }
+
+                StraightBet straightBet3 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.ThirdNumber);
+                if (straightBet3 != null)
+                {
+                    straightBet3.IsHighLighted = true;
+                }
+
+                StraightBet straightBet4 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.FourthNumber);
+                if (straightBet4 != null)
+                {
+                    straightBet4.IsHighLighted = true;
+                }
+
+                StraightBet straightBet5 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.FifthNumber);
+                if (straightBet5 != null)
+                {
+                    straightBet5.IsHighLighted = true;
+                }
+
+                StraightBet straightBet6 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.SixthNumber);
+                if (straightBet6 != null)
+                {
+                    straightBet6.IsHighLighted = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightDoubleStreetBetEventHandler(DoubleStreetBet doubleStreetBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightDoubleStreetBetEventHandler method is called to handle a ClearHighLightDoubleStreetBet event.
+        /// </summary>
+        /// <param name="doubleStreetBet"></param>
+        private void ClearHighLightDoubleStreetBetEventHandler(DoubleStreetBet doubleStreetBet)
+        {
+            try
+            {
+                StraightBet straightBet1 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.FirstNumber);
+                if (straightBet1 != null)
+                {
+                    straightBet1.IsHighLighted = false;
+                }
+
+                StraightBet straightBet2 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.SecondNumber);
+                if (straightBet2 != null)
+                {
+                    straightBet2.IsHighLighted = false;
+                }
+
+                StraightBet straightBet3 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.ThirdNumber);
+                if (straightBet3 != null)
+                {
+                    straightBet3.IsHighLighted = false;
+                }
+
+                StraightBet straightBet4 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.FourthNumber);
+                if (straightBet4 != null)
+                {
+                    straightBet4.IsHighLighted = false;
+                }
+
+                StraightBet straightBet5 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.FifthNumber);
+                if (straightBet5 != null)
+                {
+                    straightBet5.IsHighLighted = false;
+                }
+
+                StraightBet straightBet6 = StraightBets.SingleOrDefault(x => x.FirstNumber == doubleStreetBet.SixthNumber);
+                if (straightBet6 != null)
+                {
+                    straightBet6.IsHighLighted = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightDoubleStreetBetEventHandler(DoubleStreetBet doubleStreetBet): " + ex.ToString());
+            }
+        }
+
         #endregion
     }
 }

@@ -31,6 +31,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event HighLightSplitBet OnHighLightSplitBet;
+        public static event ClearHighLightSplitBet OnClearHighLightSplitBet;
+
         #endregion
 
         #region Properties
@@ -82,9 +86,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void HighLightBet(object parameter)
         {
-            base.HighLightBet(parameter);
-
-            // TBD: raise a "HighLightSplitBet" event passing this object as the event parameter.
+            OnHighLightSplitBet?.Invoke(this);
         }
 
         /// <summary>
@@ -93,9 +95,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void ClearHighLightBet(object parameter)
         {
-            base.ClearHighLightBet(parameter);
-
-            // TBD: raise a "ClearHighLightSplitBet" event passing this object as the event parameter.
+            OnClearHighLightSplitBet?.Invoke(this);
         }
 
         /// <summary>

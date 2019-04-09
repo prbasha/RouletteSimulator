@@ -20,7 +20,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         protected BetType _betType;
         protected int _betAmount;
-        protected bool _isHighLighted;
         
         #endregion
 
@@ -32,7 +31,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public Bet()
         {
             _betAmount = 0;
-            _isHighLighted = false;
 
             // Commands.
             HighLightBetCommand = new DelegateCommand<object>(HighLightBet);
@@ -88,22 +86,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 }
             }
         }
-
-        /// <summary>
-        /// Gets or sets the highlighted flag.
-        /// </summary>
-        public bool IsHighLighted
-        {
-            get
-            {
-                return _isHighLighted;
-            }
-            private set
-            {
-                SetProperty(ref _isHighLighted, value);
-            }
-        }
-
+        
         /// <summary>
         /// Gets the exposure.
         /// </summary>
@@ -138,19 +121,13 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// The HighLightBet method is called to highlight the bet.
         /// </summary>
         /// <param name="parameter"></param>
-        protected virtual void HighLightBet(object parameter)
-        {
-            IsHighLighted = true;
-        }
+        protected abstract void HighLightBet(object parameter);
 
         /// <summary>
         /// The ClearHighLightBet method is called to un-highlight the bet.
         /// </summary>
         /// <param name="parameter"></param>
-        protected virtual void ClearHighLightBet(object parameter)
-        {
-            IsHighLighted = false;
-        }
+        protected abstract void ClearHighLightBet(object parameter);
 
         /// <summary>
         /// The PlaceBet method is called to place a bet for the provided amount.

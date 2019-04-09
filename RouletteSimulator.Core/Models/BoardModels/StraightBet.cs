@@ -15,8 +15,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
     public class StraightBet : Bet
     {
         #region Fields
-
+        
         protected int _firstNumber;
+        private bool _isHighLighted;
 
         #endregion
 
@@ -28,6 +29,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public StraightBet() : base()
         {
             _betType = BetType.Straight;
+            _isHighLighted = false;
         }
         
         #endregion
@@ -73,10 +75,43 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 SetProperty(ref _firstNumber, value);
             }
         }
-        
+
+        /// <summary>
+        /// Gets or sets the highlighted flag.
+        /// </summary>
+        public bool IsHighLighted
+        {
+            get
+            {
+                return _isHighLighted;
+            }
+            set
+            {
+                SetProperty(ref _isHighLighted, value);
+            }
+        }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The HighLightBet method is called to highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected override void HighLightBet(object parameter)
+        {
+            IsHighLighted = true;
+        }
+
+        /// <summary>
+        /// The ClearHighLightBet method is called to un-highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected override void ClearHighLightBet(object parameter)
+        {
+            IsHighLighted = false;
+        }
 
         /// <summary>
         /// The CalculateWinnings method calculates the winnings for this bet, for a provided winning number.

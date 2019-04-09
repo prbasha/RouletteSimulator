@@ -59,6 +59,7 @@
     <Compile Include="Models\BoardModels\Constants.cs" />
     <Compile Include="Models\BoardModels\ColumnBet.cs" />
     <Compile Include="Models\BoardModels\CornerBet.cs" />
+    <Compile Include="Models\BoardModels\Delegates.cs" />
     <Compile Include="Models\BoardModels\DoubleStreetBet.cs" />
     <Compile Include="Models\BoardModels\DozenBet.cs" />
     <Compile Include="Models\BoardModels\EvenOddBet.cs" />

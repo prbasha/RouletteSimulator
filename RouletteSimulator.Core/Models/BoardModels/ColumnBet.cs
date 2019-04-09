@@ -74,6 +74,24 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #region Methods
 
         /// <summary>
+        /// The HighLightBet method is called to highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected override void HighLightBet(object parameter)
+        {
+            // TBD: raise a "HighLightSplitBet" event passing this object as the event parameter.
+        }
+
+        /// <summary>
+        /// The ClearHighLightBet method is called to un-highlight the bet.
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected override void ClearHighLightBet(object parameter)
+        {
+            // TBD: raise a "ClearHighLightSplitBet" event passing this object as the event parameter.
+        }
+
+        /// <summary>
         /// The CalculateWinnings method calculates the winnings for this bet, for a provided winning number.
         /// </summary>
         /// <param name="winningNumber"></param>

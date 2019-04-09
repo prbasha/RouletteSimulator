@@ -30,38 +30,28 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="InsideSplitBetRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="Transparent"></Setter>
             <Setter Property="Stroke" Value="Black"></Setter>
             <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsHighLighted}" Value="False">
-                    <Setter Property="Fill" Value="LimeGreen"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsHighLighted}" Value="True">
-                    <Setter Property="Fill" Value="LightGray"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
         </Style>
         <Style x:Key="InsideStreetBetRectangleStyle" TargetType="Rectangle">
             <Setter Property="Fill" Value="Transparent"></Setter>
             <Setter Property="Stroke" Value="Black"></Setter>
             <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
         </Style>
         <Style x:Key="InsideCornerBetRectangleStyle" TargetType="Rectangle">
             <Setter Property="Fill" Value="Transparent"></Setter>
             <Setter Property="Stroke" Value="Black"></Setter>
             <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
         </Style>
         <Style x:Key="InsideDoubleStreetBetRectangleStyle" TargetType="Rectangle">
             <Setter Property="Fill" Value="Transparent"></Setter>
             <Setter Property="Stroke" Value="Black"></Setter>
             <Setter Property="StrokeThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
-            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
         </Style>
         <Style x:Key="InsideBetRectangleStyle" TargetType="Rectangle">
             <Setter Property="Fill" Value="Transparent"></Setter>
@@ -145,8 +135,30 @@
                 <!--TBD: Mouse over and click - bind to "Bet" model class.-->
             </Rectangle>
             <!--Zero bet-->
-            <Rectangle Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+            <Rectangle Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Rectangle.Style>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="Stroke" Value="Black"></Setter>
+                        <Setter Property="StrokeThickness" Value="1"></Setter>
+                        <Setter Property="Margin" Value="0,0,0,0"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="False">
+                                <Setter Property="Fill" Value="LimeGreen"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="True">
+                                <Setter Property="Fill" Value="LightGray"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
             </Rectangle>
             <!--Straight bets-->
             <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}" Background="Transparent">
@@ -237,7 +249,16 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}"></Rectangle>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeave">
+                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Rectangle>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -269,7 +290,16 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideStreetBetRectangleStyle}"></Rectangle>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideStreetBetRectangleStyle}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeave">
+                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Rectangle>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -306,7 +336,16 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideCornerBetRectangleStyle}"></Rectangle>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideCornerBetRectangleStyle}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeave">
+                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Rectangle>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -343,7 +382,16 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideDoubleStreetBetRectangleStyle}"></Rectangle>
+                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideDoubleStreetBetRectangleStyle}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeave">
+                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Rectangle>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -380,7 +428,14 @@
                         </Grid.RowDefinitions>
                         <!--Trio bet 1-->
                         <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
-                            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.HighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Rectangle>
                     </Grid>
                     <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -396,7 +451,14 @@
                         </Grid.RowDefinitions>
                         <!--Trio bet 2-->
                         <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
-                            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.HighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Rectangle>
                     </Grid>
                     <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -412,7 +474,14 @@
                         </Grid.RowDefinitions>
                         <!--First four bet-->
                         <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
-                            <!--TBD: Mouse over and click - bind to "Bet" model class.-->
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Rectangle>
                     </Grid>
                 </Grid>
