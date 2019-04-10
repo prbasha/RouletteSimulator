@@ -28,7 +28,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// Constructor.
         /// Creates a RedBlackBet for the provided bet type.
         /// </summary>
-        public RedBlackBet(BetType betType)
+        public RedBlackBet(BetType betType) : this()
         {
             if (betType == BetType.Red || betType == BetType.Black)
             {
@@ -43,6 +43,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event HighLightRedBlackBet OnHighLightRedBlackBet;
+        public static event ClearHighLightRedBlackBet OnClearHighLightRedBlackBet;
+
         #endregion
 
         #region Properties
@@ -69,6 +73,29 @@ namespace RouletteSimulator.Core.Models.BoardModels
             }
         }
 
+        /// <summary>
+        /// Gets the text label for the bet.
+        /// </summary>
+        public override string Label
+        {
+            get
+            {
+                string label = string.Empty;
+
+                switch (_betType)
+                {
+                    case BetType.Red:
+                        label = Constants.RedLabel;
+                        break;
+                    case BetType.Black:
+                        label = Constants.BlackLabel;
+                        break;
+                }
+
+                return label;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -79,7 +106,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void HighLightBet(object parameter)
         {
-            // TBD: raise a "HighLightSplitBet" event passing this object as the event parameter.
+            OnHighLightRedBlackBet?.Invoke(this);
         }
 
         /// <summary>
@@ -88,7 +115,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void ClearHighLightBet(object parameter)
         {
-            // TBD: raise a "ClearHighLightSplitBet" event passing this object as the event parameter.
+            OnClearHighLightRedBlackBet?.Invoke(this);
         }
 
         /// <summary>

@@ -77,6 +77,28 @@ namespace RouletteSimulator.Core.Models.BoardModels
         }
 
         /// <summary>
+        /// Returns a boolan flag indicating if this is a red number.
+        /// </summary>
+        public bool IsRedNumber
+        {
+            get
+            {
+                return Constants.RedWinningNumbers.Contains(FirstNumber);
+            }
+        }
+
+        /// <summary>
+        /// Returns a boolan flag indicating if this is a black number.
+        /// </summary>
+        public bool IsBlackNumber
+        {
+            get
+            {
+                return Constants.BlackWinningNumbers.Contains(FirstNumber);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the highlighted flag.
         /// </summary>
         public bool IsHighLighted
@@ -88,6 +110,17 @@ namespace RouletteSimulator.Core.Models.BoardModels
             set
             {
                 SetProperty(ref _isHighLighted, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the text label for the bet.
+        /// </summary>
+        public override string Label
+        {
+            get
+            {
+                return FirstNumber.ToString();
             }
         }
 

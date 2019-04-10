@@ -92,6 +92,17 @@ namespace RouletteSimulator.Core.Models.BoardModels
             }
         }
 
+        /// <summary>
+        /// Gets the text label for the bet.
+        /// </summary>
+        public override string Label
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
+
         #endregion
 
         #region Methods

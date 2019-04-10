@@ -10,485 +10,644 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <UserControl.Resources>
-        <Style x:Key="OutsideBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="LimeGreen"></Setter>
-            <Setter Property="Stroke" Value="Black"></Setter>
-            <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Style x:Key="OutsideBetBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="Black"></Setter>
+            <Setter Property="BorderBrush" Value="White"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
         </Style>
-        <Style x:Key="InsideStraightBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Stroke" Value="Black"></Setter>
-            <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Style x:Key="InsideStraightBetBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="Black"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <Setter Property="Padding" Value="0,0,0,0"></Setter>
             <Style.Triggers>
+                <DataTrigger Binding="{Binding IsRedNumber}" Value="True">
+                    <Setter Property="Background" Value="Red"></Setter>
+                </DataTrigger>
                 <DataTrigger Binding="{Binding IsHighLighted}" Value="False">
-                    <Setter Property="Fill" Value="LimeGreen"></Setter>
+                    <Setter Property="BorderBrush" Value="White"></Setter>
+                    <Setter Property="BorderThickness" Value="1"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsHighLighted}" Value="True">
-                    <Setter Property="Fill" Value="LightGray"></Setter>
+                    <Setter Property="BorderBrush" Value="Orange"></Setter>
+                    <Setter Property="BorderThickness" Value="5"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="InsideSplitBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"></Setter>
-            <Setter Property="Stroke" Value="Black"></Setter>
-            <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Style x:Key="InsideSplitBetBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
         </Style>
-        <Style x:Key="InsideStreetBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"></Setter>
-            <Setter Property="Stroke" Value="Black"></Setter>
-            <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Style x:Key="InsideStreetBetBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
         </Style>
-        <Style x:Key="InsideCornerBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"></Setter>
-            <Setter Property="Stroke" Value="Black"></Setter>
-            <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Style x:Key="InsideCornerBetBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
         </Style>
-        <Style x:Key="InsideDoubleStreetBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"></Setter>
-            <Setter Property="Stroke" Value="Black"></Setter>
-            <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Style x:Key="InsideDoubleStreetBetBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
         </Style>
-        <Style x:Key="InsideBetRectangleStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"></Setter>
-            <Setter Property="Stroke" Value="Black"></Setter>
-            <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Style x:Key="InsideBetBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
+        </Style>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+        </Style>
+        <Style x:Key="LeftLabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="-90"></RotateTransform>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RightLabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="90"></RotateTransform>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LimeGreen">
+    <Border BorderBrush="Black" BorderThickness="0" Background="Black">
         <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <!--Even bet-->
-            <Rectangle Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Odd bet-->
-            <Rectangle Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Red bet-->
-            <Rectangle Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Black bet-->
-            <Rectangle Grid.Column="0" Grid.Row="10" Grid.RowSpan="3" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--First twelve bet-->
-            <Rectangle Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Second twelve bet-->
-            <Rectangle Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Third twelve bet-->
-            <Rectangle Grid.Column="1" Grid.Row="9" Grid.RowSpan="4" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--First column bet-->
-            <Rectangle Grid.Column="2" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Second column bet-->
-            <Rectangle Grid.Column="3" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Third column bet-->
-            <Rectangle Grid.Column="4" Grid.Row="13" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Low bet-->
-            <Rectangle Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--High bet-->
-            <Rectangle Grid.Column="5" Grid.Row="7" Grid.RowSpan="6" Style="{StaticResource OutsideBetRectangleStyle}">
-                <!--TBD: Mouse over and click - bind to "Bet" model class.-->
-            </Rectangle>
-            <!--Zero bet-->
-            <Rectangle Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseEnter">
-                        <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.HighLightBetCommand}"></i:InvokeCommandAction>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <Rectangle.Style>
-                    <Style TargetType="Rectangle">
-                        <Setter Property="Stroke" Value="Black"></Setter>
-                        <Setter Property="StrokeThickness" Value="1"></Setter>
-                        <Setter Property="Margin" Value="0,0,0,0"></Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="False">
-                                <Setter Property="Fill" Value="LimeGreen"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="True">
-                                <Setter Property="Fill" Value="LightGray"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Rectangle.Style>
-            </Rectangle>
-            <!--Straight bets-->
-            <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}" Background="Transparent">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3" Background="Transparent"></UniformGrid>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Rectangle Style="{StaticResource InsideStraightBetRectangleStyle}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseEnter">
-                                    <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="MouseLeave">
-                                    <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Rectangle>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <!--Horizontal split bets-->
-            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
+            <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.175*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.65*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.175*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding RouletteBoard.HorizontalSplitBets, Mode=OneWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2"></UniformGrid>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseEnter">
-                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="MouseLeave">
-                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Rectangle>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-            <!--Vertical split bets-->
-            <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="13">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.0385*"></RowDefinition>
-                    <RowDefinition Height="0.923*"></RowDefinition>
-                    <RowDefinition Height="0.0385*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding RouletteBoard.VerticalSplitBets, Mode=OneWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3"></UniformGrid>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetRectangleStyle}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseEnter">
-                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="MouseLeave">
-                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Rectangle>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-            <!--Street bets-->
-            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.625*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.25*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding RouletteBoard.StreetBets, Mode=OneWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="1"></UniformGrid>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideStreetBetRectangleStyle}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseEnter">
-                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="MouseLeave">
-                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Rectangle>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-            <!--Corner bets-->
-            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.17*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.66*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.17*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.04*"></RowDefinition>
-                    <RowDefinition Height="0.92*"></RowDefinition>
-                    <RowDefinition Height="0.04*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding RouletteBoard.CornerBets, Mode=OneWay}">
+                <!--Even bet-->
+                <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.EvenBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.EvenBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.EvenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Odd bet-->
+                <Border Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.OddBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.OddBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.OddBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Red bet-->
+                <Border Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.RedBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.RedBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid Margin="2,2,2,2">
+                        <Path Data="M50,0L100,50 50,100 0,50z" 
+                              Fill="Red" Stroke="White" StrokeThickness="2" Stretch="Fill"
+                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </Path>
+                    </Grid>
+                </Border>
+                <!--Black bet-->
+                <Border Grid.Column="0" Grid.Row="10" Grid.RowSpan="3" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.BlackBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.BlackBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid Margin="2,2,2,2">
+                        <Path Data="M50,0L100,50 50,100 0,50z" 
+                              Fill="Black" Stroke="White" StrokeThickness="2" Stretch="Fill"
+                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </Path>
+                    </Grid>
+                </Border>
+                <!--First dozen bet-->
+                <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstDozenBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstDozenBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.FirstDozenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Second dozen bet-->
+                <Border Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondDozenBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondDozenBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.SecondDozenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Third dozen bet-->
+                <Border Grid.Column="1" Grid.Row="9" Grid.RowSpan="4" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdDozenBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdDozenBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.ThirdDozenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--First column bet-->
+                <Border Grid.Column="2" Grid.Row="13" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstColumnBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstColumnBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.FirstColumnBet.Label}" Style="{StaticResource LabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Second column bet-->
+                <Border Grid.Column="3" Grid.Row="13" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondColumnBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondColumnBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.SecondColumnBet.Label}" Style="{StaticResource LabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Third column bet-->
+                <Border Grid.Column="4" Grid.Row="13" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdColumnBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdColumnBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.ThirdColumnBet.Label}" Style="{StaticResource LabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Low bet-->
+                <Border Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.LowBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.LowBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.LowBet.Label}" Style="{StaticResource RightLabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--High bet-->
+                <Border Grid.Column="5" Grid.Row="7" Grid.RowSpan="6" Style="{StaticResource OutsideBetBorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.HighBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.HighBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.HighBet.Label}" Style="{StaticResource RightLabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Zero bet-->
+                <Border Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="LimeGreen"></Setter>
+                            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+                            <Setter Property="Padding" Value="0,0,0,0"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="False">
+                                    <Setter Property="BorderBrush" Value="White"></Setter>
+                                    <Setter Property="BorderThickness" Value="1"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="True">
+                                    <Setter Property="BorderBrush" Value="Orange"></Setter>
+                                    <Setter Property="BorderThickness" Value="5"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Label Content="{Binding RouletteBoard.ZeroBet.Label}" Style="{StaticResource LabelStyle}"></Label>
+                    </Viewbox>
+                </Border>
+                <!--Straight bets-->
+                <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}" Background="Transparent">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2"></UniformGrid>
+                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3" Background="Transparent"></UniformGrid>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideCornerBetRectangleStyle}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseEnter">
-                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="MouseLeave">
-                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Rectangle>
-                            </Grid>
+                            <Border Style="{StaticResource InsideStraightBetBorderStyle}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Viewbox StretchDirection="Both" Stretch="Uniform">
+                                    <Label Content="{Binding Label}" Style="{StaticResource LabelStyle}"></Label>
+                                </Viewbox>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Grid>
-            <!--Double street bets-->
-            <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.625*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.25*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.0415*"></RowDefinition>
-                    <RowDefinition Height="0.917*"></RowDefinition>
-                    <RowDefinition Height="0.0415*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding RouletteBoard.DoubleStreetBets, Mode=OneWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="1"></UniformGrid>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideDoubleStreetBetRectangleStyle}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseEnter">
-                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="MouseLeave">
-                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Rectangle>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-            <!--Trio bets and first four bet-->
-            <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.75*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.125*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.275*"></RowDefinition>
-                    <RowDefinition Height="0.45*"></RowDefinition>
-                    <RowDefinition Height="0.275*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <!--Horizontal split bets-->
+                <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.175*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.65*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.175*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <ItemsControl Grid.Column="1" ItemsSource="{Binding RouletteBoard.HorizontalSplitBets, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2"></UniformGrid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetBorderStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseEnter">
+                                                <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseLeave">
+                                                <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <!--Vertical split bets-->
+                <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="13">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.0385*"></RowDefinition>
+                        <RowDefinition Height="0.923*"></RowDefinition>
+                        <RowDefinition Height="0.0385*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding RouletteBoard.VerticalSplitBets, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="3"></UniformGrid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideSplitBetBorderStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseEnter">
+                                                <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseLeave">
+                                                <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <!--Street bets-->
+                <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.625*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl Grid.Column="1" ItemsSource="{Binding RouletteBoard.StreetBets, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="1"></UniformGrid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideStreetBetBorderStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseEnter">
+                                                <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseLeave">
+                                                <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <!--Corner bets-->
+                <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.17*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.66*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.17*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.04*"></RowDefinition>
+                        <RowDefinition Height="0.92*"></RowDefinition>
+                        <RowDefinition Height="0.04*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding RouletteBoard.CornerBets, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2"></UniformGrid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideCornerBetBorderStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseEnter">
+                                                <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseLeave">
+                                                <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <!--Double street bets-->
+                <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.625*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.0415*"></RowDefinition>
+                        <RowDefinition Height="0.917*"></RowDefinition>
+                        <RowDefinition Height="0.0415*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding RouletteBoard.DoubleStreetBets, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="1"></UniformGrid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideDoubleStreetBetBorderStyle}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseEnter">
+                                                <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseLeave">
+                                                <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <!--Trio bets and first four bet-->
+                <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.75*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.125*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.275*"></RowDefinition>
+                        <RowDefinition Height="0.45*"></RowDefinition>
+                        <RowDefinition Height="0.275*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <!--Trio bet 1-->
-                        <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseEnter">
-                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.HighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="MouseLeave">
-                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Rectangle>
-                    </Grid>
-                    <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <!--Trio bet 2-->
-                        <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseEnter">
-                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.HighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="MouseLeave">
-                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Rectangle>
-                    </Grid>
-                    <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <!--First four bet-->
-                        <Rectangle Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetRectangleStyle}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseEnter">
-                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.HighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="MouseLeave">
-                                    <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Rectangle>
+                        <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <!--Trio bet 1-->
+                            <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetBorderStyle}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.HighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <!--Trio bet 2-->
+                            <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetBorderStyle}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.HighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <!--First four bet-->
+                            <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource InsideBetBorderStyle}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Border>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
+            <Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
+                <!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.-->
+            </Canvas>
         </Grid>
-        <!--<Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            --><!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.--><!--
-        </Canvas>-->
-    </Grid>
+    </Border>
 </UserControl>

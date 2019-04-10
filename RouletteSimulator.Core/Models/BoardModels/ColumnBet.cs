@@ -28,7 +28,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// Constructor.
         /// Creates a ColumnBet for the provided bet type.
         /// </summary>
-        public ColumnBet(BetType betType)
+        public ColumnBet(BetType betType) : this()
         {
             if (betType == BetType.FirstColumn || betType == BetType.SecondColumn || betType == BetType.ThirdColumn)
             {
@@ -42,7 +42,11 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         #endregion
 
-        #region Events
+        #region 
+
+        public static event HighLightColumnBet OnHighLightColumnBet;
+        public static event ClearHighLightColumnBet OnClearHighLightColumnBet;
+
         #endregion
 
         #region Properties
@@ -69,6 +73,32 @@ namespace RouletteSimulator.Core.Models.BoardModels
             }
         }
 
+        /// <summary>
+        /// Gets the text label for the bet.
+        /// </summary>
+        public override string Label
+        {
+            get
+            {
+                string label = string.Empty;
+
+                switch (_betType)
+                {
+                    case BetType.FirstColumn:
+                        label = Constants.FirstColumnLabel;
+                        break;
+                    case BetType.SecondColumn:
+                        label = Constants.SecondColumnLabel;
+                        break;
+                    case BetType.ThirdColumn:
+                        label = Constants.ThirdColumnLabel;
+                        break;
+                }
+
+                return label;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -79,7 +109,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void HighLightBet(object parameter)
         {
-            // TBD: raise a "HighLightSplitBet" event passing this object as the event parameter.
+            OnHighLightColumnBet?.Invoke(this);
         }
 
         /// <summary>
@@ -88,7 +118,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void ClearHighLightBet(object parameter)
         {
-            // TBD: raise a "ClearHighLightSplitBet" event passing this object as the event parameter.
+            OnClearHighLightColumnBet?.Invoke(this);
         }
 
         /// <summary>

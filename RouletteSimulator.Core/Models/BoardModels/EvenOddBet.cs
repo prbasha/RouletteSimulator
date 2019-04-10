@@ -28,7 +28,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// Constructor.
         /// Creates a EvenOddBet for the provided bet type.
         /// </summary>
-        public EvenOddBet(BetType betType)
+        public EvenOddBet(BetType betType) : this()
         {
             if (betType == BetType.Even || betType == BetType.Odd)
             {
@@ -43,6 +43,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event HighLightEvenOddBet OnHighLightEvenOddBet;
+        public static event ClearHighLightEvenOddBet OnClearHighLightEvenOddBet;
+
         #endregion
 
         #region Properties
@@ -69,6 +73,29 @@ namespace RouletteSimulator.Core.Models.BoardModels
             }
         }
 
+        /// <summary>
+        /// Gets the text label for the bet.
+        /// </summary>
+        public override string Label
+        {
+            get
+            {
+                string label = string.Empty;
+
+                switch (_betType)
+                {
+                    case BetType.Even:
+                        label = Constants.EvenLabel;
+                        break;
+                    case BetType.Odd:
+                        label = Constants.OddLabel;
+                        break;
+                }
+
+                return label;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -79,7 +106,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void HighLightBet(object parameter)
         {
-            // TBD: raise a "HighLightSplitBet" event passing this object as the event parameter.
+            OnHighLightEvenOddBet?.Invoke(this);
         }
 
         /// <summary>
@@ -88,7 +115,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void ClearHighLightBet(object parameter)
         {
-            // TBD: raise a "ClearHighLightSplitBet" event passing this object as the event parameter.
+            OnClearHighLightEvenOddBet?.Invoke(this);
         }
 
         /// <summary>

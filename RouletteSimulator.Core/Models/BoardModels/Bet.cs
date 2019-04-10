@@ -113,6 +113,14 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// </summary>
         public ICommand ClearHighLightBetCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the text label for the bet.
+        /// </summary>
+        public abstract string Label
+        {
+            get;
+        }
+
         #endregion
 
         #region Methods

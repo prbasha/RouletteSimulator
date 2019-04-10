@@ -49,5 +49,18 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public static readonly int[] OddWinningNumbers = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35 };
         public static readonly int[] RedWinningNumbers = { 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36 };
         public static readonly int[] BlackWinningNumbers = { 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35 };
+        // Labels.
+        public const string FirstColumnLabel = "1st";
+        public const string SecondColumnLabel = "2nd";
+        public const string ThirdColumnLabel = "3rd";
+        public const string FirstDozenLabel = "1st 12";
+        public const string SecondDozenLabel = "2nd 12";
+        public const string ThirdDozenLabel = "3rd 12";
+        public const string LowLabel = "LOW";
+        public const string HighLabel = "HIGH";
+        public const string EvenLabel = "EVEN";
+        public const string OddLabel = " ODD ";
+        public const string RedLabel = "RED";
+        public const string BlackLabel = "BLACK";
     }
 }

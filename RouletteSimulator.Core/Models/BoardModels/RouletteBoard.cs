@@ -16,9 +16,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
     {
 
         #region Fields
-
-        // TBD: Inside bets (straight, split, street, corner, double street, trio, first four).
-
         #endregion
 
         #region Constructors
@@ -29,21 +26,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public RouletteBoard()
         {
             try
-            {
-                // Initialize Outside bets.
-                FirstColumnBet = new ColumnBet(BetType.FirstColumn);
-                SecondColumnBet = new ColumnBet(BetType.SecondColumn);
-                ThirdColumnBet = new ColumnBet(BetType.ThirdColumn);
-                FirstDozenBet = new DozenBet(BetType.FirstDozen);
-                SecondDozenBet = new DozenBet(BetType.SecondDozen);
-                ThirdDozenBet = new DozenBet(BetType.ThirdDozen);
-                LowBet = new LowHighBet(BetType.Low);
-                HighBet = new LowHighBet(BetType.High);
-                EvenBet = new EvenOddBet(BetType.Even);
-                OddBet = new EvenOddBet(BetType.Odd);
-                RedBet = new RedBlackBet(BetType.Red);
-                BlackBet = new RedBlackBet(BetType.Black);
-
+            {                
                 // Initialize Inside bets.
                 ZeroBet = new StraightBet { FirstNumber = 0 };
                 TrioBet1 = new StreetBet() { FirstNumber = 0, SecondNumber = 1, ThirdNumber = 2 };
@@ -209,6 +192,20 @@ namespace RouletteSimulator.Core.Models.BoardModels
                     new DoubleStreetBet() {FirstNumber = 31, SecondNumber = 32, ThirdNumber = 33, FourthNumber = 34, FifthNumber = 35, SixthNumber = 36}
                 };
 
+                // Initialize Outside bets.
+                FirstColumnBet = new ColumnBet(BetType.FirstColumn);
+                SecondColumnBet = new ColumnBet(BetType.SecondColumn);
+                ThirdColumnBet = new ColumnBet(BetType.ThirdColumn);
+                FirstDozenBet = new DozenBet(BetType.FirstDozen);
+                SecondDozenBet = new DozenBet(BetType.SecondDozen);
+                ThirdDozenBet = new DozenBet(BetType.ThirdDozen);
+                LowBet = new LowHighBet(BetType.Low);
+                HighBet = new LowHighBet(BetType.High);
+                EvenBet = new EvenOddBet(BetType.Even);
+                OddBet = new EvenOddBet(BetType.Odd);
+                RedBet = new RedBlackBet(BetType.Red);
+                BlackBet = new RedBlackBet(BetType.Black);
+
                 // Listen to events.
                 SplitBet.OnHighLightSplitBet += new HighLightSplitBet(HighLightSplitBetEventHandler);
                 SplitBet.OnClearHighLightSplitBet += new ClearHighLightSplitBet(ClearHighLightSplitBetEventHandler);
@@ -218,6 +215,16 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 CornerBet.OnClearHighLightCornerBet += new ClearHighLightCornerBet(ClearHighLightCornerBetEventHandler);
                 DoubleStreetBet.OnHighLightDoubleStreetBet += new HighLightDoubleStreetBet(HighLightDoubleStreetBetEventHandler);
                 DoubleStreetBet.OnClearHighLightDoubleStreetBet += new ClearHighLightDoubleStreetBet(ClearHighLightDoubleStreetBetEventHandler);
+                EvenOddBet.OnHighLightEvenOddBet += new HighLightEvenOddBet(HighLightEvenOddBetEventHandler);
+                EvenOddBet.OnClearHighLightEvenOddBet += new ClearHighLightEvenOddBet(ClearHighLightEvenOddBetEventHandler);
+                RedBlackBet.OnHighLightRedBlackBet += new HighLightRedBlackBet(HighLightRedBlackBetEventHandler);
+                RedBlackBet.OnClearHighLightRedBlackBet += new ClearHighLightRedBlackBet(ClearHighLightRedBlackBetEventHandler);
+                DozenBet.OnHighLightDozenBet += new HighLightDozenBet(HighLightDozenBetEventHandler);
+                DozenBet.OnClearHighLightDozenBet += new ClearHighLightDozenBet(ClearHighLightDozenBetEventHandler);
+                ColumnBet.OnHighLightColumnBet += new HighLightColumnBet(HighLightColumnBetEventHandler);
+                ColumnBet.OnClearHighLightColumnBet += new ClearHighLightColumnBet(ClearHighLightColumnBetEventHandler);
+                LowHighBet.OnHighLightLowHighBet += new HighLightLowHighBet(HighLightLowHighBetEventHandler);
+                LowHighBet.OnClearHighLightLowHighBet += new ClearHighLightLowHighBet(ClearHighLightLowHighBetEventHandler);
             }
             catch (Exception ex)
             {
@@ -665,6 +672,282 @@ namespace RouletteSimulator.Core.Models.BoardModels
             catch (Exception ex)
             {
                 throw new Exception("RouletteBoard.ClearHighLightDoubleStreetBetEventHandler(DoubleStreetBet doubleStreetBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightEvenOddBetEventHandler method is called to handle a HighLightEvenOddBet event.
+        /// </summary>
+        /// <param name="evenOddBet"></param>
+        private void HighLightEvenOddBetEventHandler(EvenOddBet evenOddBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (evenOddBet.BetType == BetType.Even && Constants.EvenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                    else if (evenOddBet.BetType == BetType.Odd && Constants.OddWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightEvenOddBetEventHandler(EvenOddBet evenOddBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightEvenOddBetEventHandler method is called to handle a ClearHighLightEvenOddBet event.
+        /// </summary>
+        /// <param name="evenOddBet"></param>
+        private void ClearHighLightEvenOddBetEventHandler(EvenOddBet evenOddBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (evenOddBet.BetType == BetType.Even && Constants.EvenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                    else if (evenOddBet.BetType == BetType.Odd && Constants.OddWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightEvenOddBetEventHandler(EvenOddBet evenOddBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightRedBlackBetEventHandler method is called to handle a HighLightRedBlackBet event.
+        /// </summary>
+        /// <param name="redBlackBet"></param>
+        private void HighLightRedBlackBetEventHandler(RedBlackBet redBlackBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (redBlackBet.BetType == BetType.Red && Constants.RedWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                    else if (redBlackBet.BetType == BetType.Black && Constants.BlackWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightRedBlackBetEventHandler(RedBlackBet redBlackBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightRedBlackBetEventHandler method is called to handle a ClearHighLightRedBlackBet event.
+        /// </summary>
+        /// <param name="redBlackBet"></param>
+        private void ClearHighLightRedBlackBetEventHandler(RedBlackBet redBlackBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (redBlackBet.BetType == BetType.Red && Constants.RedWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                    else if (redBlackBet.BetType == BetType.Black && Constants.BlackWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightRedBlackBetEventHandler(RedBlackBet redBlackBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightDozenBetEventHandler method is called to handle a HighLightDozenBet event.
+        /// </summary>
+        /// <param name="dozenBet"></param>
+        private void HighLightDozenBetEventHandler(DozenBet dozenBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (dozenBet.BetType == BetType.FirstDozen && Constants.FirstDozenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                    else if (dozenBet.BetType == BetType.SecondDozen && Constants.SecondDozenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                    else if (dozenBet.BetType == BetType.ThirdDozen && Constants.ThirdDozenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightDozenBetEventHandler(DozenBet dozenBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightDozenBetEventHandler method is called to handle a ClearHighLightDozenBet event.
+        /// </summary>
+        /// <param name="dozenBet"></param>
+        private void ClearHighLightDozenBetEventHandler(DozenBet dozenBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (dozenBet.BetType == BetType.FirstDozen && Constants.FirstDozenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                    else if (dozenBet.BetType == BetType.SecondDozen && Constants.SecondDozenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                    else if (dozenBet.BetType == BetType.ThirdDozen && Constants.ThirdDozenWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightDozenBetEventHandler(DozenBet dozenBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightColumnBetEventHandler method is called to handle a HighLightColumnBet event.
+        /// </summary>
+        /// <param name="columnBet"></param>
+        private void HighLightColumnBetEventHandler(ColumnBet columnBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (columnBet.BetType == BetType.FirstColumn && Constants.FirstColumnWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                    else if (columnBet.BetType == BetType.SecondColumn && Constants.SecondColumnWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                    else if (columnBet.BetType == BetType.ThirdColumn && Constants.ThirdColumnWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightColumnBetEventHandler(ColumnBet columnBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightColumnBetEventHandler method is called to handle a ClearHighLightColumnBet event.
+        /// </summary>
+        /// <param name="columnBet"></param>
+        private void ClearHighLightColumnBetEventHandler(ColumnBet columnBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (columnBet.BetType == BetType.FirstColumn && Constants.FirstColumnWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                    else if (columnBet.BetType == BetType.SecondColumn && Constants.SecondColumnWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                    else if (columnBet.BetType == BetType.ThirdColumn && Constants.ThirdColumnWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightColumnBetEventHandler(ColumnBet columnBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The HighLightLowHighBetEventHandler method is called to handle a HighLightLowHighBet event.
+        /// </summary>
+        /// <param name="lowHighBet"></param>
+        private void HighLightLowHighBetEventHandler(LowHighBet lowHighBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (lowHighBet.BetType == BetType.Low && Constants.LowWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                    else if (lowHighBet.BetType == BetType.High && Constants.HighWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.HighLightLowHighBetEventHandler(LowHighBet lowHighBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearHighLightLowHighBetEventHandler method is called to handle a ClearHighLightLowHighBet event.
+        /// </summary>
+        /// <param name="lowHighBet"></param>
+        private void ClearHighLightLowHighBetEventHandler(LowHighBet lowHighBet)
+        {
+            try
+            {
+                foreach (StraightBet bet in StraightBets)
+                {
+                    if (lowHighBet.BetType == BetType.Low && Constants.LowWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                    else if (lowHighBet.BetType == BetType.High && Constants.HighWinningNumbers.Contains(bet.FirstNumber))
+                    {
+                        bet.IsHighLighted = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearHighLightLowHighBetEventHandler(LowHighBet lowHighBet): " + ex.ToString());
             }
         }
 

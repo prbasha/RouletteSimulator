@@ -28,7 +28,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// Constructor.
         /// Creates a DozenBet for the provided bet type.
         /// </summary>
-        public DozenBet(BetType betType)
+        public DozenBet(BetType betType) : this()
         {
             if (betType == BetType.FirstDozen || betType == BetType.SecondDozen || betType == BetType.ThirdDozen)
             {
@@ -43,6 +43,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event HighLightDozenBet OnHighLightDozenBet;
+        public static event ClearHighLightDozenBet OnClearHighLightDozenBet;
+
         #endregion
 
         #region Properties
@@ -69,6 +73,32 @@ namespace RouletteSimulator.Core.Models.BoardModels
             }
         }
 
+        /// <summary>
+        /// Gets the text label for the bet.
+        /// </summary>
+        public override string Label
+        {
+            get
+            {
+                string label = string.Empty;
+
+                switch (_betType)
+                {
+                    case BetType.FirstDozen:
+                        label = Constants.FirstDozenLabel;
+                        break;
+                    case BetType.SecondDozen:
+                        label = Constants.SecondDozenLabel;
+                        break;
+                    case BetType.ThirdDozen:
+                        label = Constants.ThirdDozenLabel;
+                        break;
+                }
+
+                return label;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -79,7 +109,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void HighLightBet(object parameter)
         {
-            // TBD: raise a "HighLightSplitBet" event passing this object as the event parameter.
+            OnHighLightDozenBet?.Invoke(this);
         }
 
         /// <summary>
@@ -88,7 +118,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <param name="parameter"></param>
         protected override void ClearHighLightBet(object parameter)
         {
-            // TBD: raise a "ClearHighLightSplitBet" event passing this object as the event parameter.
+            OnClearHighLightDozenBet?.Invoke(this);
         }
 
         /// <summary>
