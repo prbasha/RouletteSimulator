@@ -1,8 +1,10 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
+using RouletteSimulator.Core.Models.ChipModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         protected BetType _betType;
         protected int _betAmount;
+        protected ObservableCollection<Chip> _chips;
         
         #endregion
 
@@ -31,10 +34,12 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public Bet()
         {
             _betAmount = 0;
+            _chips = new ObservableCollection<Chip>();
 
             // Commands.
             HighLightBetCommand = new DelegateCommand<object>(HighLightBet);
             ClearHighLightBetCommand = new DelegateCommand<object>(ClearHighLightBet);
+            PlaceBetCommand = new DelegateCommand<object>(PlaceBet);
         }
 
         /// <summary>
@@ -86,6 +91,17 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the collection of casino chips.
+        /// </summary>
+        public ObservableCollection<Chip> Chips
+        {
+            get
+            {
+                return _chips;
+            }
+        }
         
         /// <summary>
         /// Gets the exposure.
@@ -114,11 +130,25 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public ICommand ClearHighLightBetCommand { get; private set; }
 
         /// <summary>
+        /// Gets or sets the PlaceBetCommand.
+        /// </summary>
+        public ICommand PlaceBetCommand { get; private set; }
+
+        /// <summary>
         /// Gets the text label for the bet.
         /// </summary>
         public abstract string Label
         {
             get;
+        }
+
+        /// <summary>
+        /// Gets or sets the current selected chip type.
+        /// </summary>
+        public static ChipType SelectedChip
+        {
+            get;
+            set;
         }
 
         #endregion
@@ -138,15 +168,58 @@ namespace RouletteSimulator.Core.Models.BoardModels
         protected abstract void ClearHighLightBet(object parameter);
 
         /// <summary>
-        /// The PlaceBet method is called to place a bet for the provided amount.
+        /// The PlaceBet method is called to place a bet for the current selected chip.
         /// </summary>
-        /// <param name="betAmount"></param>
-        public void PlaceBet(int amount)
+        /// <param name="parameter"></param>
+        public void PlaceBet(object parameter)
         {
-            if (amount > 0)
+            try
             {
-                BetAmount = BetAmount + amount;
-                // TBD: update chips collection.
+                Chip chip = null;
+
+                switch (SelectedChip)
+                {
+                    case ChipType.One:
+                        chip = new One();
+                        break;
+                    case ChipType.Five:
+                        chip = new Five();
+                        break;
+                    case ChipType.TwentyFive:
+                        chip = new TwentyFive();
+                        break;
+                    case ChipType.OneHundred:
+                        chip = new OneHundred();
+                        break;
+                    case ChipType.FiveHundred:
+                        chip = new FiveHundred();
+                        break;
+                    case ChipType.OneThousand:
+                        chip = new OneThousand();
+                        break;
+                    case ChipType.FiveThousand:
+                        chip = new FiveThousand();
+                        break;
+                    case ChipType.TwentyFiveThousand:
+                        chip = new TwentyFiveThousand();
+                        break;
+                    case ChipType.OneHundredThousand:
+                        chip = new OneHundredThousand();
+                        break;
+                    case ChipType.FiveHundredThousand:
+                        chip = new FiveHundredThousand();
+                        break;
+                }
+
+                if (chip != null)
+                {
+                    BetAmount = BetAmount + chip.Value;
+                    _chips.Add(chip);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Bet.PlaceBet(object parameter): " + ex.ToString());
             }
         }
 
@@ -156,6 +229,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public void ClearBet()
         {
             BetAmount = 0;
+            _chips.Clear();
         }
 
         /// <summary>

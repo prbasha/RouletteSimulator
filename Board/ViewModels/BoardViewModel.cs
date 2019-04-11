@@ -27,6 +27,9 @@ namespace Board.ViewModels
         {
             // Models.
             RouletteBoard = new RouletteBoard();
+
+            // Testing chips.
+            Bet.SelectedChip = RouletteSimulator.Core.Enumerations.ChipType.One;
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
+using RouletteSimulator.Core.Models.ChipModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
     public class RouletteBoard : BindableBase
     {
 
-        #region Fields
+        #region Fields    
         #endregion
 
         #region Constructors
@@ -948,6 +949,95 @@ namespace RouletteSimulator.Core.Models.BoardModels
             catch (Exception ex)
             {
                 throw new Exception("RouletteBoard.ClearHighLightLowHighBetEventHandler(LowHighBet lowHighBet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The CalculateWinnings method is called to calculate the total winnings for the entire roulette board.
+        /// </summary>
+        /// <param name="winningNumber"></param>
+        /// <returns></returns>
+        public int CalculateWinnings(int winningNumber)
+        {
+            try
+            {
+                int totalWinnings = 0;
+
+                // Column bets.
+                totalWinnings = totalWinnings + FirstColumnBet.CalculateWinnings(winningNumber);
+                totalWinnings = totalWinnings + SecondColumnBet.CalculateWinnings(winningNumber);
+                totalWinnings = totalWinnings + ThirdColumnBet.CalculateWinnings(winningNumber);
+
+                // Dozen bets.
+                totalWinnings = totalWinnings + FirstDozenBet.CalculateWinnings(winningNumber);
+                totalWinnings = totalWinnings + SecondDozenBet.CalculateWinnings(winningNumber);
+                totalWinnings = totalWinnings + ThirdDozenBet.CalculateWinnings(winningNumber);
+
+                // Low/High bets.
+                totalWinnings = totalWinnings + LowBet.CalculateWinnings(winningNumber);
+                totalWinnings = totalWinnings + HighBet.CalculateWinnings(winningNumber);
+
+                // Even/Odd bets.
+                totalWinnings = totalWinnings + EvenBet.CalculateWinnings(winningNumber);
+                totalWinnings = totalWinnings + OddBet.CalculateWinnings(winningNumber);
+
+                // Red/Black bets.
+                totalWinnings = totalWinnings + RedBet.CalculateWinnings(winningNumber);
+                totalWinnings = totalWinnings + BlackBet.CalculateWinnings(winningNumber);
+
+                // Straight bets.
+                foreach (StraightBet bet in StraightBets)
+                {
+                    totalWinnings = totalWinnings + bet.CalculateWinnings(winningNumber);
+                }
+
+                // Horizontal Split bets.
+                foreach (SplitBet bet in HorizontalSplitBets)
+                {
+                    totalWinnings = totalWinnings + bet.CalculateWinnings(winningNumber);
+                }
+
+                // Vertical Split bets.
+                foreach (SplitBet bet in VerticalSplitBets)
+                {
+                    totalWinnings = totalWinnings + bet.CalculateWinnings(winningNumber);
+                }
+
+                // Street bets.
+                foreach (StreetBet bet in StreetBets)
+                {
+                    totalWinnings = totalWinnings + bet.CalculateWinnings(winningNumber);
+                }
+
+                // Corner bets.
+                foreach (CornerBet bet in CornerBets)
+                {
+                    totalWinnings = totalWinnings + bet.CalculateWinnings(winningNumber);
+                }
+
+                // Double Street bets.
+                foreach (DoubleStreetBet bet in DoubleStreetBets)
+                {
+                    totalWinnings = totalWinnings + bet.CalculateWinnings(winningNumber);
+                }
+
+                // Zero bet.
+                totalWinnings = totalWinnings + ZeroBet.CalculateWinnings(winningNumber);
+
+                // First trio bet.
+                totalWinnings = totalWinnings + TrioBet1.CalculateWinnings(winningNumber);
+
+                // Second trio bet.
+                totalWinnings = totalWinnings + TrioBet2.CalculateWinnings(winningNumber);
+
+                // First four bet.
+                totalWinnings = totalWinnings + FirstFourBet.CalculateWinnings(winningNumber);
+
+                return totalWinnings;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.CalculateWinnings(int winningNumber): " + ex.ToString());
             }
         }
 

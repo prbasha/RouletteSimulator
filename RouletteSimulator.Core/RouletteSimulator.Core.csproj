@@ -33,6 +33,7 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -42,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -55,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enumerations\BetType.cs" />
+    <Compile Include="Enumerations\ChipType.cs" />
     <Compile Include="Models\BoardModels\Bet.cs" />
     <Compile Include="Models\BoardModels\Constants.cs" />
     <Compile Include="Models\BoardModels\ColumnBet.cs" />
@@ -69,6 +72,18 @@
     <Compile Include="Models\BoardModels\SplitBet.cs" />
     <Compile Include="Models\BoardModels\StraightBet.cs" />
     <Compile Include="Models\BoardModels\StreetBet.cs" />
+    <Compile Include="Models\ChipModels\Constants.cs" />
+    <Compile Include="Models\ChipModels\FIveHundredThousand.cs" />
+    <Compile Include="Models\ChipModels\TwentyFiveThousand.cs" />
+    <Compile Include="Models\ChipModels\OneHundredThousand.cs" />
+    <Compile Include="Models\ChipModels\TwentyFive.cs" />
+    <Compile Include="Models\ChipModels\OneThousand.cs" />
+    <Compile Include="Models\ChipModels\FiveThousand.cs" />
+    <Compile Include="Models\ChipModels\FiveHundred.cs" />
+    <Compile Include="Models\ChipModels\OneHundred.cs" />
+    <Compile Include="Models\ChipModels\Five.cs" />
+    <Compile Include="Models\ChipModels\One.cs" />
+    <Compile Include="Models\ChipModels\Chip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

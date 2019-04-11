@@ -119,6 +119,9 @@
                         <i:EventTrigger EventName="MouseLeave">
                             <i:InvokeCommandAction Command="{Binding RouletteBoard.EvenBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
                         </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding RouletteBoard.EvenBet.PlaceBetCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Viewbox StretchDirection="Both" Stretch="Uniform">
                         <Label Content="{Binding RouletteBoard.EvenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
@@ -374,8 +377,25 @@
                                             <i:EventTrigger EventName="MouseLeave">
                                                 <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding PlaceBetCommand}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
+                                    <!--TBD: Work in progress.-->
+                                    <ItemsControl Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding Chips, Mode=OneWay}" IsHitTestVisible="False" Background="Transparent">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Ellipse HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20" Fill="Purple"></Ellipse>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -645,9 +665,24 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <Canvas Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
-                <!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.-->
-            </Canvas>
+            <Viewbox Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <!--<Canvas Width="{Binding SnakeGameLogic.GameBoardWidthPixels, Mode=TwoWay}" Height="{Binding SnakeGameLogic.GameBoardHeightPixels, Mode=TwoWay}" IsHitTestVisible="False">
+                    <Ellipse Width="25" Height="25" Fill="Purple"></Ellipse>
+                    --><!--Draw the chips on top of the board using this canvas. Determine xy position based on button pressed.-->
+                    <!--<ItemsControl ItemsSource="{Binding RouletteBoard.EvenBet.Chips, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Ellipse Width="100" Height="100" Fill="Purple"></Ellipse>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>--><!--
+                </Canvas>-->
+            </Viewbox>
         </Grid>
     </Border>
 </UserControl>
