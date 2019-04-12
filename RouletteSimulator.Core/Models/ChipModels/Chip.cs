@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
+using System.Windows.Media;
 
 namespace RouletteSimulator.Core.Models.ChipModels
 {
@@ -46,7 +46,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
         /// <summary>
         /// Gets the chip color.
         /// </summary>
-        public abstract Color Color { get; }
+        public abstract Brush Color { get; }
 
         /// <summary>
         /// Gets a text label for the chip.

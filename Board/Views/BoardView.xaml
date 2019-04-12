@@ -82,6 +82,25 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ChipOuterStyle" TargetType="Ellipse">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Width" Value="5"></Setter>
+            <Setter Property="Height" Value="5"></Setter>
+            <Setter Property="Margin" Value="1,1,1,1"></Setter>
+            <Setter Property="Fill" Value="{Binding Color}"></Setter>
+        </Style>
+        <Style x:Key="ChipInnerStyle" TargetType="Ellipse">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Width" Value="5"></Setter>
+            <Setter Property="Height" Value="5"></Setter>
+            <Setter Property="Margin" Value="2,2,2,2"></Setter>
+            <Setter Property="Stroke" Value="White"></Setter>
+            <Setter Property="StrokeThickness" Value="0.5"></Setter>
+            <Setter Property="StrokeDashArray" Value="3"></Setter>
+            <Setter Property="Fill" Value="{Binding Color}"></Setter>
+        </Style>
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="0" Background="Black">
         <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
@@ -382,20 +401,23 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
-                                    <!--TBD: Work in progress.-->
-                                    <ItemsControl Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding Chips, Mode=OneWay}" IsHitTestVisible="False" Background="Transparent">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Ellipse HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20" Fill="Purple"></Ellipse>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-
+                                    <Viewbox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                                        <ItemsControl ItemsSource="{Binding Chips, Mode=OneWay}" IsHitTestVisible="False" Background="Transparent">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                                        <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Viewbox>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
