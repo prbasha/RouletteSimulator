@@ -1,4 +1,5 @@
-﻿using RouletteSimulator.Core.Enumerations;
+﻿using Prism.Mvvm;
+using RouletteSimulator.Core.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,15 @@ namespace RouletteSimulator.Core.Models.ChipModels
     /// The Chip class represents a generic casino chip.
     /// It is an abstract class.
     /// </summary>
-    public abstract class Chip
+    public abstract class Chip : BindableBase
     {
         #region Fields
+
+        private double _xPositionPixels;
+        private double _yPositionPixels;
+        private double _widthPixels;
+        private double _heightPixels;
+
         #endregion
 
         #region Constructors
@@ -55,7 +62,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
         {
             get
             {
-                string label = "$";
+                string label = string.Empty;
 
                 switch (ChipType)
                 {
@@ -71,7 +78,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
                     case ChipType.TwentyFiveThousand:
                     case ChipType.OneHundredThousand:
                     case ChipType.FiveHundredThousand:
-                        label = label + Value.ToString().TrimEnd('0') + "K";
+                        label = label + (Value/1000).ToString() + "K";
                         break;
                 }
 
@@ -79,6 +86,101 @@ namespace RouletteSimulator.Core.Models.ChipModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the x position in pixels.
+        /// </summary>
+        public double XPositionPixels
+        {
+            get
+            {
+                return _xPositionPixels;
+            }
+            set
+            {
+                SetProperty(ref _xPositionPixels, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the y position in pixels.
+        /// </summary>
+        public double YPositionPixels
+        {
+            get
+            {
+                return _yPositionPixels;
+            }
+            set
+            {
+                SetProperty(ref _yPositionPixels, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the width in pixels.
+        /// </summary>
+        public double WidthPixels
+        {
+            get
+            {
+                return _widthPixels;
+            }
+            set
+            {
+                SetProperty(ref _widthPixels, value);
+                RaisePropertyChanged("OffsetXPixels");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the height in pixels.
+        /// </summary>
+        public double HeightPixels
+        {
+            get
+            {
+                return _heightPixels;
+            }
+            set
+            {
+                SetProperty(ref _heightPixels, value);
+                RaisePropertyChanged("OffsetYPixels");
+            }
+        }
+
+        /// <summary>
+        /// Gets the x offset in pixels.
+        /// </summary>
+        public double OffsetXPixels
+        {
+            get
+            {
+                return -1 * WidthPixels / 2;
+            }
+        }
+
+        /// <summary>
+        /// Gets the y offset in pixels.
+        /// </summary>
+        public double OffsetYPixels
+        {
+            get
+            {
+                return -1 * HeightPixels / 2;
+            }
+        }
+
+        /// <summary>
+        /// Gets the chip width/height as a percentage of the board width.
+        /// </summary>
+        public static double WidthHeightPercent
+        {
+            get
+            {
+                return Constants.WidthHeightPercent;
+            }
+        }
+        
         #endregion
 
         #region Methods

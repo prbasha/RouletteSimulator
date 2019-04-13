@@ -34,6 +34,7 @@
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -54,10 +55,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enumerations\BetType.cs" />
     <Compile Include="Enumerations\ChipType.cs" />
+    <Compile Include="EventsAggregator\Events.cs" />
     <Compile Include="Models\BoardModels\Bet.cs" />
     <Compile Include="Models\BoardModels\Constants.cs" />
     <Compile Include="Models\BoardModels\ColumnBet.cs" />
@@ -86,9 +89,7 @@
     <Compile Include="Models\ChipModels\Chip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EventsAggregator\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
 using RouletteSimulator.Core.Models.ChipModels;
 using System;
@@ -7,6 +8,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace RouletteSimulator.Core.Models.BoardModels
 {
@@ -16,7 +20,12 @@ namespace RouletteSimulator.Core.Models.BoardModels
     public class RouletteBoard : BindableBase
     {
 
-        #region Fields    
+        #region Fields
+
+        private Border _mainBorder;
+        private double _boardWidthPixels;
+        private double _boardHeightPixels;
+
         #endregion
 
         #region Constructors
@@ -207,6 +216,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 RedBet = new RedBlackBet(BetType.Red);
                 BlackBet = new RedBlackBet(BetType.Black);
 
+                // Initialise the chips.
+                Chips = new ObservableCollection<Chip>();
+
                 // Listen to events.
                 SplitBet.OnHighLightSplitBet += new HighLightSplitBet(HighLightSplitBetEventHandler);
                 SplitBet.OnClearHighLightSplitBet += new ClearHighLightSplitBet(ClearHighLightSplitBetEventHandler);
@@ -226,6 +238,10 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 ColumnBet.OnClearHighLightColumnBet += new ClearHighLightColumnBet(ClearHighLightColumnBetEventHandler);
                 LowHighBet.OnHighLightLowHighBet += new HighLightLowHighBet(HighLightLowHighBetEventHandler);
                 LowHighBet.OnClearHighLightLowHighBet += new ClearHighLightLowHighBet(ClearHighLightLowHighBetEventHandler);
+                Bet.OnPlaceBet += new PlaceBet(PlaceBetEventHandler);
+
+                // Commands.
+                BoardSizeChangedCommand = new DelegateCommand<object>(BoardSizeChanged);
             }
             catch (Exception ex)
             {
@@ -239,6 +255,36 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Properties
+        
+        /// <summary>
+        /// Gets or sets the board width in pixels.
+        /// </summary>
+        public double BoardWidthPixels
+        {
+            get
+            {
+                return _boardWidthPixels;
+            }
+            set
+            {
+                SetProperty(ref _boardWidthPixels, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets
+        /// </summary>
+        public double BoardHeightPixels
+        {
+            get
+            {
+                return _boardHeightPixels;
+            }
+            set
+            {
+                SetProperty(ref _boardHeightPixels, value);
+            }
+        }
 
         /// <summary>
         /// Gets the first column bet.
@@ -349,6 +395,16 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// Gets the first-four bet.
         /// </summary>
         public CornerBet FirstFourBet { get; }
+
+        /// <summary>
+        /// Gets the collection of chips.
+        /// </summary>
+        public ObservableCollection<Chip> Chips { get; }
+
+        /// <summary>
+        /// Gets or sets the BoardSizeChangedCommand.
+        /// </summary>
+        public ICommand BoardSizeChangedCommand { get; private set; }
 
         #endregion
 
@@ -953,6 +1009,73 @@ namespace RouletteSimulator.Core.Models.BoardModels
         }
 
         /// <summary>
+        /// The PlaceBetEventHandler method is called to handle a PlaceBet event.
+        /// </summary>
+        /// <param name="bet"></param>
+        private void PlaceBetEventHandler(Bet bet)
+        {
+            try
+            {
+                // Determine the xy coordinates of the bet, relative to the roulette board.
+                Point betLocation = bet.Border.TranslatePoint(new Point(0, 0), (UIElement)_mainBorder.Parent);
+
+                // Determine the center point of the bet - this is the xy position of the chip.
+                betLocation.X = betLocation.X + bet.Border.ActualWidth / 2;
+                betLocation.Y = betLocation.Y + bet.Border.ActualHeight / 2;
+
+                // Determine the width/height of the chip - relative to the width of the board.
+                double chipWidth = Chip.WidthHeightPercent * BoardWidthPixels;
+                double chipHeight = chipWidth;
+
+                // Create a chip at this bet's location.
+                Chip chip = null;
+                switch (Bet.SelectedChip)
+                {
+                    case ChipType.One:
+                        chip = new One() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.Five:
+                        chip = new Five() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.TwentyFive:
+                        chip = new TwentyFive() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.OneHundred:
+                        chip = new OneHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.FiveHundred:
+                        chip = new FiveHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.OneThousand:
+                        chip = new OneThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.FiveThousand:
+                        chip = new FiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.TwentyFiveThousand:
+                        chip = new TwentyFiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.OneHundredThousand:
+                        chip = new OneHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                    case ChipType.FiveHundredThousand:
+                        chip = new FiveHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                        break;
+                }
+
+                if (chip != null)
+                {
+                    // Add the chip to the board.
+                    Chips.Add(chip);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.PlaceBetEventHandler(Bet bet): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
         /// The CalculateWinnings method is called to calculate the total winnings for the entire roulette board.
         /// </summary>
         /// <param name="winningNumber"></param>
@@ -1038,6 +1161,40 @@ namespace RouletteSimulator.Core.Models.BoardModels
             catch (Exception ex)
             {
                 throw new Exception("RouletteBoard.CalculateWinnings(int winningNumber): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The BoardSizeChanged method is called to update with width/height of the board.
+        /// </summary>
+        /// <param name="parameter"></param>
+        public void BoardSizeChanged(object parameter)
+        {
+            try
+            {
+                // Capture the previous board width/height.
+                double previousBoardWidthPixels = BoardWidthPixels;
+                double previousBoardHeightPixels = BoardHeightPixels;
+
+                // Retrieve the new board width/height.
+                _mainBorder = (Border)parameter;
+                BoardWidthPixels = _mainBorder.ActualWidth;
+                BoardHeightPixels = _mainBorder.ActualHeight;
+
+                // Update the chip locations.
+                foreach (Chip chip in Chips)
+                {
+                    // Update xy position.
+                    chip.XPositionPixels = (chip.XPositionPixels / previousBoardWidthPixels) * BoardWidthPixels;
+                    chip.YPositionPixels = (chip.YPositionPixels / previousBoardHeightPixels) * BoardHeightPixels;
+                    // Update height/width.
+                    chip.WidthPixels = Chip.WidthHeightPercent * BoardWidthPixels;
+                    chip.HeightPixels = chip.WidthPixels;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.BoardSizeChanged(object parameter): " + ex.ToString());
             }
         }
 

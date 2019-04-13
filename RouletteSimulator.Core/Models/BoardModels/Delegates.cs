@@ -24,4 +24,5 @@ namespace RouletteSimulator.Core.Models.BoardModels
     public delegate void ClearHighLightColumnBet(ColumnBet columnBet);
     public delegate void HighLightLowHighBet(LowHighBet columnBet);
     public delegate void ClearHighLightLowHighBet(LowHighBet columnBet);
+    public delegate void PlaceBet(Bet bet);
 }

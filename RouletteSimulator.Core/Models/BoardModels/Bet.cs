@@ -8,7 +8,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace RouletteSimulator.Core.Models.BoardModels
 {
@@ -22,7 +25,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         protected BetType _betType;
         protected int _betAmount;
-        protected ObservableCollection<Chip> _chips;
         
         #endregion
 
@@ -34,7 +36,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public Bet()
         {
             _betAmount = 0;
-            _chips = new ObservableCollection<Chip>();
 
             // Commands.
             HighLightBetCommand = new DelegateCommand<object>(HighLightBet);
@@ -55,9 +56,21 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event PlaceBet OnPlaceBet;
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the current selected chip type.
+        /// </summary>
+        public static ChipType SelectedChip
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets the bet type.
@@ -89,17 +102,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 {
                     SetProperty(ref _betAmount, value);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Gets the collection of casino chips.
-        /// </summary>
-        public ObservableCollection<Chip> Chips
-        {
-            get
-            {
-                return _chips;
             }
         }
         
@@ -143,14 +145,14 @@ namespace RouletteSimulator.Core.Models.BoardModels
         }
 
         /// <summary>
-        /// Gets or sets the current selected chip type.
+        /// Gets the Border control for this chip.
         /// </summary>
-        public static ChipType SelectedChip
+        public Border Border
         {
             get;
-            set;
+            private set;
         }
-
+        
         #endregion
 
         #region Methods
@@ -175,46 +177,44 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             try
             {
-                Chip chip = null;
-
-                switch (SelectedChip)
+                if (parameter != null)
                 {
-                    case ChipType.One:
-                        chip = new One();
-                        break;
-                    case ChipType.Five:
-                        chip = new Five();
-                        break;
-                    case ChipType.TwentyFive:
-                        chip = new TwentyFive();
-                        break;
-                    case ChipType.OneHundred:
-                        chip = new OneHundred();
-                        break;
-                    case ChipType.FiveHundred:
-                        chip = new FiveHundred();
-                        break;
-                    case ChipType.OneThousand:
-                        chip = new OneThousand();
-                        break;
-                    case ChipType.FiveThousand:
-                        chip = new FiveThousand();
-                        break;
-                    case ChipType.TwentyFiveThousand:
-                        chip = new TwentyFiveThousand();
-                        break;
-                    case ChipType.OneHundredThousand:
-                        chip = new OneHundredThousand();
-                        break;
-                    case ChipType.FiveHundredThousand:
-                        chip = new FiveHundredThousand();
-                        break;
-                }
+                    switch (SelectedChip)
+                    {
+                        case ChipType.One:
+                            BetAmount = BetAmount + ChipModels.Constants.OneDollar;
+                            break;
+                        case ChipType.Five:
+                            BetAmount = BetAmount + ChipModels.Constants.FiveDollar;
+                            break;
+                        case ChipType.TwentyFive:
+                            BetAmount = BetAmount + ChipModels.Constants.TwentyFiveDollar;
+                            break;
+                        case ChipType.OneHundred:
+                            BetAmount = BetAmount + ChipModels.Constants.OneHundredDollar;
+                            break;
+                        case ChipType.FiveHundred:
+                            BetAmount = BetAmount + ChipModels.Constants.FiveHundredDollar;
+                            break;
+                        case ChipType.OneThousand:
+                            BetAmount = BetAmount + ChipModels.Constants.OneHundredThousandDollar;
+                            break;
+                        case ChipType.FiveThousand:
+                            BetAmount = BetAmount + ChipModels.Constants.FiveThousandDollar;
+                            break;
+                        case ChipType.TwentyFiveThousand:
+                            BetAmount = BetAmount + ChipModels.Constants.TwentyFiveThousandDollar;
+                            break;
+                        case ChipType.OneHundredThousand:
+                            BetAmount = BetAmount + ChipModels.Constants.OneHundredThousandDollar;
+                            break;
+                        case ChipType.FiveHundredThousand:
+                            BetAmount = BetAmount + ChipModels.Constants.FiveHundredThousandDollar;
+                            break;
+                    }
 
-                if (chip != null)
-                {
-                    BetAmount = BetAmount + chip.Value;
-                    _chips.Add(chip);
+                    Border = (Border)parameter; // Retrieve the Border control for this Bet object.
+                    OnPlaceBet?.Invoke(this);   // Place the bet on the board.
                 }
             }
             catch (Exception ex)
@@ -222,14 +222,13 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 throw new Exception("Bet.PlaceBet(object parameter): " + ex.ToString());
             }
         }
-
+        
         /// <summary>
         /// The ClearBet method is called to clear the bet amount.
         /// </summary>
         public void ClearBet()
         {
             BetAmount = 0;
-            _chips.Clear();
         }
 
         /// <summary>

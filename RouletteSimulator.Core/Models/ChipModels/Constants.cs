@@ -22,5 +22,6 @@ namespace RouletteSimulator.Core.Models.ChipModels
         public const int TwentyFiveThousandDollar = 25000;
         public const int OneHundredThousandDollar = 100000;
         public const int FiveHundredThousandDollar = 500000;
+        public const double WidthHeightPercent = 0.06;
     }
 }

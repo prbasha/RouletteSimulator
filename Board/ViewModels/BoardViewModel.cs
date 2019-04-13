@@ -1,6 +1,10 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
+using RouletteSimulator.Core.Enumerations;
+using RouletteSimulator.Core.EventsAggregator;
 using RouletteSimulator.Core.Models.BoardModels;
+using RouletteSimulator.Core.Models.ChipModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,20 +20,24 @@ namespace Board.ViewModels
     public class BoardViewModel : BindableBase
     {
         #region Fields
+
+        private EventAggregator _eventAggregator;
+
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Default constructor.
+        ///  Constructor.
         /// </summary>
-        public BoardViewModel()
+        /// <param name="eventAggregator"></param>
+        public BoardViewModel(EventAggregator eventAggregator)
         {
-            // Models.
-            RouletteBoard = new RouletteBoard();
-
-            // Testing chips.
-            Bet.SelectedChip = RouletteSimulator.Core.Enumerations.ChipType.One;
+            RouletteBoard = new RouletteBoard();    // Models.
+            
+            // Events.
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<SelectedChipEvent>().Subscribe(SelectedChipEventHandler);
         }
 
         #endregion
@@ -43,10 +51,20 @@ namespace Board.ViewModels
         /// Gets the roulette board.
         /// </summary>
         public RouletteBoard RouletteBoard { get; }
-        
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The SelectedChipEventHandler handles an incoming SelectedChipEvent event.
+        /// </summary>
+        /// <param name="selectedChip"></param>
+        private void SelectedChipEventHandler(ChipType selectedChip)
+        {
+            Bet.SelectedChip = selectedChip;    // Update chip selection.
+        }
+
         #endregion
     }
 }
