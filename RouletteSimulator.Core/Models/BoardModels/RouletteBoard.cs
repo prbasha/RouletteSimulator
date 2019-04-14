@@ -252,10 +252,13 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event BetPlaced OnBetPlaced;
+
         #endregion
 
         #region Properties
-        
+
         /// <summary>
         /// Gets or sets the board width in pixels.
         /// </summary>
@@ -1065,8 +1068,8 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
                 if (chip != null)
                 {
-                    // Add the chip to the board.
-                    Chips.Add(chip);
+                    Chips.Add(chip);                    // Add the chip to the board.
+                    OnBetPlaced?.Invoke(chip.Value);    // Notify that the bet has been placed.
                 }
             }
             catch (Exception ex)
@@ -1161,6 +1164,66 @@ namespace RouletteSimulator.Core.Models.BoardModels
             catch (Exception ex)
             {
                 throw new Exception("RouletteBoard.CalculateWinnings(int winningNumber): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The ClearBets method is called to clear all bets.
+        /// </summary>
+        public void ClearBets()
+        {
+            try
+            {
+                // Outside bets.
+                FirstColumnBet.ClearBet();
+                SecondColumnBet.ClearBet();
+                ThirdColumnBet.ClearBet();
+                FirstDozenBet.ClearBet();
+                SecondDozenBet.ClearBet();
+                ThirdDozenBet.ClearBet();
+                LowBet.ClearBet();
+                HighBet.ClearBet();
+                EvenBet.ClearBet();
+                OddBet.ClearBet();
+                RedBet.ClearBet();
+                BlackBet.ClearBet();
+
+                // Inside bets.
+                foreach (StraightBet bet in StraightBets)
+                {
+                    bet.ClearBet();
+                }
+                foreach (SplitBet bet in HorizontalSplitBets)
+                {
+                    bet.ClearBet();
+                }
+                foreach (SplitBet bet in VerticalSplitBets)
+                {
+                    bet.ClearBet();
+                }
+                foreach (StreetBet bet in StreetBets)
+                {
+                    bet.ClearBet();
+                }
+                foreach (CornerBet bet in CornerBets)
+                {
+                    bet.ClearBet();
+                }
+                foreach (DoubleStreetBet bet in DoubleStreetBets)
+                {
+                    bet.ClearBet();
+                }
+                ZeroBet.ClearBet();
+                TrioBet1.ClearBet();
+                TrioBet2.ClearBet();
+                FirstFourBet.ClearBet();
+
+                // Chips.
+                Chips.Clear();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RouletteBoard.ClearBets()" + ex.ToString());
             }
         }
 

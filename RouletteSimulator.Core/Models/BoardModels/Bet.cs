@@ -36,6 +36,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public Bet()
         {
             _betAmount = 0;
+            SelectedChip = ChipType.Undefined;
 
             // Commands.
             HighLightBetCommand = new DelegateCommand<object>(HighLightBet);
@@ -177,7 +178,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             try
             {
-                if (parameter != null)
+                if (parameter != null && SelectedChip != ChipType.Undefined)
                 {
                     switch (SelectedChip)
                     {

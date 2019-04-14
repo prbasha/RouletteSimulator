@@ -11,6 +11,7 @@ namespace RouletteSimulator.Core.Enumerations
     /// </summary>
     public enum ChipType
     {
+        Undefined = -1,
         One,
         Five,
         TwentyFive,

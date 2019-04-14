@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace RouletteSimulator.Core.Models.ChipModels
 {
     /// <summary>
-    /// The COnstants class contains any constants.
+    /// The Constants class contains any constants.
     /// </summary>
     public static class Constants
     {

@@ -21,7 +21,7 @@ namespace Board.ViewModels
     {
         #region Fields
 
-        private EventAggregator _eventAggregator;
+        private IEventAggregator _eventAggregator;
 
         #endregion
 
@@ -31,13 +31,18 @@ namespace Board.ViewModels
         ///  Constructor.
         /// </summary>
         /// <param name="eventAggregator"></param>
-        public BoardViewModel(EventAggregator eventAggregator)
+        public BoardViewModel(IEventAggregator eventAggregator)
         {
             RouletteBoard = new RouletteBoard();    // Models.
-            
-            // Events.
+
+            // Listen to events.
+            RouletteBoard.OnBetPlaced += new BetPlaced(BetPlacedEventHandler);
+
+            // Event aggregator.
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<SelectedChipEvent>().Subscribe(SelectedChipEventHandler);
+            _eventAggregator.GetEvent<SelectedChipEvent>().Subscribe(SelectedChipEventHandler, ThreadOption.UIThread, true);
+            _eventAggregator.GetEvent<WinningNumberEvent>().Subscribe(WinningNumberEventHandler, true);
+            _eventAggregator.GetEvent<BetClearedEvent>().Subscribe(BetClearedEventHandler, true);
         }
 
         #endregion
@@ -57,12 +62,40 @@ namespace Board.ViewModels
         #region Methods
 
         /// <summary>
+        /// The BetPlacedEventHandler handles an incoming OnBetPlaced event.
+        /// </summary>
+        /// <param name="betAmount"></param>
+        private void BetPlacedEventHandler(int betAmount)
+        {
+            // Publish the bet.
+            _eventAggregator.GetEvent<BetPlacedEvent>().Publish(betAmount);
+        }
+
+        /// <summary>
         /// The SelectedChipEventHandler handles an incoming SelectedChipEvent event.
         /// </summary>
         /// <param name="selectedChip"></param>
         private void SelectedChipEventHandler(ChipType selectedChip)
         {
             Bet.SelectedChip = selectedChip;    // Update chip selection.
+        }
+
+        /// <summary>
+        /// The WinningNumberEventHandler handles an incoming WinningNumberEvent event.
+        /// </summary>
+        /// <param name="winningNumber"></param>
+        private void WinningNumberEventHandler(int winningNumber)
+        {
+            // Publish the winnings.
+            _eventAggregator.GetEvent<PayWinningsEvent>().Publish(RouletteBoard.CalculateWinnings(winningNumber));
+        }
+
+        /// <summary>
+        /// The BetClearedEventHandler handles an incoming BetClearedEvent event.
+        /// </summary>
+        private void BetClearedEventHandler()
+        {
+            RouletteBoard.ClearBets();
         }
 
         #endregion

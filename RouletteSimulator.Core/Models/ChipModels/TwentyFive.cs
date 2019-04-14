@@ -37,7 +37,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
         /// <summary>
         /// Gets the chip color.
         /// </summary>
-        public override Brush Color { get { return Brushes.LightYellow; } }
+        public override Brush Color { get { return Brushes.Coral; } }
 
         #endregion
 

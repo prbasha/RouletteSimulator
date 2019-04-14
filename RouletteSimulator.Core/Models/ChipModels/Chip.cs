@@ -180,10 +180,57 @@ namespace RouletteSimulator.Core.Models.ChipModels
                 return Constants.WidthHeightPercent;
             }
         }
-        
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The GetChipValue method is called to return the dollar value for a provided chip type.
+        /// </summary>
+        /// <param name="chipType"></param>
+        /// <returns></returns>
+        public static int GetChipValue(ChipType chipType)
+        {
+            int value = 0;
+
+            switch (chipType)
+            {
+                case ChipType.One:
+                    value = Constants.OneDollar;
+                    break;
+                case ChipType.Five:
+                    value = Constants.FiveDollar;
+                    break;
+                case ChipType.TwentyFive:
+                    value = Constants.TwentyFiveDollar;
+                    break;
+                case ChipType.OneHundred:
+                    value = Constants.OneHundredDollar;
+                    break;
+                case ChipType.FiveHundred:
+                    value = Constants.FiveHundredDollar;
+                    break;
+                case ChipType.OneThousand:
+                    value = Constants.OneThousandDollar;
+                    break;
+                case ChipType.FiveThousand:
+                    value = Constants.FiveThousandDollar;
+                    break;
+                case ChipType.TwentyFiveThousand:
+                    value = Constants.TwentyFiveThousandDollar;
+                    break;
+                case ChipType.OneHundredThousand:
+                    value = Constants.OneHundredThousandDollar;
+                    break;
+                case ChipType.FiveHundredThousand:
+                    value = Constants.FiveHundredThousandDollar;
+                    break;
+            }
+
+            return value;
+        }
+
         #endregion
     }
 }

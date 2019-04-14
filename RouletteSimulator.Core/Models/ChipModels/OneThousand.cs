@@ -27,7 +27,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
         /// <summary>
         /// Gets the chip type.
         /// </summary>
-        public override ChipType ChipType { get { return ChipType.OneHundred; } }
+        public override ChipType ChipType { get { return ChipType.OneThousand; } }
 
         /// <summary>
         /// Gets the chip value (in dollars).
@@ -37,7 +37,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
         /// <summary>
         /// Gets the chip color.
         /// </summary>
-        public override Brush Color { get { return Brushes.Beige; } }
+        public override Brush Color { get { return Brushes.PaleVioletRed; } }
 
         #endregion
 
