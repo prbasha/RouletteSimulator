@@ -92,8 +92,8 @@
             <Setter Property="RenderTransform">
                 <Setter.Value>
                     <TransformGroup>
-                        <TranslateTransform X="{Binding XPositionPixels}" Y="{Binding YPositionPixels}"></TranslateTransform>
-                        <TranslateTransform X="{Binding OffsetXPixels}" Y="{Binding OffsetYPixels}"></TranslateTransform>
+                        <!--<TranslateTransform X="{Binding XPositionPixels}" Y="{Binding YPositionPixels}"></TranslateTransform>-->
+                        <!--<TranslateTransform X="{Binding OffsetXPixels}" Y="{Binding OffsetYPixels}"></TranslateTransform>-->
                     </TransformGroup>
                 </Setter.Value>
             </Setter>
@@ -111,8 +111,8 @@
             <Setter Property="RenderTransform">
                 <Setter.Value>
                     <TransformGroup>
-                        <TranslateTransform X="{Binding XPositionPixels}" Y="{Binding YPositionPixels}"></TranslateTransform>
-                        <TranslateTransform X="{Binding OffsetXPixels}" Y="{Binding OffsetYPixels}"></TranslateTransform>
+                        <!--<TranslateTransform X="{Binding XPositionPixels}" Y="{Binding YPositionPixels}"></TranslateTransform>-->
+                        <!--<TranslateTransform X="{Binding OffsetXPixels}" Y="{Binding OffsetYPixels}"></TranslateTransform>-->
                     </TransformGroup>
                 </Setter.Value>
             </Setter>
@@ -126,8 +126,8 @@
             <Setter Property="RenderTransform">
                 <Setter.Value>
                     <TransformGroup>
-                        <TranslateTransform X="{Binding XPositionPixels}" Y="{Binding YPositionPixels}"></TranslateTransform>
-                        <TranslateTransform X="{Binding OffsetXPixels}" Y="{Binding OffsetYPixels}"></TranslateTransform>
+                        <!--<TranslateTransform X="{Binding XPositionPixels}" Y="{Binding YPositionPixels}"></TranslateTransform>-->
+                        <!--<TranslateTransform X="{Binding OffsetXPixels}" Y="{Binding OffsetYPixels}"></TranslateTransform>-->
                     </TransformGroup>
                 </Setter.Value>
             </Setter>
@@ -375,39 +375,68 @@
                     </Viewbox>
                 </Border>
                 <!--Zero bet-->
-                <Border Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3" x:Name="ZeroBetBorder">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.HighLightBetCommand}"></i:InvokeCommandAction>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseLeave">
-                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=ZeroBetBorder}"></i:InvokeCommandAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="LimeGreen"></Setter>
-                            <Setter Property="Margin" Value="0,0,0,0"></Setter>
-                            <Setter Property="Padding" Value="0,0,0,0"></Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="False">
-                                    <Setter Property="BorderBrush" Value="White"></Setter>
-                                    <Setter Property="BorderThickness" Value="4"></Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="True">
-                                    <Setter Property="BorderBrush" Value="Orange"></Setter>
-                                    <Setter Property="BorderThickness" Value="4"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <Viewbox StretchDirection="Both" Stretch="Uniform">
-                        <Label Content="{Binding RouletteBoard.ZeroBet.Label}" Style="{StaticResource LabelStyle}"></Label>
-                    </Viewbox>
-                </Border>
+                <Grid Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Grid.ColumnSpan="3" x:Name="ZeroBetOuterBorder">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="LimeGreen"></Setter>
+                                <Setter Property="Margin" Value="0,0,0,0"></Setter>
+                                <Setter Property="Padding" Value="0,0,0,0"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="False">
+                                        <Setter Property="BorderBrush" Value="White"></Setter>
+                                        <Setter Property="BorderThickness" Value="4"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="True">
+                                        <Setter Property="BorderBrush" Value="Orange"></Setter>
+                                        <Setter Property="BorderThickness" Value="4"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseEnter">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.HighLightBetCommand}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=ZeroBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Viewbox StretchDirection="Both" Stretch="Uniform">
+                            <Label Content="{Binding RouletteBoard.ZeroBet.Label}" Style="{StaticResource LabelStyle}"></Label>
+                        </Viewbox>
+                    </Border>
+                    <Grid Grid.Column="1">
+                        <Border x:Name="ZeroBetInnerBorder">
+                            <ItemsControl ItemsSource="{Binding RouletteBoard.ZeroBet.Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                            <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                            </Viewbox>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
+                    </Grid>
+                </Grid>
                 <!--Straight bets-->
                 <ItemsControl Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="12" ItemsSource="{Binding RouletteBoard.StraightBets, Mode=OneWay}" Background="Transparent">
                     <ItemsControl.ItemsPanel>
@@ -417,22 +446,42 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Style="{StaticResource InsideStraightBetBorderStyle}" x:Name="StraightBetBorder">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseEnter">
-                                        <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
-                                    </i:EventTrigger>
-                                    <i:EventTrigger EventName="MouseLeave">
-                                        <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
-                                    </i:EventTrigger>
-                                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=StraightBetBorder}"></i:InvokeCommandAction>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <Viewbox Stretch="Uniform">
-                                    <Label Content="{Binding Label}" Style="{StaticResource LabelStyle}"></Label>
-                                </Viewbox>
-                            </Border>
+                            <Grid>
+                                <Border Style="{StaticResource InsideStraightBetBorderStyle}" x:Name="StraightBetBorder">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding HighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeave">
+                                            <i:InvokeCommandAction Command="{Binding ClearHighLightBetCommand}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=StraightBetBorder}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Viewbox Stretch="Uniform">
+                                        <Label Content="{Binding Label}" Style="{StaticResource LabelStyle}"></Label>
+                                    </Viewbox>
+                                </Border>
+                                <ItemsControl ItemsSource="{Binding Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                                <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                                <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                    <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                                </Viewbox>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -475,6 +524,24 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
+                                    <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                                    <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                                    <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                        <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                                    </Viewbox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -519,6 +586,24 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
+                                    <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                                    <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                                    <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                        <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                                    </Viewbox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -563,6 +648,24 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
+                                    <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                                    <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                                    <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                        <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                                    </Viewbox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -612,6 +715,24 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
+                                    <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                                    <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                                    <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                        <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                                    </Viewbox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -661,6 +782,24 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
+                                    <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                                    <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                                    <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                        <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                                    </Viewbox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -709,6 +848,24 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Border>
+                            <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding RouletteBoard.TrioBet1.Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                            <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                            </Viewbox>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Grid>
                         <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
@@ -735,8 +892,26 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Border>
+                            <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding RouletteBoard.TrioBet2.Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                            <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                            </Viewbox>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Grid>
-                        <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="True">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -761,11 +936,29 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Border>
+                            <ItemsControl Grid.ColumnSpan="3" Grid.RowSpan="3" ItemsSource="{Binding RouletteBoard.FirstFourBet.Chips, Mode=OneWay}" Background="Transparent" IsHitTestVisible="False">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid Height="Auto" Width="Auto" Background="Transparent"></Grid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
+                                            <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
+                                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                                                <Label Style="{StaticResource ChipLabelStyle}"></Label>
+                                            </Viewbox>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-            <Viewbox Stretch="Uniform" StretchDirection="Both">
+            <!--<Viewbox Stretch="Uniform" StretchDirection="Both">
                 <Canvas Width="{Binding RouletteBoard.BoardWidthPixels}" Height="{Binding RouletteBoard.BoardHeightPixels}" Background="Transparent" IsHitTestVisible="False">
                     <ItemsControl ItemsSource="{Binding RouletteBoard.Chips, Mode=OneWay}">
                         <ItemsControl.ItemsPanel>
@@ -786,7 +979,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Canvas>
-            </Viewbox>
+            </Viewbox>-->
         </Grid>
     </Border>
 </UserControl>

@@ -1068,7 +1068,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
                 if (chip != null)
                 {
-                    Chips.Add(chip);                    // Add the chip to the board.
+                    //Chips.Add(chip);                    // Add the chip to the board.
                     OnBetPlaced?.Invoke(chip.Value);    // Notify that the bet has been placed.
                 }
             }
@@ -1229,6 +1229,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         /// <summary>
         /// The BoardSizeChanged method is called to update with width/height of the board.
+        /// TBD: move this down to the bets.
         /// </summary>
         /// <param name="parameter"></param>
         public void BoardSizeChanged(object parameter)

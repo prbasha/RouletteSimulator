@@ -37,6 +37,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             _betAmount = 0;
             SelectedChip = ChipType.Undefined;
+            Chips = new ObservableCollection<Chip>();
 
             // Commands.
             HighLightBetCommand = new DelegateCommand<object>(HighLightBet);
@@ -121,6 +122,11 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             get;
         }
+
+        /// <summary>
+        /// Gets the collection of chips.
+        /// </summary>
+        public ObservableCollection<Chip> Chips { get; }
 
         /// <summary>
         /// Gets or sets the HighLightBetCommand.
@@ -216,6 +222,64 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
                     Border = (Border)parameter; // Retrieve the Border control for this Bet object.
                     OnPlaceBet?.Invoke(this);   // Place the bet on the board.
+
+
+                    // TESTING.
+
+                    // Determine the xy coordinates of the bet, relative to the roulette board.
+                    //Point betLocation = new Point(0, 0);
+                    Point betLocation = Border.TranslatePoint(new Point(0, 0), (UIElement)Border.Parent);
+
+                    // Determine the center point of the bet - this is the xy position of the chip.
+                    betLocation.X = betLocation.X;
+                    betLocation.Y = betLocation.Y;
+                    //betLocation.X = betLocation.X + Border.ActualWidth / 2;
+                    //betLocation.Y = betLocation.Y + Border.ActualHeight / 2;
+
+                    // Determine the width/height of the chip - relative to the width of the board.
+                    double chipWidth = Chip.WidthHeightPercent * ((Grid)Border.Parent).ActualWidth;
+                    double chipHeight = chipWidth;
+
+                    // Create a chip at this bet's location.
+                    Chip chip = null;
+                    switch (Bet.SelectedChip)
+                    {
+                        case ChipType.One:
+                            chip = new One() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.Five:
+                            chip = new Five() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.TwentyFive:
+                            chip = new TwentyFive() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.OneHundred:
+                            chip = new OneHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.FiveHundred:
+                            chip = new FiveHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.OneThousand:
+                            chip = new OneThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.FiveThousand:
+                            chip = new FiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.TwentyFiveThousand:
+                            chip = new TwentyFiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.OneHundredThousand:
+                            chip = new OneHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                        case ChipType.FiveHundredThousand:
+                            chip = new FiveHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            break;
+                    }
+
+                    if (chip != null)
+                    {
+                        Chips.Add(chip);                    // Add the chip to the bet.
+                    }
                 }
             }
             catch (Exception ex)
