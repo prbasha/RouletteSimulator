@@ -17,6 +17,17 @@ namespace RouletteSimulator.Core.Models.ChipModels
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Constructor.
+        /// Creates a new Chip.
+        /// An optional position parameter is used to determine a y-axis offset, when stacking chips.
+        /// </summary>
+        /// <param name="position"></param>
+        public FiveHundredThousand(int position = 0) : base(position)
+        {
+        }
+
         #endregion
 
         #region Events

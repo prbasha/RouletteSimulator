@@ -36,7 +36,7 @@ namespace Board.ViewModels
             RouletteBoard = new RouletteBoard();    // Models.
 
             // Listen to events.
-            RouletteBoard.OnBetPlaced += new BetPlaced(BetPlacedEventHandler);
+            Bet.OnBetPlaced += new BetPlaced(BetPlacedEventHandler);
 
             // Event aggregator.
             _eventAggregator = eventAggregator;

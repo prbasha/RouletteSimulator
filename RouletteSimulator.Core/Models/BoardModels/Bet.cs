@@ -59,7 +59,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         #region Events
 
-        public static event PlaceBet OnPlaceBet;
+        public static event BetPlaced OnBetPlaced;
 
         #endregion
 
@@ -186,99 +186,49 @@ namespace RouletteSimulator.Core.Models.BoardModels
             {
                 if (parameter != null && SelectedChip != ChipType.Undefined)
                 {
-                    switch (SelectedChip)
-                    {
-                        case ChipType.One:
-                            BetAmount = BetAmount + ChipModels.Constants.OneDollar;
-                            break;
-                        case ChipType.Five:
-                            BetAmount = BetAmount + ChipModels.Constants.FiveDollar;
-                            break;
-                        case ChipType.TwentyFive:
-                            BetAmount = BetAmount + ChipModels.Constants.TwentyFiveDollar;
-                            break;
-                        case ChipType.OneHundred:
-                            BetAmount = BetAmount + ChipModels.Constants.OneHundredDollar;
-                            break;
-                        case ChipType.FiveHundred:
-                            BetAmount = BetAmount + ChipModels.Constants.FiveHundredDollar;
-                            break;
-                        case ChipType.OneThousand:
-                            BetAmount = BetAmount + ChipModels.Constants.OneHundredThousandDollar;
-                            break;
-                        case ChipType.FiveThousand:
-                            BetAmount = BetAmount + ChipModels.Constants.FiveThousandDollar;
-                            break;
-                        case ChipType.TwentyFiveThousand:
-                            BetAmount = BetAmount + ChipModels.Constants.TwentyFiveThousandDollar;
-                            break;
-                        case ChipType.OneHundredThousand:
-                            BetAmount = BetAmount + ChipModels.Constants.OneHundredThousandDollar;
-                            break;
-                        case ChipType.FiveHundredThousand:
-                            BetAmount = BetAmount + ChipModels.Constants.FiveHundredThousandDollar;
-                            break;
-                    }
-
-                    Border = (Border)parameter; // Retrieve the Border control for this Bet object.
-                    OnPlaceBet?.Invoke(this);   // Place the bet on the board.
-
-
-                    // TESTING.
-
-                    // Determine the xy coordinates of the bet, relative to the roulette board.
-                    //Point betLocation = new Point(0, 0);
-                    Point betLocation = Border.TranslatePoint(new Point(0, 0), (UIElement)Border.Parent);
-
-                    // Determine the center point of the bet - this is the xy position of the chip.
-                    betLocation.X = betLocation.X;
-                    betLocation.Y = betLocation.Y;
-                    //betLocation.X = betLocation.X + Border.ActualWidth / 2;
-                    //betLocation.Y = betLocation.Y + Border.ActualHeight / 2;
-
-                    // Determine the width/height of the chip - relative to the width of the board.
-                    double chipWidth = Chip.WidthHeightPercent * ((Grid)Border.Parent).ActualWidth;
-                    double chipHeight = chipWidth;
-
-                    // Create a chip at this bet's location.
+                    BetAmount = BetAmount + Chip.GetChipValue(SelectedChip);
+                    
+                    // Create a chip at the bet location.
                     Chip chip = null;
                     switch (Bet.SelectedChip)
                     {
                         case ChipType.One:
-                            chip = new One() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new One(Chips.Count());
                             break;
                         case ChipType.Five:
-                            chip = new Five() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new Five(Chips.Count());
                             break;
                         case ChipType.TwentyFive:
-                            chip = new TwentyFive() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new TwentyFive(Chips.Count());
                             break;
                         case ChipType.OneHundred:
-                            chip = new OneHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new OneHundred(Chips.Count());
                             break;
                         case ChipType.FiveHundred:
-                            chip = new FiveHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new FiveHundred(Chips.Count());
                             break;
                         case ChipType.OneThousand:
-                            chip = new OneThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new OneThousand(Chips.Count());
                             break;
                         case ChipType.FiveThousand:
-                            chip = new FiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new FiveThousand(Chips.Count());
                             break;
                         case ChipType.TwentyFiveThousand:
-                            chip = new TwentyFiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new TwentyFiveThousand(Chips.Count());
                             break;
                         case ChipType.OneHundredThousand:
-                            chip = new OneHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new OneHundredThousand(Chips.Count());
                             break;
                         case ChipType.FiveHundredThousand:
-                            chip = new FiveHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
+                            chip = new FiveHundredThousand(Chips.Count());
                             break;
                     }
 
                     if (chip != null)
                     {
+                        OnBetPlaced?.Invoke(chip.Value);    // Notify that the bet has been placed.
                         Chips.Add(chip);                    // Add the chip to the bet.
+                        CombineChips();                     // Combine the chips.
                     }
                 }
             }
@@ -294,6 +244,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public void ClearBet()
         {
             BetAmount = 0;
+            Chips.Clear();
         }
 
         /// <summary>
@@ -309,6 +260,115 @@ namespace RouletteSimulator.Core.Models.BoardModels
             else
             {
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// The CombineChips method is called to clean up the stack of chips.
+        /// Collection of smaller value chips are combined into larger value chips.
+        /// </summary>
+        public void CombineChips()
+        {
+            Chips.Clear();  // Clear the current stack of chips.
+
+            int quotient = BetAmount / Chip.GetChipValue(ChipType.FiveHundredThousand);
+            int remainder = BetAmount % Chip.GetChipValue(ChipType.FiveHundredThousand);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new FiveHundredThousand(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.OneHundredThousand);
+            remainder = remainder % Chip.GetChipValue(ChipType.OneHundredThousand);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new OneHundredThousand(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.TwentyFiveThousand);
+            remainder = remainder % Chip.GetChipValue(ChipType.TwentyFiveThousand);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new TwentyFiveThousand(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.FiveThousand);
+            remainder = remainder % Chip.GetChipValue(ChipType.FiveThousand);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new FiveThousand(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.OneThousand);
+            remainder = remainder % Chip.GetChipValue(ChipType.OneThousand);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new OneThousand(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.FiveHundred);
+            remainder = remainder % Chip.GetChipValue(ChipType.FiveHundred);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new FiveHundred(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.OneHundred);
+            remainder = remainder % Chip.GetChipValue(ChipType.OneHundred);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new OneHundred(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.TwentyFive);
+            remainder = remainder % Chip.GetChipValue(ChipType.TwentyFive);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new TwentyFive(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.Five);
+            remainder = remainder % Chip.GetChipValue(ChipType.Five);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new Five(Chips.Count));
+                }
+            }
+
+            quotient = remainder / Chip.GetChipValue(ChipType.One);
+            remainder = remainder % Chip.GetChipValue(ChipType.One);
+            if (quotient > 0)
+            {
+                for (int i = 0; i < quotient; i++)
+                {
+                    Chips.Add(new One(Chips.Count));
+                }
             }
         }
 

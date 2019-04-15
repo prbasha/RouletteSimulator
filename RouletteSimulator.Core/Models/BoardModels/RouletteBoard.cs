@@ -215,10 +215,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 OddBet = new EvenOddBet(BetType.Odd);
                 RedBet = new RedBlackBet(BetType.Red);
                 BlackBet = new RedBlackBet(BetType.Black);
-
-                // Initialise the chips.
-                Chips = new ObservableCollection<Chip>();
-
+                
                 // Listen to events.
                 SplitBet.OnHighLightSplitBet += new HighLightSplitBet(HighLightSplitBetEventHandler);
                 SplitBet.OnClearHighLightSplitBet += new ClearHighLightSplitBet(ClearHighLightSplitBetEventHandler);
@@ -238,9 +235,8 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 ColumnBet.OnClearHighLightColumnBet += new ClearHighLightColumnBet(ClearHighLightColumnBetEventHandler);
                 LowHighBet.OnHighLightLowHighBet += new HighLightLowHighBet(HighLightLowHighBetEventHandler);
                 LowHighBet.OnClearHighLightLowHighBet += new ClearHighLightLowHighBet(ClearHighLightLowHighBetEventHandler);
-                Bet.OnPlaceBet += new PlaceBet(PlaceBetEventHandler);
 
-                // Commands.
+                // Commands. TBD: remove this.
                 BoardSizeChangedCommand = new DelegateCommand<object>(BoardSizeChanged);
             }
             catch (Exception ex)
@@ -252,9 +248,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
-
-        public static event BetPlaced OnBetPlaced;
-
         #endregion
 
         #region Properties
@@ -398,12 +391,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// Gets the first-four bet.
         /// </summary>
         public CornerBet FirstFourBet { get; }
-
-        /// <summary>
-        /// Gets the collection of chips.
-        /// </summary>
-        public ObservableCollection<Chip> Chips { get; }
-
+        
         /// <summary>
         /// Gets or sets the BoardSizeChangedCommand.
         /// </summary>
@@ -1010,74 +998,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 throw new Exception("RouletteBoard.ClearHighLightLowHighBetEventHandler(LowHighBet lowHighBet): " + ex.ToString());
             }
         }
-
-        /// <summary>
-        /// The PlaceBetEventHandler method is called to handle a PlaceBet event.
-        /// </summary>
-        /// <param name="bet"></param>
-        private void PlaceBetEventHandler(Bet bet)
-        {
-            try
-            {
-                // Determine the xy coordinates of the bet, relative to the roulette board.
-                Point betLocation = bet.Border.TranslatePoint(new Point(0, 0), (UIElement)_mainBorder.Parent);
-
-                // Determine the center point of the bet - this is the xy position of the chip.
-                betLocation.X = betLocation.X + bet.Border.ActualWidth / 2;
-                betLocation.Y = betLocation.Y + bet.Border.ActualHeight / 2;
-
-                // Determine the width/height of the chip - relative to the width of the board.
-                double chipWidth = Chip.WidthHeightPercent * BoardWidthPixels;
-                double chipHeight = chipWidth;
-
-                // Create a chip at this bet's location.
-                Chip chip = null;
-                switch (Bet.SelectedChip)
-                {
-                    case ChipType.One:
-                        chip = new One() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.Five:
-                        chip = new Five() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.TwentyFive:
-                        chip = new TwentyFive() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.OneHundred:
-                        chip = new OneHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.FiveHundred:
-                        chip = new FiveHundred() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.OneThousand:
-                        chip = new OneThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.FiveThousand:
-                        chip = new FiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.TwentyFiveThousand:
-                        chip = new TwentyFiveThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.OneHundredThousand:
-                        chip = new OneHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                    case ChipType.FiveHundredThousand:
-                        chip = new FiveHundredThousand() { XPositionPixels = betLocation.X, YPositionPixels = betLocation.Y, WidthPixels = chipWidth, HeightPixels = chipHeight };
-                        break;
-                }
-
-                if (chip != null)
-                {
-                    //Chips.Add(chip);                    // Add the chip to the board.
-                    OnBetPlaced?.Invoke(chip.Value);    // Notify that the bet has been placed.
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("RouletteBoard.PlaceBetEventHandler(Bet bet): " + ex.ToString());
-            }
-        }
-
+        
         /// <summary>
         /// The CalculateWinnings method is called to calculate the total winnings for the entire roulette board.
         /// </summary>
@@ -1217,9 +1138,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 TrioBet1.ClearBet();
                 TrioBet2.ClearBet();
                 FirstFourBet.ClearBet();
-
-                // Chips.
-                Chips.Clear();
             }
             catch (Exception ex)
             {
@@ -1229,7 +1147,8 @@ namespace RouletteSimulator.Core.Models.BoardModels
 
         /// <summary>
         /// The BoardSizeChanged method is called to update with width/height of the board.
-        /// TBD: move this down to the bets.
+        /// TBD: Re-use this for the wheel. It will be a Canvas in a ViewBox.
+        /// TBD: remove this.
         /// </summary>
         /// <param name="parameter"></param>
         public void BoardSizeChanged(object parameter)
@@ -1245,16 +1164,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 BoardWidthPixels = _mainBorder.ActualWidth;
                 BoardHeightPixels = _mainBorder.ActualHeight;
 
-                // Update the chip locations.
-                foreach (Chip chip in Chips)
-                {
-                    // Update xy position.
-                    chip.XPositionPixels = (chip.XPositionPixels / previousBoardWidthPixels) * BoardWidthPixels;
-                    chip.YPositionPixels = (chip.YPositionPixels / previousBoardHeightPixels) * BoardHeightPixels;
-                    // Update height/width.
-                    chip.WidthPixels = Chip.WidthHeightPercent * BoardWidthPixels;
-                    chip.HeightPixels = chip.WidthPixels;
-                }
+                // Determine the percentage of change.
+                double widthResize = (BoardWidthPixels - previousBoardWidthPixels) / previousBoardWidthPixels;
+                double heightResize = (BoardHeightPixels - previousBoardHeightPixels) / previousBoardHeightPixels;
             }
             catch (Exception ex)
             {

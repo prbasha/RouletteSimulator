@@ -16,21 +16,19 @@ namespace RouletteSimulator.Core.Models.ChipModels
     public abstract class Chip : BindableBase
     {
         #region Fields
-
-        private double _xPositionPixels;
-        private double _yPositionPixels;
-        private double _widthPixels;
-        private double _heightPixels;
-
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Default constructor.
+        /// Constructor.
+        /// Creates a new Chip.
+        /// An optional position parameter is used to determine a y-axis offset, when stacking chips.
         /// </summary>
-        public Chip()
+        /// <param name="position"></param>
+        public Chip(int position = 0)
         {
+            OffsetYPixels = HeightPixels * Constants.StackScale * position;
         }
 
         #endregion
@@ -85,37 +83,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
                 return label;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the x position in pixels.
-        /// </summary>
-        public double XPositionPixels
-        {
-            get
-            {
-                return _xPositionPixels;
-            }
-            set
-            {
-                SetProperty(ref _xPositionPixels, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the y position in pixels.
-        /// </summary>
-        public double YPositionPixels
-        {
-            get
-            {
-                return _yPositionPixels;
-            }
-            set
-            {
-                SetProperty(ref _yPositionPixels, value);
-            }
-        }
-
+        
         /// <summary>
         /// Gets or sets the width in pixels.
         /// </summary>
@@ -123,12 +91,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
         {
             get
             {
-                return _widthPixels;
-            }
-            set
-            {
-                SetProperty(ref _widthPixels, value);
-                RaisePropertyChanged("OffsetXPixels");
+                return Constants.WidthHeight;
             }
         }
 
@@ -139,48 +102,16 @@ namespace RouletteSimulator.Core.Models.ChipModels
         {
             get
             {
-                return _heightPixels;
-            }
-            set
-            {
-                SetProperty(ref _heightPixels, value);
-                RaisePropertyChanged("OffsetYPixels");
-            }
-        }
-
-        /// <summary>
-        /// Gets the x offset in pixels.
-        /// </summary>
-        public double OffsetXPixels
-        {
-            get
-            {
-                return -1 * WidthPixels / 2;
+                return Constants.WidthHeight;
             }
         }
 
         /// <summary>
         /// Gets the y offset in pixels.
+        /// This is used when stacking chips.
         /// </summary>
-        public double OffsetYPixels
-        {
-            get
-            {
-                return -1 * HeightPixels / 2;
-            }
-        }
-
-        /// <summary>
-        /// Gets the chip width/height as a percentage of the board width.
-        /// </summary>
-        public static double WidthHeightPercent
-        {
-            get
-            {
-                return Constants.WidthHeightPercent;
-            }
-        }
-
+        public double OffsetYPixels { get; private set; }
+        
         #endregion
 
         #region Methods
