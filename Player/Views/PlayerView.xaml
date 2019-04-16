@@ -15,6 +15,7 @@
         <xaml:EnumToBooleanConverter x:Key="enumToBooleanConverter"></xaml:EnumToBooleanConverter>
         <Style x:Key="ChipRadioButtonStyle" BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton">
             <Setter Property="GroupName" Value="SelectedChipType"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Background" Value="White"></Setter>
@@ -27,16 +28,16 @@
         <Style x:Key="ChipOuterStyle" TargetType="Ellipse">
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Width" Value="50"></Setter>
-            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="Width" Value="75"></Setter>
+            <Setter Property="Height" Value="75"></Setter>
             <Setter Property="Margin" Value="1,1,1,1"></Setter>
             <Setter Property="Fill" Value="{Binding Color}"></Setter>
         </Style>
         <Style x:Key="ChipInnerStyle" TargetType="Ellipse">
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Width" Value="50"></Setter>
-            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="Width" Value="75"></Setter>
+            <Setter Property="Height" Value="75"></Setter>
             <Setter Property="Margin" Value="2,2,2,2"></Setter>
             <Setter Property="Stroke" Value="White"></Setter>
             <Setter Property="StrokeThickness" Value="4"></Setter>
@@ -46,152 +47,170 @@
         <Style x:Key="ChipLabelStyle" TargetType="Label">
             <Setter Property="Foreground" Value="Black"></Setter>
             <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Margin" Value="5,5,5,5"></Setter>
             <Setter Property="Content" Value="{Binding Label, Mode=OneWay}"></Setter>
         </Style>
-        <Style x:Key="ViewBoxStyle" TargetType="Viewbox">
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <TransformGroup>
-                        <TranslateTransform X="{Binding XPositionPixels}" Y="{Binding YPositionPixels}"></TranslateTransform>
-                        <TranslateTransform X="{Binding OffsetXPixels}" Y="{Binding OffsetYPixels}"></TranslateTransform>
-                    </TransformGroup>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
-    <Viewbox StretchDirection="Both" Stretch="Uniform">
-        <Border Background="Black" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.5*"></RowDefinition>
-                    <RowDefinition Height="0.5*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+    <Border BorderBrush="Black" BorderThickness="0" Background="Black">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="0">
+                <Canvas>
+                    <!--TBD: player face-->
+                </Canvas>
+            </Viewbox>
+            <Viewbox Grid.Row="1" Stretch="Uniform" StretchDirection="Both" HorizontalAlignment="Left">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Content="TOTAL CASH:" ></Label>
+                    <Label Grid.Column="0" Grid.Row="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TOTAL CASH:" ></Label>
                     <Label Grid.Column="1" Grid.Row="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
                            Content="{Binding RoulettePlayer.TotalCash}" ContentStringFormat="{}{0:C0}">
                     </Label>
-                    <Label Grid.Column="0" Grid.Row="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Content="CURRENT BET:" ></Label>
+                    <Label Grid.Column="0" Grid.Row="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="CURRENT BET:" ></Label>
                     <Label Grid.Column="1" Grid.Row="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
                            Content="{Binding RoulettePlayer.CurrentBet}" ContentStringFormat="{}{0:C0}">
                     </Label>
-                    <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Background="Red" FontWeight="Bold" Margin="2,2,2,2" 
+                    <Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" FontWeight="Bold" Margin="10,3,3,3" 
                             Content="CLEAR ALL BETS"
                             Command="{Binding RoulettePlayer.ClearBetsCommand}">
                     </Button>
                 </Grid>
-                <UniformGrid Grid.Row="1" Columns="5">
+            </Viewbox>
+            <UniformGrid Grid.Row="2" Columns="5">
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.One}}">
                         <Grid DataContext="{Binding RoulettePlayer.OneChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.Five}}">
                         <Grid DataContext="{Binding RoulettePlayer.FiveChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.TwentyFive}}">
                         <Grid DataContext="{Binding RoulettePlayer.TwentyFiveChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.OneHundred}}">
                         <Grid DataContext="{Binding RoulettePlayer.OneHundredChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.FiveHundred}}">
                         <Grid DataContext="{Binding RoulettePlayer.FiveHundredChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.OneThousand}}">
                         <Grid DataContext="{Binding RoulettePlayer.OneThousandChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.FiveThousand}}">
                         <Grid DataContext="{Binding RoulettePlayer.FiveThousandChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.TwentyFiveThousand}}">
                         <Grid DataContext="{Binding RoulettePlayer.TwentyFiveThousandChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.OneHundredThousand}}">
                         <Grid DataContext="{Binding RoulettePlayer.OneHundredThousandChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
+                </Viewbox>
+                <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.FiveHundredThousand}}">
                         <Grid DataContext="{Binding RoulettePlayer.FiveHundredThousandChip}">
                             <Ellipse Style="{StaticResource ChipOuterStyle}"></Ellipse>
                             <Ellipse Style="{StaticResource ChipInnerStyle}"></Ellipse>
-                            <Viewbox Style="{StaticResource ViewBoxStyle}">
+                            <Viewbox>
                                 <Label Style="{StaticResource ChipLabelStyle}"></Label>
                             </Viewbox>
                         </Grid>
                     </RadioButton>
-                </UniformGrid>
-            </Grid>
-        </Border>
-    </Viewbox>
+                </Viewbox>
+            </UniformGrid>
+        </Grid>
+    </Border>
 </UserControl>

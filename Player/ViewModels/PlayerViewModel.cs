@@ -70,16 +70,6 @@ namespace Player.ViewModels
         }
 
         /// <summary>
-        /// The ChipSelectedEventHandler method is called to handle an BetPlacedEvent event.
-        /// </summary>
-        /// <param name="betAmount"></param>
-        private void BetPlacedEventHandler(int betAmount)
-        {
-            // Deduct the bet from the player.
-            RoulettePlayer.DeductBet(betAmount);
-        }
-
-        /// <summary>
         /// The ClearBetsEventHandler method is called to handle an OnClearBets event.
         /// </summary>
         private void ClearBetsEventHandler()
@@ -88,6 +78,16 @@ namespace Player.ViewModels
             _eventAggregator.GetEvent<BetClearedEvent>().Publish();
         }
 
+        /// <summary>
+        /// The ChipSelectedEventHandler method is called to handle an BetPlacedEvent event.
+        /// </summary>
+        /// <param name="betAmount"></param>
+        private void BetPlacedEventHandler(int betAmount)
+        {
+            // Deduct the bet from the player.
+            RoulettePlayer.DeductBet(betAmount);
+        }
+        
         /// <summary>
         /// The PayWinningsEventHandler handles an incoming PayWinningsEvent event.
         /// </summary>

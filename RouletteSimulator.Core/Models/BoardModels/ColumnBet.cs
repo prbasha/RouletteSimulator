@@ -106,8 +106,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// The HighLightBet method is called to highlight the bet.
         /// </summary>
-        /// <param name="parameter"></param>
-        protected override void HighLightBet(object parameter)
+        protected override void HighLightBet()
         {
             OnHighLightColumnBet?.Invoke(this);
         }
@@ -115,8 +114,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// The ClearHighLightBet method is called to un-highlight the bet.
         /// </summary>
-        /// <param name="parameter"></param>
-        protected override void ClearHighLightBet(object parameter)
+        protected override void ClearHighLightBet()
         {
             OnClearHighLightColumnBet?.Invoke(this);
         }
@@ -135,13 +133,13 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 switch (_betType)
                 {
                     case BetType.FirstColumn:
-                        winnings = Constants.FirstColumnWinningNumbers.Contains(winningNumber) ? CalculateWinnings() : 0;
+                        winnings = Constants.FirstColumnWinningNumbers.Contains(winningNumber) ? CalculateWinnings() : CalculateLosses();
                         break;
                     case BetType.SecondColumn:
-                        winnings = Constants.SecondColumnWinningNumbers.Contains(winningNumber) ? CalculateWinnings() : 0;
+                        winnings = Constants.SecondColumnWinningNumbers.Contains(winningNumber) ? CalculateWinnings() : CalculateLosses();
                         break;
                     case BetType.ThirdColumn:
-                        winnings = Constants.ThirdColumnWinningNumbers.Contains(winningNumber) ? CalculateWinnings() : 0;
+                        winnings = Constants.ThirdColumnWinningNumbers.Contains(winningNumber) ? CalculateWinnings() : CalculateLosses();
                         break;
                 }
 

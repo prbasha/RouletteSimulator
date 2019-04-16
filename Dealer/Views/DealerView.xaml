@@ -8,10 +8,20 @@
              Height="Auto" Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
-    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TextBlock Text="DEALER"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center">
-        </TextBlock>
-    </Grid>
+    <Border Background="Black" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.75*"></RowDefinition>
+                <RowDefinition Height="0.25*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="0">
+                <Canvas>
+                    <!--TBD dealer's face-->
+                </Canvas>
+            </Viewbox>
+            <Viewbox Grid.Row="1">
+                <Button Background="Red" FontWeight="Bold" Margin="2,2,2,2" Content="SPIN WHEEL"></Button>
+            </Viewbox>
+        </Grid>
+    </Border>
 </UserControl>

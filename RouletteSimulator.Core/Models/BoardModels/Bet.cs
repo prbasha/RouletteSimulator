@@ -40,9 +40,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
             Chips = new ObservableCollection<Chip>();
 
             // Commands.
-            HighLightBetCommand = new DelegateCommand<object>(HighLightBet);
-            ClearHighLightBetCommand = new DelegateCommand<object>(ClearHighLightBet);
-            PlaceBetCommand = new DelegateCommand<object>(PlaceBet);
+            HighLightBetCommand = new DelegateCommand(HighLightBet);
+            ClearHighLightBetCommand = new DelegateCommand(ClearHighLightBet);
+            PlaceBetCommand = new DelegateCommand(PlaceBet);
         }
 
         /// <summary>
@@ -131,17 +131,17 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// Gets or sets the HighLightBetCommand.
         /// </summary>
-        public ICommand HighLightBetCommand { get; private set; }
+        public DelegateCommand HighLightBetCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the ClearHighLightBetCommand.
         /// </summary>
-        public ICommand ClearHighLightBetCommand { get; private set; }
+        public DelegateCommand ClearHighLightBetCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the PlaceBetCommand.
         /// </summary>
-        public ICommand PlaceBetCommand { get; private set; }
+        public DelegateCommand PlaceBetCommand { get; private set; }
 
         /// <summary>
         /// Gets the text label for the bet.
@@ -167,24 +167,21 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// The HighLightBet method is called to highlight the bet.
         /// </summary>
-        /// <param name="parameter"></param>
-        protected abstract void HighLightBet(object parameter);
+        protected abstract void HighLightBet();
 
         /// <summary>
         /// The ClearHighLightBet method is called to un-highlight the bet.
         /// </summary>
-        /// <param name="parameter"></param>
-        protected abstract void ClearHighLightBet(object parameter);
+        protected abstract void ClearHighLightBet();
 
         /// <summary>
         /// The PlaceBet method is called to place a bet for the current selected chip.
         /// </summary>
-        /// <param name="parameter"></param>
-        public void PlaceBet(object parameter)
+        public void PlaceBet()
         {
             try
             {
-                if (parameter != null && SelectedChip != ChipType.Undefined)
+                if (SelectedChip != ChipType.Undefined)
                 {
                     BetAmount = BetAmount + Chip.GetChipValue(SelectedChip);
                     
@@ -256,6 +253,22 @@ namespace RouletteSimulator.Core.Models.BoardModels
             if (BetAmount > 0)
             {
                 return (Exposure + Outcome) * BetAmount;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// The CalculateLosses method calculates the losses for this bet.
+        /// </summary>
+        /// <returns></returns>
+        protected int CalculateLosses()
+        {
+            if (BetAmount > 0)
+            {
+                return -1 * BetAmount;
             }
             else
             {

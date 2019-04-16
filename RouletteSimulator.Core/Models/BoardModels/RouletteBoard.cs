@@ -395,7 +395,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// Gets or sets the BoardSizeChangedCommand.
         /// </summary>
-        public ICommand BoardSizeChangedCommand { get; private set; }
+        public DelegateCommand<object> BoardSizeChangedCommand { get; private set; }
 
         #endregion
 

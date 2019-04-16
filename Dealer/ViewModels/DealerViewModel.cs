@@ -1,5 +1,8 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
+using RouletteSimulator.Core.EventsAggregator;
+using RouletteSimulator.Core.Models.PersonModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +17,9 @@ namespace Dealer.ViewModels
     public class DealerViewModel : BindableBase
     {
         #region Fields
+
+        private IEventAggregator _eventAggregator;
+
         #endregion
 
         #region Constructors
@@ -21,8 +27,20 @@ namespace Dealer.ViewModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public DealerViewModel()
+        /// <param name="eventAggregator"></param>
+        public DealerViewModel(IEventAggregator eventAggregator)
         {
+            RouletteDealer = new RouletteDealer();    // Models.
+
+            // Listen to events.
+            RouletteDealer.OnSpinWheel += new SpinWheel(SpinWheelEventHandler);
+            RouletteDealer.OnTossBall += new TossBall(TossBallEventHandler);
+            RouletteDealer.OnNoMoreBets += new NoMoreBets(NoMoreBetsEventHandler);
+
+            // Event aggregator.
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<WheelSpinningEvent>().Subscribe(WheelSpinningEventHandler, true);
+            _eventAggregator.GetEvent<BallTossedEvent>().Subscribe(BallTossedEventHandler, true);
         }
 
         #endregion
@@ -31,9 +49,61 @@ namespace Dealer.ViewModels
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the roulette dealer.
+        /// </summary>
+        RouletteDealer RouletteDealer { get; }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The SpinWheelEventHandler method is called to handle an OnSpinWheel event.
+        /// </summary>
+        private void SpinWheelEventHandler()
+        {
+            // Spin the wheel.
+            _eventAggregator.GetEvent<SpinWheelEvent>().Publish();
+        }
+
+        /// <summary>
+        /// The TossBallEventHandler method is called to handle an OnTossBall event.
+        /// </summary>
+        private void TossBallEventHandler()
+        {
+            // Toss the ball.
+            _eventAggregator.GetEvent<TossBallEvent>().Publish();
+        }
+
+        /// <summary>
+        /// The NoMoreBetsEventHandler method is called to handle an OnNoMoreBets event.
+        /// </summary>
+        private void NoMoreBetsEventHandler()
+        {
+            // Announce no more bets.
+            _eventAggregator.GetEvent<NoMoreBetsEvent>().Publish();
+        }
+
+        /// <summary>
+        /// The WheelSpinningEventHandler method is called to handle a WheelSpinningEvent event.
+        /// </summary>
+        /// <param name="wheelSpinning"></param>
+        private void WheelSpinningEventHandler(bool wheelSpinning)
+        {
+            RouletteDealer.IsWheelSpinning = wheelSpinning;
+        }
+
+        /// <summary>
+        /// The BallTossedEventHandler method is called to handle a BallTossedEvent event.
+        /// </summary>
+        /// <param name="wheelSpinning"></param>
+        private void BallTossedEventHandler(bool ballTossed)
+        {
+            RouletteDealer.IsBallTossed = ballTossed;
+        }
+
         #endregion
     }
 }

@@ -94,8 +94,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// The HighLightBet method is called to highlight the bet.
         /// </summary>
-        /// <param name="parameter"></param>
-        protected override void HighLightBet(object parameter)
+        protected override void HighLightBet()
         {
             OnHighLightSplitBet?.Invoke(this);
         }
@@ -103,8 +102,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// <summary>
         /// The ClearHighLightBet method is called to un-highlight the bet.
         /// </summary>
-        /// <param name="parameter"></param>
-        protected override void ClearHighLightBet(object parameter)
+        protected override void ClearHighLightBet()
         {
             OnClearHighLightSplitBet?.Invoke(this);
         }
@@ -118,7 +116,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             try
             {
-                return (winningNumber == _firstNumber || winningNumber == _secondNumber) ? CalculateWinnings() : 0;
+                return (winningNumber == _firstNumber || winningNumber == _secondNumber) ? CalculateWinnings() : CalculateLosses();
             }
             catch (Exception ex)
             {

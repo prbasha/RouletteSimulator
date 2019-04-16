@@ -11,6 +11,8 @@ namespace RouletteSimulator.Core.Models.PersonModels
     /// </summary>
     public static class Constants
     {
-        public const int InitialCash = 1000000;
+        public const int InitialCashDollars = 1000000;
+        public const int SpinTimeoutSeconds = 5;
+        public const int BallTimeoutSeconds = 5;
     }
 }

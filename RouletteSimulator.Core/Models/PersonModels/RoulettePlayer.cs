@@ -33,7 +33,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
         public RoulettePlayer()
         {
             // Cash.
-            _totalCash = Constants.InitialCash;
+            _totalCash = Constants.InitialCashDollars;
             _currentBet = 0;
 
             // Chips.
@@ -50,7 +50,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
             FiveHundredThousandChip = new FiveHundredThousand();
 
             // Commands.
-            ClearBetsCommand = new DelegateCommand<object>(ClearBets);
+            ClearBetsCommand = new DelegateCommand(ClearBets);
         }
 
         #endregion
@@ -189,7 +189,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <summary>
         /// Gets or sets the ClearBetsCommand.
         /// </summary>
-        public ICommand ClearBetsCommand { get; private set; }
+        public DelegateCommand ClearBetsCommand { get; private set; }
 
         #endregion
 
@@ -211,12 +211,14 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <summary>
         /// The ClearBets method is called to clear all bets, restoring the player's total cash.
         /// </summary>
-        /// <param name="parameter"></param>
-        public void ClearBets(object parameter)
+        public void ClearBets()
         {
-            TotalCash = TotalCash + CurrentBet;
-            CurrentBet = 0;
-            OnClearBets?.Invoke();
+            if (CurrentBet > 0)
+            {
+                TotalCash = TotalCash + CurrentBet;
+                CurrentBet = 0;
+                OnClearBets?.Invoke();
+            }
         }
 
         /// <summary>
@@ -226,8 +228,9 @@ namespace RouletteSimulator.Core.Models.PersonModels
         public void ReceiveWinnings(int winnings)
         {
             TotalCash = TotalCash + winnings;
-            // TBD: If winnings are zero, make player frown.
-            // TBD: If winnings are greater than zero, make player smile.
+            // TBD: If winnings are less than zero, make player sad.
+            // TBD: If winnings are zero, make player mutual.
+            // TBD: If winnings are greater than zero, make player happy.
         }
 
         #endregion

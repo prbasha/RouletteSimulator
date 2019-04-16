@@ -32,9 +32,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="PlayerRegion"></ContentControl>
+            <ContentControl Grid.Row="0" prism:RegionManager.RegionName="PlayerRegion"></ContentControl>
         </Grid>
     </Grid>
 </Window>
