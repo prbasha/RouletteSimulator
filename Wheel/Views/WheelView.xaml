@@ -4,14 +4,54 @@
              xmlns:local="clr-namespace:Wheel.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              Height="Auto" Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
-    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TextBlock Text="WHEEL"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center">
-        </TextBlock>
-    </Grid>
+    <Border x:Name="MainBorder" Background="Black">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding RouletteWheel.BorderSizeChangedCommand}" CommandParameter="{Binding ElementName=MainBorder}"></i:InvokeCommandAction>
+            </i:EventTrigger>
+            <i:EventTrigger EventName="SizeChanged">
+                <i:InvokeCommandAction Command="{Binding RouletteWheel.BorderSizeChangedCommand}" CommandParameter="{Binding ElementName=MainBorder}"></i:InvokeCommandAction>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Viewbox Stretch="Uniform" StretchDirection="Both">
+            <Canvas Width="{Binding RouletteWheel.BorderWidthPixels, Mode=TwoWay}" Height="{Binding RouletteWheel.BorderHeightPixels, Mode=TwoWay}" Background="Black">
+                <Ellipse HorizontalAlignment="Center" 
+                         VerticalAlignment="Center" 
+                         Width="{Binding RouletteWheel.WheelDiameterXPixels, Mode=OneWay}" 
+                         Height="{Binding RouletteWheel.WheelDiameterYPixels, Mode=OneWay}" 
+                         Fill="Brown">
+                    <Ellipse.RenderTransform>
+                        <TranslateTransform X="{Binding RouletteWheel.WheelOffsetXPixels, Mode=OneWay}" Y="{Binding RouletteWheel.WheelOffsetYPixels, Mode=OneWay}"></TranslateTransform>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <ItemsControl ItemsSource="{Binding RouletteWheel.Pockets, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas></Canvas>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="{Binding WidthPixels}" Height="{Binding WidthPixels}" Stroke="White">
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform X="{Binding XPositionPixels, Mode=OneWay}" Y="{Binding YPositionPixels, Mode=OneWay}"></TranslateTransform>
+                                        <RotateTransform CenterX="{Binding WheelCenterPointXPixels, Mode=OneWay}" 
+                                                         CenterY="{Binding WheelCenterPointYPixels, Mode=OneWay}" 
+                                                         Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
+                                        </RotateTransform>
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Canvas>
+        </Viewbox>
+    </Border>
 </UserControl>

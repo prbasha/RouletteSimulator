@@ -268,7 +268,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         }
 
         /// <summary>
-        /// Gets or sets
+        /// Gets or sets the board height in pixels.
         /// </summary>
         public double BoardHeightPixels
         {

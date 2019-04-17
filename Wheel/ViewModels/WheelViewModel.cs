@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using RouletteSimulator.Core.Models.WheelModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Wheel.ViewModels
         /// </summary>
         public WheelViewModel()
         {
+            RouletteWheel = new RouletteWheel();    // Models.
         }
 
         #endregion
@@ -31,6 +33,12 @@ namespace Wheel.ViewModels
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the roulette board.
+        /// </summary>
+        public RouletteWheel RouletteWheel { get; }
+
         #endregion
 
         #region Methods
