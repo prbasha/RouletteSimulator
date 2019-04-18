@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace RouletteSimulator.Core.Models.WheelModels
 {
@@ -29,6 +30,7 @@ namespace RouletteSimulator.Core.Models.WheelModels
         /// </summary>
         public Pocket()
         {
+            Points = new PointCollection();
         }
 
         #endregion
@@ -38,50 +40,50 @@ namespace RouletteSimulator.Core.Models.WheelModels
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the x-position in pixels.
-        /// </summary>
-        public double XPositionPixels
-        {
-            get
-            {
-                return _xPositionPixels;
-            }
-            set
-            {
-                SetProperty(ref _xPositionPixels, value);
-            }
-        }
+        ///// <summary>
+        ///// Gets or sets the x-position in pixels.
+        ///// </summary>
+        //public double XPositionPixels
+        //{
+        //    get
+        //    {
+        //        return _xPositionPixels;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref _xPositionPixels, value);
+        //    }
+        //}
 
-        /// <summary>
-        /// Gets or sets the y-position in pixels.
-        /// </summary>
-        public double YPositionPixels
-        {
-            get
-            {
-                return _yPositionPixels;
-            }
-            set
-            {
-                SetProperty(ref _yPositionPixels, value);
-            }
-        }
+        ///// <summary>
+        ///// Gets or sets the y-position in pixels.
+        ///// </summary>
+        //public double YPositionPixels
+        //{
+        //    get
+        //    {
+        //        return _yPositionPixels;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref _yPositionPixels, value);
+        //    }
+        //}
 
-        /// <summary>
-        /// Gets or sets the pocket width in pixels.
-        /// </summary>
-        public double WidthPixels
-        {
-            get
-            {
-                return _widthPixels;
-            }
-            set
-            {
-                SetProperty(ref _widthPixels, value);
-            }
-        }
+        ///// <summary>
+        ///// Gets or sets the pocket width in pixels.
+        ///// </summary>
+        //public double WidthPixels
+        //{
+        //    get
+        //    {
+        //        return _widthPixels;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref _widthPixels, value);
+        //    }
+        //}
 
         /// <summary>
         /// Gets or sets the wheel center point x-coordinate in pixels.
@@ -92,7 +94,7 @@ namespace RouletteSimulator.Core.Models.WheelModels
             {
                 return _wheelCenterPointXPixels;
             }
-            set
+            private set
             {
                 SetProperty(ref _wheelCenterPointXPixels, value);
             }
@@ -107,11 +109,16 @@ namespace RouletteSimulator.Core.Models.WheelModels
             {
                 return _wheelCenterPointYPixels;
             }
-            set
+            private set
             {
                 SetProperty(ref _wheelCenterPointYPixels, value);
             }
         }
+
+        /// <summary>
+        /// Gets the collection of polygon points.
+        /// </summary>
+        public PointCollection Points { get; private set; }
 
         /// <summary>
         /// Gets or sets the pocket angular position in pixels.
@@ -121,6 +128,22 @@ namespace RouletteSimulator.Core.Models.WheelModels
         #endregion
 
         #region Methods
+
+        public void UpdatePocketShape(double widthPixels, double xPositionPixels, double yPositionPixels, double wheelCenterPointXPixels, double wheelCenterPointYPixels)
+        {
+            // Update polygon.
+            Points = new PointCollection();
+            Points.Add(new System.Windows.Point(xPositionPixels, yPositionPixels));
+            Points.Add(new System.Windows.Point(xPositionPixels + widthPixels, yPositionPixels));
+            Points.Add(new System.Windows.Point(xPositionPixels + (0.75 * widthPixels), yPositionPixels + widthPixels));
+            Points.Add(new System.Windows.Point(xPositionPixels + (0.25 * widthPixels), yPositionPixels + widthPixels));
+            RaisePropertyChanged("Points");
+
+            // Update wheel center point.
+            WheelCenterPointXPixels = wheelCenterPointXPixels;
+            WheelCenterPointYPixels = wheelCenterPointYPixels;
+        }
+
         #endregion
     }
 }

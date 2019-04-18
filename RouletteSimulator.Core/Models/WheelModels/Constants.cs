@@ -14,5 +14,6 @@ namespace RouletteSimulator.Core.Models.WheelModels
         public const double WheelDiameterPercentage = 0.95;
         public const double NumberOfPockets = 37;
         public const double PocketStepDegrees = 9.7297;
+        public const double InnerWheelDiameterPercentage = 0.95;
     }
 }

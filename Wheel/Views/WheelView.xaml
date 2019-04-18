@@ -37,7 +37,18 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Rectangle Width="{Binding WidthPixels}" Height="{Binding WidthPixels}" Stroke="White">
+                            <Polygon Fill="LightBlue" Points="{Binding Points, Mode=OneWay}">
+                                <Polygon.RenderTransform>
+                                    <TransformGroup>
+                                        <!--<TranslateTransform X="{Binding XPositionPixels, Mode=OneWay}" Y="{Binding YPositionPixels, Mode=OneWay}"></TranslateTransform>-->
+                                        <RotateTransform CenterX="{Binding WheelCenterPointXPixels, Mode=OneWay}" 
+                                                         CenterY="{Binding WheelCenterPointYPixels, Mode=OneWay}" 
+                                                         Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
+                                        </RotateTransform>
+                                    </TransformGroup>
+                                </Polygon.RenderTransform>
+                            </Polygon>
+                            <!--<Rectangle Width="{Binding WidthPixels}" Height="{Binding WidthPixels}" Stroke="White">
                                 <Rectangle.RenderTransform>
                                     <TransformGroup>
                                         <TranslateTransform X="{Binding XPositionPixels, Mode=OneWay}" Y="{Binding YPositionPixels, Mode=OneWay}"></TranslateTransform>
@@ -47,7 +58,7 @@
                                         </RotateTransform>
                                     </TransformGroup>
                                 </Rectangle.RenderTransform>
-                            </Rectangle>
+                            </Rectangle>-->
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

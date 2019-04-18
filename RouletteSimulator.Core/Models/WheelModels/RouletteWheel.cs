@@ -40,7 +40,7 @@ namespace RouletteSimulator.Core.Models.WheelModels
             {
                 // Pockets.
                 Pockets = new ObservableCollection<Pocket>();
-                for (int i = 0 ; i < Constants.NumberOfPockets; i++)
+                for (int i = 0; i < Constants.NumberOfPockets; i++)
                 {
                     Pockets.Add(new Pocket() { AngularPositionDegrees = i * Constants.PocketStepDegrees });
                 }
@@ -221,19 +221,17 @@ namespace RouletteSimulator.Core.Models.WheelModels
                 // Wheel center point and circumference.
                 WheelCenterPointXPixels = BorderWidthPixels / 2;
                 WheelCenterPointYPixels = BorderHeightPixels / 2;
-                double wheelCircumference = Math.PI * WheelDiameterXPixels;
+                double innerWheelCircumference = Math.PI * WheelDiameterXPixels * Constants.InnerWheelDiameterPercentage;
                 
-                // Pocket width.
-                double pocketWidthPixels = wheelCircumference / Constants.NumberOfPockets;
+                // Pocket width and position.
+                double pocketWidthPixels = innerWheelCircumference / Constants.NumberOfPockets;
+                double pocketXPositionPixels = WheelCenterPointXPixels - (pocketWidthPixels / 2);
+                double pocketYPositionPixels = (WheelCenterPointYPixels - ((WheelDiameterYPixels * Constants.InnerWheelDiameterPercentage) / 2));
 
-                // Apply the updated wheel center point and pocket width to the pockets.
+                // Update the width and position for every pocket.
                 foreach (Pocket pocket in Pockets)
                 {
-                    pocket.WidthPixels = pocketWidthPixels;
-                    pocket.XPositionPixels = WheelCenterPointXPixels - (pocket.WidthPixels/2);
-                    pocket.YPositionPixels = WheelCenterPointYPixels - WheelDiameterYPixels/2;
-                    pocket.WheelCenterPointXPixels = WheelCenterPointXPixels;
-                    pocket.WheelCenterPointYPixels = WheelCenterPointYPixels;
+                    pocket.UpdatePocketShape(pocketWidthPixels, pocketXPositionPixels, pocketYPositionPixels, WheelCenterPointXPixels, WheelCenterPointYPixels);
                 }
             }
             catch (Exception ex)
