@@ -11,5 +11,5 @@ namespace RouletteSimulator.Core.Models.PersonModels
     public delegate void ClearBets();
     public delegate void SpinWheel();
     public delegate void TossBall();
-    public delegate void NoMoreBets();
+    public delegate void PlaceBets(bool placeBets);
 }

@@ -21,11 +21,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
     {
 
         #region Fields
-
-        private Border _mainBorder;
-        private double _boardWidthPixels;
-        private double _boardHeightPixels;
-
         #endregion
 
         #region Constructors
@@ -235,9 +230,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 ColumnBet.OnClearHighLightColumnBet += new ClearHighLightColumnBet(ClearHighLightColumnBetEventHandler);
                 LowHighBet.OnHighLightLowHighBet += new HighLightLowHighBet(HighLightLowHighBetEventHandler);
                 LowHighBet.OnClearHighLightLowHighBet += new ClearHighLightLowHighBet(ClearHighLightLowHighBetEventHandler);
-
-                // Commands. TBD: remove this.
-                BoardSizeChangedCommand = new DelegateCommand<object>(BoardSizeChanged);
             }
             catch (Exception ex)
             {
@@ -251,37 +243,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the board width in pixels.
-        /// </summary>
-        public double BoardWidthPixels
-        {
-            get
-            {
-                return _boardWidthPixels;
-            }
-            set
-            {
-                SetProperty(ref _boardWidthPixels, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the board height in pixels.
-        /// </summary>
-        public double BoardHeightPixels
-        {
-            get
-            {
-                return _boardHeightPixels;
-            }
-            set
-            {
-                SetProperty(ref _boardHeightPixels, value);
-            }
-        }
-
+        
         /// <summary>
         /// Gets the first column bet.
         /// </summary>
@@ -392,11 +354,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
         /// </summary>
         public CornerBet FirstFourBet { get; }
         
-        /// <summary>
-        /// Gets or sets the BoardSizeChangedCommand.
-        /// </summary>
-        public DelegateCommand<object> BoardSizeChangedCommand { get; private set; }
-
         #endregion
 
         #region Methods
@@ -1142,35 +1099,6 @@ namespace RouletteSimulator.Core.Models.BoardModels
             catch (Exception ex)
             {
                 throw new Exception("RouletteBoard.ClearBets()" + ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// The BoardSizeChanged method is called to update with width/height of the board.
-        /// TBD: Re-use this for the wheel. It will be a Canvas in a ViewBox.
-        /// TBD: remove this.
-        /// </summary>
-        /// <param name="parameter"></param>
-        public void BoardSizeChanged(object parameter)
-        {
-            try
-            {
-                // Capture the previous board width/height.
-                double previousBoardWidthPixels = BoardWidthPixels;
-                double previousBoardHeightPixels = BoardHeightPixels;
-
-                // Retrieve the new board width/height.
-                _mainBorder = (Border)parameter;
-                BoardWidthPixels = _mainBorder.ActualWidth;
-                BoardHeightPixels = _mainBorder.ActualHeight;
-
-                // Determine the percentage of change.
-                double widthResize = (BoardWidthPixels - previousBoardWidthPixels) / previousBoardWidthPixels;
-                double heightResize = (BoardHeightPixels - previousBoardHeightPixels) / previousBoardHeightPixels;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("RouletteBoard.BoardSizeChanged(object parameter): " + ex.ToString());
             }
         }
 

@@ -132,15 +132,6 @@
         </Style>
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="0" Background="Black" x:Name="MainBorder">
-        <!--TBD: remove this. Re-use for wheel.-->
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="Loaded">
-                <i:InvokeCommandAction Command="{Binding RouletteBoard.BoardSizeChangedCommand}" CommandParameter="{Binding ElementName=MainBorder}"></i:InvokeCommandAction>
-            </i:EventTrigger>
-            <i:EventTrigger EventName="SizeChanged">
-                <i:InvokeCommandAction Command="{Binding RouletteBoard.BoardSizeChangedCommand}" CommandParameter="{Binding ElementName=MainBorder}"></i:InvokeCommandAction>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
         <Grid>
             <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                 <Grid.ColumnDefinitions>

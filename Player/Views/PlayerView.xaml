@@ -40,8 +40,8 @@
             <Setter Property="Height" Value="75"></Setter>
             <Setter Property="Margin" Value="2,2,2,2"></Setter>
             <Setter Property="Stroke" Value="White"></Setter>
-            <Setter Property="StrokeThickness" Value="4"></Setter>
-            <Setter Property="StrokeDashArray" Value="2"></Setter>
+            <Setter Property="StrokeThickness" Value="8"></Setter>
+            <Setter Property="StrokeDashArray" Value="2.6"></Setter>
             <Setter Property="Fill" Value="{Binding Color}"></Setter>
         </Style>
         <Style x:Key="ChipLabelStyle" TargetType="Label">

@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="Enumerations\BetType.cs" />
     <Compile Include="Enumerations\ChipType.cs" />
-    <Compile Include="EventsAggregator\Events.cs" />
+    <Compile Include="EventAggregator\Events.cs" />
     <Compile Include="Models\BoardModels\Bet.cs" />
     <Compile Include="Models\BoardModels\Constants.cs" />
     <Compile Include="Models\BoardModels\ColumnBet.cs" />
@@ -91,9 +91,6 @@
     <Compile Include="Models\PersonModels\RouletteDealer.cs" />
     <Compile Include="Models\PersonModels\Delegates.cs" />
     <Compile Include="Models\PersonModels\RoulettePlayer.cs" />
-    <Compile Include="Models\WheelModels\Constants.cs" />
-    <Compile Include="Models\WheelModels\Pocket.cs" />
-    <Compile Include="Models\WheelModels\RouletteWheel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XAML\EnumToBooleanConverter.cs" />
   </ItemGroup>

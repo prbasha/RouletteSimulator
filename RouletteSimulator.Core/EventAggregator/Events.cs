@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RouletteSimulator.Core.EventsAggregator
+namespace RouletteSimulator.Core.EventAggregator
 {
     /// <summary>
     /// The SelectedChipEvent class represents a selected-chip event.
@@ -45,9 +45,9 @@ namespace RouletteSimulator.Core.EventsAggregator
     public class TossBallEvent : PubSubEvent { }
 
     /// <summary>
-    /// The NoMoreBetsEvent class represents a no-more-bets event.
+    /// The PlaceBetsEvent class represents a place-bets event.
     /// </summary>
-    public class NoMoreBetsEvent : PubSubEvent { }
+    public class PlaceBetsEvent : PubSubEvent<bool> { }
 
     /// <summary>
     /// The WheelSpinningEvent class represents a wheel-spinning event.
@@ -58,4 +58,9 @@ namespace RouletteSimulator.Core.EventsAggregator
     /// The BallTossedEvent class represents a ball-tossed event.
     /// </summary>
     public class BallTossedEvent : PubSubEvent<bool> { }
+
+    /// <summary>
+    /// The BoardClearedEvent class represents a board-cleared event.
+    /// </summary>
+    public class BoardClearedEvent : PubSubEvent { }
 }

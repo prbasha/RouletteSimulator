@@ -2,7 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
-using RouletteSimulator.Core.EventsAggregator;
+using RouletteSimulator.Core.EventAggregator;
 using RouletteSimulator.Core.Models.PersonModels;
 using System;
 using System.Collections.Generic;

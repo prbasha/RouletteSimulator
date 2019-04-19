@@ -49,6 +49,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\Constants.cs" />
+    <Compile Include="Views\Delegates.cs" />
+    <Compile Include="Views\Pocket.cs" />
+    <Compile Include="Views\RouletteWheel.cs" />
     <Compile Include="WheelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -63,7 +67,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\WheelViewModel.cs" />
     <Compile Include="Views\WheelView.xaml.cs">
       <DependentUpon>WheelView.xaml</DependentUpon>
     </Compile>

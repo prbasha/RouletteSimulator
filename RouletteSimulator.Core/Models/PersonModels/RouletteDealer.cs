@@ -17,6 +17,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
     {
         #region Fields
 
+        private bool _placeBets;
         private bool _isWheelSpinning;
         private bool _isBallTossed;
         private DispatcherTimer _spinTimer;
@@ -32,6 +33,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
         public RouletteDealer()
         {
             // Wheel/board states.
+            _placeBets = true;
             _isWheelSpinning = false;
             _isBallTossed = false;
 
@@ -53,11 +55,27 @@ namespace RouletteSimulator.Core.Models.PersonModels
 
         public static event SpinWheel OnSpinWheel;
         public static event TossBall OnTossBall;
-        public static event NoMoreBets OnNoMoreBets;
+        public static event PlaceBets OnPlaceBets;
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets a boolean flag indicating if bets can be placed.
+        /// </summary>
+        public bool PlaceBets
+        {
+            get
+            {
+                return _placeBets;
+            }
+            private set
+            {
+                SetProperty(ref _placeBets, value);
+                OnPlaceBets?.Invoke(_placeBets);    // Publish place bets status.
+            }
+        }
 
         /// <summary>
         /// Gets or sets a boolean flag indicating if the wheel is currently spinning.
@@ -88,6 +106,11 @@ namespace RouletteSimulator.Core.Models.PersonModels
             {
                 SetProperty(ref _isBallTossed, value);
                 SpinWheelCommand.RaiseCanExecuteChanged();
+
+                if (!_isBallTossed)
+                {
+                    PlaceBets = true;  // Ball is not in the wheel - place bets.
+                }
             }
         }
         
@@ -107,7 +130,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
         {
             if (!IsWheelSpinning && !IsBallTossed)
             {
-                OnSpinWheel?.Invoke();  // Spin the weel.
+                OnSpinWheel?.Invoke();  // Spin the wheel.
                 _spinTimer.Start();     // Start the spin timer.
             }
         }
@@ -153,8 +176,8 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <param name="e"></param>
         private void BallTimerTick(object sender, EventArgs e)
         {
-            _ballTimer.Stop();      // Stop the ball timer.
-            OnNoMoreBets?.Invoke(); // Announce no more bets.
+            _ballTimer.Stop();  // Stop the ball timer.
+            PlaceBets = false;  // Ball has been in the wheel for X seconds - No more bets.
         }
 
         #endregion

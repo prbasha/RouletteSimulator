@@ -2,7 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
-using RouletteSimulator.Core.EventsAggregator;
+using RouletteSimulator.Core.EventAggregator;
 using RouletteSimulator.Core.Models.BoardModels;
 using RouletteSimulator.Core.Models.ChipModels;
 using System;
@@ -40,7 +40,7 @@ namespace Board.ViewModels
 
             // Event aggregator.
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<SelectedChipEvent>().Subscribe(SelectedChipEventHandler, ThreadOption.UIThread, true);
+            _eventAggregator.GetEvent<SelectedChipEvent>().Subscribe(SelectedChipEventHandler, true);
             _eventAggregator.GetEvent<WinningNumberEvent>().Subscribe(WinningNumberEventHandler, true);
             _eventAggregator.GetEvent<BetClearedEvent>().Subscribe(BetClearedEventHandler, true);
         }

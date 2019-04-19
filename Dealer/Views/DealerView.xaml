@@ -8,7 +8,7 @@
              Height="Auto" Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
-    <Border Background="Black" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Border BorderThickness="0" Background="Black">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.75*"></RowDefinition>
@@ -19,8 +19,28 @@
                     <!--TBD dealer's face-->
                 </Canvas>
             </Viewbox>
-            <Viewbox Grid.Row="1">
-                <Button Background="Red" FontWeight="Bold" Margin="2,2,2,2" Content="SPIN WHEEL"></Button>
+            <Viewbox Grid.Row="1" Stretch="Uniform" StretchDirection="Both" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" FontWeight="Bold" Margin="2,2,2,2" Content="SPIN WHEEL" Command="{Binding RouletteDealer.SpinWheelCommand, Mode=OneWay}"></Button>
+                    <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" Margin="2,2,2,2">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RouletteDealer.PlaceBets}" Value="True">
+                                        <Setter Property="Content" Value="PLACE BETS"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding RouletteDealer.PlaceBets}" Value="False">
+                                        <Setter Property="Content" Value="NO MORE BETS"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </Grid>
             </Viewbox>
         </Grid>
     </Border>
