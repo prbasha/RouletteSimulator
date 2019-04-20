@@ -1,11 +1,5 @@
 ﻿using Prism.Events;
 using RouletteSimulator.Core.Enumerations;
-using RouletteSimulator.Core.Models.ChipModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RouletteSimulator.Core.EventAggregator
 {

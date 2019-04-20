@@ -1,14 +1,8 @@
-﻿using Prism.Commands;
-using Prism.Events;
+﻿using Prism.Events;
 using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
 using RouletteSimulator.Core.EventAggregator;
 using RouletteSimulator.Core.Models.PersonModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Player.ViewModels
 {
@@ -40,6 +34,7 @@ namespace Player.ViewModels
             // Event aggregator.
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<BetPlacedEvent>().Subscribe(BetPlacedEventHandler, true);
+            _eventAggregator.GetEvent<PlaceBetsEvent>().Subscribe(PlaceBetsEventHandler, true);
             _eventAggregator.GetEvent<PayWinningsEvent>().Subscribe(PayWinningsEventHandler, true);
         }
 
@@ -87,7 +82,17 @@ namespace Player.ViewModels
             // Deduct the bet from the player.
             RoulettePlayer.DeductBet(betAmount);
         }
-        
+
+        /// <summary>
+        /// The PlaceBetsEventHandler method is called to handle an PlaceBetsEvent event.
+        /// </summary>
+        /// <param name="placeBets"></param>
+        private void PlaceBetsEventHandler(bool placeBets)
+        {
+            // Apply the current place bets status.
+            RoulettePlayer.PlaceBets = placeBets;
+        }
+
         /// <summary>
         /// The PayWinningsEventHandler handles an incoming PayWinningsEvent event.
         /// </summary>

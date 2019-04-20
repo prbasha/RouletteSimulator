@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Prism.Commands;
 using RouletteSimulator.Core.Enumerations;
 
 namespace RouletteSimulator.Core.Models.BoardModels
@@ -18,6 +13,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         
         protected int _firstNumber;
         private bool _isHighLighted;
+        private bool _isWinningNumber;
 
         #endregion
 
@@ -30,6 +26,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             _betType = BetType.Straight;
             _isHighLighted = false;
+            _isWinningNumber = false;
         }
         
         #endregion
@@ -114,6 +111,21 @@ namespace RouletteSimulator.Core.Models.BoardModels
         }
 
         /// <summary>
+        /// Gets or sets the winning number flag.
+        /// </summary>
+        public bool IsWinningNumber
+        {
+            get
+            {
+                return _isWinningNumber;
+            }
+            set
+            {
+                SetProperty(ref _isWinningNumber, value);
+            }
+        }
+
+        /// <summary>
         /// Gets the text label for the bet.
         /// </summary>
         public override string Label
@@ -153,7 +165,19 @@ namespace RouletteSimulator.Core.Models.BoardModels
         {
             try
             {
-                return (winningNumber == _firstNumber) ? CalculateWinnings() : CalculateLosses();
+                int winnings = 0;
+
+                if (winningNumber == _firstNumber)
+                {
+                    IsWinningNumber = true;
+                    winnings = CalculateWinnings();
+                }
+                else
+                {
+                    winnings = CalculateLosses();
+                }
+
+                return winnings;
             }
             catch (Exception ex)
             {

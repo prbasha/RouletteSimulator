@@ -1,13 +1,7 @@
-﻿using Prism.Commands;
-using Prism.Events;
+﻿using Prism.Events;
 using Prism.Mvvm;
 using RouletteSimulator.Core.EventAggregator;
 using RouletteSimulator.Core.Models.PersonModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dealer.ViewModels
 {
@@ -36,11 +30,13 @@ namespace Dealer.ViewModels
             RouletteDealer.OnSpinWheel += new SpinWheel(SpinWheelEventHandler);
             RouletteDealer.OnTossBall += new TossBall(TossBallEventHandler);
             RouletteDealer.OnPlaceBets += new PlaceBets(PlaceBetsEventHandler);
-
+            
             // Event aggregator.
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<WheelSpinningEvent>().Subscribe(WheelSpinningEventHandler, true);
             _eventAggregator.GetEvent<BallTossedEvent>().Subscribe(BallTossedEventHandler, true);
+            
+            RouletteDealer.PlaceBets = true;    // Start accepting bets.
         }
 
         #endregion

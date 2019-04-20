@@ -1,9 +1,4 @@
 ﻿using RouletteSimulator.Core.Enumerations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace RouletteSimulator.Core.Models.ChipModels
@@ -48,7 +43,7 @@ namespace RouletteSimulator.Core.Models.ChipModels
         /// <summary>
         /// Gets the chip color.
         /// </summary>
-        public override Brush Color { get { return Brushes.Silver; } }
+        public override Brush Color { get { return Brushes.BurlyWood; } }
 
         #endregion
 

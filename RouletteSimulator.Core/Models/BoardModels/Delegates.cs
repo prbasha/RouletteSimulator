@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RouletteSimulator.Core.Models.BoardModels
+﻿namespace RouletteSimulator.Core.Models.BoardModels
 {
     public delegate void HighLightSplitBet(SplitBet splitBet);
     public delegate void ClearHighLightSplitBet(SplitBet splitBet);
@@ -25,4 +19,5 @@ namespace RouletteSimulator.Core.Models.BoardModels
     public delegate void HighLightLowHighBet(LowHighBet columnBet);
     public delegate void ClearHighLightLowHighBet(LowHighBet columnBet);
     public delegate void BetPlaced(int betAmount);
+    public delegate void BoardCleared();
 }

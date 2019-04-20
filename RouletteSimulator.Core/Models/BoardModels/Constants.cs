@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RouletteSimulator.Core.Models.BoardModels
+﻿namespace RouletteSimulator.Core.Models.BoardModels
 {
     /// <summary>
     /// The Constants class contains any constants.
@@ -62,5 +56,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public const string OddLabel = " ODD ";
         public const string RedLabel = "RED";
         public const string BlackLabel = "BLACK";
+        // Miscellaneous.
+        public const int ClearBoardTimeoutSeconds = 5;
     }
 }

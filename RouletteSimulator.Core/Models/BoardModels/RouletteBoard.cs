@@ -1,16 +1,9 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
-using RouletteSimulator.Core.Models.ChipModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace RouletteSimulator.Core.Models.BoardModels
 {
@@ -21,6 +14,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
     {
 
         #region Fields
+
+        private DispatcherTimer _clearBoardTimer;
+
         #endregion
 
         #region Constructors
@@ -31,7 +27,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public RouletteBoard()
         {
             try
-            {                
+            {
                 // Initialize Inside bets.
                 ZeroBet = new StraightBet { FirstNumber = 0 };
                 TrioBet1 = new StreetBet() { FirstNumber = 0, SecondNumber = 1, ThirdNumber = 2 };
@@ -210,7 +206,12 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 OddBet = new EvenOddBet(BetType.Odd);
                 RedBet = new RedBlackBet(BetType.Red);
                 BlackBet = new RedBlackBet(BetType.Black);
-                
+
+                // Timers.
+                _clearBoardTimer = new DispatcherTimer();
+                _clearBoardTimer.Tick += ClearBoardTimerTick;
+                _clearBoardTimer.Interval += new TimeSpan(0, 0, Constants.ClearBoardTimeoutSeconds);
+
                 // Listen to events.
                 SplitBet.OnHighLightSplitBet += new HighLightSplitBet(HighLightSplitBetEventHandler);
                 SplitBet.OnClearHighLightSplitBet += new ClearHighLightSplitBet(ClearHighLightSplitBetEventHandler);
@@ -240,6 +241,9 @@ namespace RouletteSimulator.Core.Models.BoardModels
         #endregion
 
         #region Events
+
+        public static event BoardCleared OnBoardCleared;
+
         #endregion
 
         #region Properties
@@ -1037,12 +1041,37 @@ namespace RouletteSimulator.Core.Models.BoardModels
                 // First four bet.
                 totalWinnings = totalWinnings + FirstFourBet.CalculateWinnings(winningNumber);
 
+                // Start the clear board timer.
+                _clearBoardTimer.Start();
+
                 return totalWinnings;
             }
             catch (Exception ex)
             {
                 throw new Exception("RouletteBoard.CalculateWinnings(int winningNumber): " + ex.ToString());
             }
+        }
+
+        /// <summary>
+        /// The ClearBoardTimerTick method is called when the clear board timer times out.
+        /// It is called a set period of time after the winning number is announced.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearBoardTimerTick(object sender, EventArgs e)
+        {
+            _clearBoardTimer.Stop();    // Stop the timer.
+
+            ClearBets();                // Clear all bets from the board.
+
+            // Clear the winning number.
+            StraightBet winningStraightBet = StraightBets.SingleOrDefault(x => x.IsWinningNumber == true);
+            if (winningStraightBet != null)
+            {
+                winningStraightBet.IsWinningNumber = false;
+            }
+
+            OnBoardCleared?.Invoke();   // Notify that the board has been cleared.
         }
 
         /// <summary>

@@ -53,11 +53,11 @@ namespace RouletteSimulator
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             base.ConfigureModuleCatalog(moduleCatalog);
-            moduleCatalog.AddModule<DealerModule>();
             moduleCatalog.AddModule<BankModule>();
             moduleCatalog.AddModule<WheelModule>();
             moduleCatalog.AddModule<BoardModule>();
             moduleCatalog.AddModule<PlayerModule>();
+            moduleCatalog.AddModule<DealerModule>();
         }
 
         /// <summary>

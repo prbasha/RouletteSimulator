@@ -1,16 +1,8 @@
-﻿using Prism.Commands;
-using Prism.Events;
+﻿using Prism.Events;
 using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
 using RouletteSimulator.Core.EventAggregator;
 using RouletteSimulator.Core.Models.BoardModels;
-using RouletteSimulator.Core.Models.ChipModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Board.ViewModels
 {
@@ -37,12 +29,14 @@ namespace Board.ViewModels
 
             // Listen to events.
             Bet.OnBetPlaced += new BetPlaced(BetPlacedEventHandler);
+            RouletteBoard.OnBoardCleared += new BoardCleared(BoardClearedEventHandler);
 
             // Event aggregator.
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<SelectedChipEvent>().Subscribe(SelectedChipEventHandler, true);
             _eventAggregator.GetEvent<WinningNumberEvent>().Subscribe(WinningNumberEventHandler, true);
             _eventAggregator.GetEvent<BetClearedEvent>().Subscribe(BetClearedEventHandler, true);
+            _eventAggregator.GetEvent<PlaceBetsEvent>().Subscribe(PlaceBetsEventHandler, true);
         }
 
         #endregion
@@ -67,8 +61,15 @@ namespace Board.ViewModels
         /// <param name="betAmount"></param>
         private void BetPlacedEventHandler(int betAmount)
         {
-            // Publish the bet.
-            _eventAggregator.GetEvent<BetPlacedEvent>().Publish(betAmount);
+            _eventAggregator.GetEvent<BetPlacedEvent>().Publish(betAmount); // Publish the bet.
+        }
+
+        /// <summary>
+        /// The BoardClearedEventHandler handles an incoming OnBoardCleared event.
+        /// </summary>
+        private void BoardClearedEventHandler()
+        {
+            _eventAggregator.GetEvent<BoardClearedEvent>().Publish();   // Publish the board cleared event.
         }
 
         /// <summary>
@@ -86,8 +87,7 @@ namespace Board.ViewModels
         /// <param name="winningNumber"></param>
         private void WinningNumberEventHandler(int winningNumber)
         {
-            // Publish the winnings.
-            _eventAggregator.GetEvent<PayWinningsEvent>().Publish(RouletteBoard.CalculateWinnings(winningNumber));
+            _eventAggregator.GetEvent<PayWinningsEvent>().Publish(RouletteBoard.CalculateWinnings(winningNumber));  // Publish the winnings.
         }
 
         /// <summary>
@@ -95,7 +95,15 @@ namespace Board.ViewModels
         /// </summary>
         private void BetClearedEventHandler()
         {
-            RouletteBoard.ClearBets();
+            RouletteBoard.ClearBets();  // Clear all bets.
+        }
+
+        /// <summary>
+        /// The PlaceBetsEventHandler handles an incoming PlaceBetsEvent event.
+        /// </summary>
+        private void PlaceBetsEventHandler(bool placeBets)
+        {
+            Bet.PlaceBets = placeBets;
         }
 
         #endregion

@@ -19,7 +19,9 @@
         <Grid>
             <!--Wheel-->
             <Viewbox Stretch="Uniform" StretchDirection="Both">
-                <Canvas x:Name="wheelControl" Background="Transparent" IsHitTestVisible="False">
+                <Canvas Background="Transparent" IsHitTestVisible="False"
+                        Width="{Binding RouletteWheel.MainBorderWidthPixels, Mode=OneWay}"
+                        Height="{Binding RouletteWheel.MainBorderHeightPixels, Mode=OneWay}">
                     <!--Outer wheel-->
                     <Ellipse HorizontalAlignment="Center" 
                              VerticalAlignment="Center" 
@@ -43,72 +45,68 @@
                         </Ellipse.RenderTransform>
                     </Ellipse>
                     <!--Inner wheel-->
-                    <ItemsControl ItemsSource="{Binding RouletteWheel.Pockets, Mode=OneWay}" RenderTransformOrigin="0.5,0.5">
+                    <ItemsControl x:Name="wheelControl" 
+                                  ItemsSource="{Binding RouletteWheel.Pockets, Mode=OneWay}"
+                                  Width="{Binding RouletteWheel.MainBorderWidthPixels, Mode=OneWay}" 
+                                  Height="{Binding RouletteWheel.MainBorderHeightPixels, Mode=OneWay}">
                         <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas></Canvas>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid></Grid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Polygon Stroke="Gold" StrokeThickness="3" Points="{Binding Points, Mode=OneWay}">
-                                    <Polygon.RenderTransform>
-                                        <TransformGroup>
-                                            <RotateTransform CenterX="{Binding CenterPointXPixels, Mode=OneWay}" 
-                                                             CenterY="{Binding CenterPointYPixels, Mode=OneWay}" 
-                                                             Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
-                                            </RotateTransform>
-                                        </TransformGroup>
-                                    </Polygon.RenderTransform>
-                                    <Polygon.Style>
-                                        <Style TargetType="Polygon">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsGreenNumber}" Value="True">
-                                                    <Setter Property="Fill" Value="LimeGreen"></Setter>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsRedNumber}" Value="True">
-                                                    <Setter Property="Fill" Value="Red"></Setter>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsBlackNumber}" Value="True">
-                                                    <Setter Property="Fill" Value="Black"></Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Polygon.Style>
-                                </Polygon>
-                                <Label HorizontalAlignment="Left" VerticalAlignment="Top" 
-                                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                                       Width="{Binding WidthPixels}" Height="Auto" 
-                                       Foreground="White" Background="Transparent" Content="{Binding Label, Mode=OneWay}">
-                                    <Label.RenderTransform>
-                                        <TransformGroup>
-                                            <TranslateTransform X="{Binding XPositionPixels, Mode=OneWay}" Y="{Binding YPositionPixels, Mode=OneWay}"></TranslateTransform>
-                                            <RotateTransform CenterX="{Binding CenterPointXPixels, Mode=OneWay}" 
-                                                             CenterY="{Binding CenterPointYPixels, Mode=OneWay}" 
-                                                             Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
-                                            </RotateTransform>
-                                        </TransformGroup>
-                                    </Label.RenderTransform>
-                                </Label>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Polygon Stroke="Gold" StrokeThickness="3" Points="{Binding Points, Mode=OneWay}">
+                                        <Polygon.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform CenterX="{Binding CenterPointXPixels, Mode=OneWay}" 
+                                                                 CenterY="{Binding CenterPointYPixels, Mode=OneWay}" 
+                                                                 Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
+                                                </RotateTransform>
+                                            </TransformGroup>
+                                        </Polygon.RenderTransform>
+                                        <Polygon.Style>
+                                            <Style TargetType="Polygon">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsGreenNumber}" Value="True">
+                                                        <Setter Property="Fill" Value="LimeGreen"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsRedNumber}" Value="True">
+                                                        <Setter Property="Fill" Value="Red"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsBlackNumber}" Value="True">
+                                                        <Setter Property="Fill" Value="Black"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Polygon.Style>
+                                    </Polygon>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                           Width="{Binding WidthPixels}" Height="Auto" 
+                                           Foreground="White" Background="Transparent" Content="{Binding Label, Mode=OneWay}">
+                                        <Label.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="{Binding XPositionPixels, Mode=OneWay}" Y="{Binding YPositionPixels, Mode=OneWay}"></TranslateTransform>
+                                                <RotateTransform CenterX="{Binding CenterPointXPixels, Mode=OneWay}" 
+                                                                 CenterY="{Binding CenterPointYPixels, Mode=OneWay}" 
+                                                                 Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
+                                                </RotateTransform>
+                                            </TransformGroup>
+                                        </Label.RenderTransform>
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Canvas>
-            </Viewbox>
-            <!--Ball-->
-            <Viewbox Stretch="Uniform" StretchDirection="Both">
-                <Canvas x:Name="ballControl" Background="Transparent" IsHitTestVisible="False">
                     <!--The ball-->
-                    <Ellipse HorizontalAlignment="Center" 
+                    <Ellipse x:Name="ballControl" 
+                             HorizontalAlignment="Center" 
                              VerticalAlignment="Center" 
                              Width="{Binding RouletteWheel.BallDiameterXPixels, Mode=OneWay}" 
                              Height="{Binding RouletteWheel.BallDiameterYPixels, Mode=OneWay}" 
                              Fill="Silver">
-                        <Ellipse.RenderTransform>
-                            <TranslateTransform X="{Binding RouletteWheel.BallOffsetXPixels, Mode=OneWay}" Y="{Binding RouletteWheel.BallOffsetYPixels, Mode=OneWay}"></TranslateTransform>
-                        </Ellipse.RenderTransform>
                     </Ellipse>
                 </Canvas>
             </Viewbox>

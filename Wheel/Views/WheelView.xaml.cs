@@ -1,19 +1,6 @@
 ﻿using Prism.Events;
 using RouletteSimulator.Core.EventAggregator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Wheel.Views
 {
@@ -43,6 +30,7 @@ namespace Wheel.Views
             // Listen to events.
             RouletteWheel.OnWheelSpinning += new WheelSpinning(WheelSpinningEventHandler);
             RouletteWheel.OnBallTossed += new BallTossed(BallTossedEventHandler);
+            RouletteWheel.OnWinningNumber += new WinningNumber(WinningNumberEventHandler);
 
             // Event aggregator.
             _eventAggregator = eventAggregator;
@@ -76,8 +64,7 @@ namespace Wheel.Views
         /// </summary>
         private void SpinWheelEventHandler()
         {
-            // Spin the wheel.
-            RouletteWheel.SpinWheel();
+            RouletteWheel.SpinWheel();  // Spin the wheel.
         }
 
         /// <summary>
@@ -85,8 +72,7 @@ namespace Wheel.Views
         /// </summary>
         private void TossBallEventHandler()
         {
-            // Toss the ball.
-            RouletteWheel.TossBall();
+            RouletteWheel.TossBall();   // Toss the ball.
         }
 
         /// <summary>
@@ -94,8 +80,7 @@ namespace Wheel.Views
         /// </summary>
         private void BoardClearedEventHandler()
         {
-            // Retrieve the ball.
-            RouletteWheel.RetrieveBall();
+            RouletteWheel.RetrieveBall();   // Retrieve the ball.
         }
 
         /// <summary>
@@ -104,8 +89,7 @@ namespace Wheel.Views
         /// <param name="wheelSpinning"></param>
         private void WheelSpinningEventHandler(bool wheelSpinning)
         {
-            // Update the status of the wheel.
-            _eventAggregator.GetEvent<WheelSpinningEvent>().Publish(wheelSpinning);
+            _eventAggregator.GetEvent<WheelSpinningEvent>().Publish(wheelSpinning); // Update the status of the wheel.
         }
 
         /// <summary>
@@ -114,8 +98,16 @@ namespace Wheel.Views
         /// <param name="ballTossed"></param>
         private void BallTossedEventHandler(bool ballTossed)
         {
-            // Update the status of the ball.
-            _eventAggregator.GetEvent<BallTossedEvent>().Publish(ballTossed);
+            _eventAggregator.GetEvent<BallTossedEvent>().Publish(ballTossed);   // Update the status of the ball.
+        }
+
+        /// <summary>
+        /// The WinningNumberEventHandler method is called to handle an OnWinningNumber event.
+        /// </summary>
+        /// <param name="winningNumber"></param>
+        private void WinningNumberEventHandler(int winningNumber)
+        {
+            _eventAggregator.GetEvent<WinningNumberEvent>().Publish(winningNumber); // Publish the winning number.
         }
 
         #endregion

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-
-namespace RouletteSimulator.Core.Models.ChipModels
+﻿namespace RouletteSimulator.Core.Models.ChipModels
 {
     /// <summary>
     /// The Constants class contains any constants.

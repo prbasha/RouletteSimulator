@@ -29,8 +29,12 @@
                     <Setter Property="BorderThickness" Value="4"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsHighLighted}" Value="True">
-                    <Setter Property="BorderBrush" Value="Orange"></Setter>
+                    <Setter Property="BorderBrush" Value="Yellow"></Setter>
                     <Setter Property="BorderThickness" Value="4"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsWinningNumber}" Value="True">
+                    <Setter Property="BorderBrush" Value="HotPink"></Setter>
+                    <Setter Property="BorderThickness" Value="15"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -737,7 +741,7 @@
                                         <Setter Property="BorderThickness" Value="4"></Setter>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding RouletteBoard.ZeroBet.IsHighLighted}" Value="True">
-                                        <Setter Property="BorderBrush" Value="Orange"></Setter>
+                                        <Setter Property="BorderBrush" Value="Yellow"></Setter>
                                         <Setter Property="BorderThickness" Value="4"></Setter>
                                     </DataTrigger>
                                 </Style.Triggers>
