@@ -1,6 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using RouletteSimulator.Core.Models.WheelModels;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
 namespace RouletteSimulator.Core.Models.PersonModels
@@ -17,6 +19,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
         private bool _isBallTossed;
         private DispatcherTimer _spinTimer;
         private DispatcherTimer _ballTimer;
+        private Pocket _winningNumber = null;
 
         #endregion
 
@@ -27,10 +30,11 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// </summary>
         public RouletteDealer()
         {
-            // Wheel/board states.
+            // Game states.
             _placeBets = true;
             _isWheelSpinning = false;
             _isBallTossed = false;
+            WinningNumberHistory = new ObservableCollection<Pocket>();
 
             // Timers.
             _spinTimer = new DispatcherTimer();
@@ -104,11 +108,40 @@ namespace RouletteSimulator.Core.Models.PersonModels
 
                 if (!_isBallTossed)
                 {
-                    PlaceBets = true;  // Ball is not in the wheel - place bets.
+                    PlaceBets = true;       // Ball is not in the wheel - place bets.
+
+                    if (WinningNumber != null)
+                    {
+                        // Add the latest winning number to the winning number history.
+                        if (WinningNumberHistory.Count == Constants.MaximumWinningNumbers)
+                        {
+                            WinningNumberHistory.RemoveAt(Constants.FirstWinningNumberIndex);
+                        }
+                        WinningNumberHistory.Add(WinningNumber);
+
+                        WinningNumber = null;   // Clear the winning number.
+                    }
                 }
             }
         }
         
+        /// <summary>
+        /// Gets or sets the winning number.
+        /// </summary>
+        public Pocket WinningNumber
+        {
+            get
+            {
+                return _winningNumber;
+            }
+            set
+            {
+                SetProperty(ref _winningNumber, value);
+            }
+        }
+
+        public ObservableCollection<Pocket> WinningNumberHistory { get; }
+
         /// <summary>
         /// Gets or sets the SpinWheelCommand.
         /// </summary>
@@ -173,6 +206,15 @@ namespace RouletteSimulator.Core.Models.PersonModels
         {
             _ballTimer.Stop();  // Stop the ball timer.
             PlaceBets = false;  // Ball has been in the wheel for X seconds - No more bets.
+        }
+
+        /// <summary>
+        /// The AnnounceWinningNumber method is called to announce the latest winning number.
+        /// </summary>
+        /// <param name="winningNumber"></param>
+        public void AnnounceWinningNumber(Pocket winningNumber)
+        {
+            WinningNumber = winningNumber;
         }
 
         #endregion

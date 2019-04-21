@@ -74,16 +74,21 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Grid.Row="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TOTAL CASH:" ></Label>
                     <Label Grid.Column="1" Grid.Row="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
-                           Content="{Binding RoulettePlayer.TotalCash}" ContentStringFormat="{}{0:C0}">
+                           Content="{Binding RoulettePlayer.TotalCash}" ContentStringFormat="{}{0:$#,##0}">
                     </Label>
                     <Label Grid.Column="0" Grid.Row="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="CURRENT BET:" ></Label>
                     <Label Grid.Column="1" Grid.Row="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
-                           Content="{Binding RoulettePlayer.CurrentBet}" ContentStringFormat="{}{0:C0}">
+                           Content="{Binding RoulettePlayer.CurrentBet}" ContentStringFormat="{}{0:$#,##0}">
                     </Label>
-                    <Button Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" FontWeight="Bold" Margin="10,3,3,3" 
+                    <Label Grid.Column="0" Grid.Row="2" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="WINNINGS:" ></Label>
+                    <Label Grid.Column="1" Grid.Row="2" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
+                           Content="{Binding RoulettePlayer.CurrentWinnings}" ContentStringFormat="{}{0:$#,##0}">
+                    </Label>
+                    <Button Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" FontWeight="Bold" Margin="10,3,3,3" 
                             Content="CLEAR ALL BETS"
                             Command="{Binding RoulettePlayer.ClearBetsCommand}">
                     </Button>

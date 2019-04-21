@@ -1,8 +1,9 @@
 ﻿using Prism.Mvvm;
+using System;
 using System.Linq;
 using System.Windows.Media;
 
-namespace Wheel.Views
+namespace RouletteSimulator.Core.Models.WheelModels
 {
     /// <summary>
     /// The Pocket class represents a single pocket on a roulette wheel.
@@ -28,6 +29,32 @@ namespace Wheel.Views
         public Pocket()
         {
             Points = new PointCollection();
+        }
+
+        /// <summary>
+        /// Copy constructor.
+        /// </summary>
+        /// <param name="pocket"></param>
+        public Pocket(Pocket pocket)
+        {
+            try
+            {
+                if (pocket == null)
+                {
+                    throw new Exception("pocket can not be null.");
+                }
+
+                _number = pocket.Number;
+                _widthPixels = pocket.WidthPixels;
+                _xPositionPixels = pocket.XPositionPixels;
+                _yPositionPixels = pocket.YPositionPixels;
+                _centerPointXPixels = pocket.CenterPointXPixels;
+                _centerPointYPixels = pocket.CenterPointYPixels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Pocket(Pocket pocket): " + ex.ToString());
+            }
         }
 
         #endregion

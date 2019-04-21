@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Views\Constants.cs" />
     <Compile Include="Views\Delegates.cs" />
-    <Compile Include="Views\Pocket.cs" />
     <Compile Include="Views\RouletteWheel.cs" />
     <Compile Include="WheelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

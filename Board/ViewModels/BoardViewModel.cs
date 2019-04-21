@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
 using RouletteSimulator.Core.EventAggregator;
 using RouletteSimulator.Core.Models.BoardModels;
+using RouletteSimulator.Core.Models.WheelModels;
 
 namespace Board.ViewModels
 {
@@ -85,9 +86,9 @@ namespace Board.ViewModels
         /// The WinningNumberEventHandler handles an incoming WinningNumberEvent event.
         /// </summary>
         /// <param name="winningNumber"></param>
-        private void WinningNumberEventHandler(int winningNumber)
+        private void WinningNumberEventHandler(Pocket winningNumber)
         {
-            _eventAggregator.GetEvent<PayWinningsEvent>().Publish(RouletteBoard.CalculateWinnings(winningNumber));  // Publish the winnings.
+            _eventAggregator.GetEvent<PayWinningsEvent>().Publish(RouletteBoard.CalculateWinnings(winningNumber.Number));  // Publish the winnings.
         }
 
         /// <summary>

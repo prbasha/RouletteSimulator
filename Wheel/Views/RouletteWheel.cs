@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using RouletteSimulator.Core.Models.WheelModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,19 +19,17 @@ namespace Wheel.Views
     {
         #region Fields
 
-        private int _winningNumber;
+        private Pocket _winningNumber;
         private double _winningNumberEndAngleDegrees;
         private Random _randomNumberGenerator;
         private double _mainBorderWidthPixels;
         private double _mainBorderHeightPixels;
-
         private ItemsControl _wheelControl;
         private Storyboard _wheelStoryBoard;
         private RotateTransform _wheelRotateTransform;
         private DoubleAnimation _wheelSpinningAnimation1;
         private DateTime _wheelSpinningAnimation1EndTime;
         private DoubleAnimation _wheelSpinningAnimation2;
-
         private Ellipse _ballControl;
         private Storyboard _ballStoryBoard;
         private TranslateTransform _ballTranslateTransform;
@@ -38,7 +37,6 @@ namespace Wheel.Views
         private DoubleAnimation _ballSpinningAnimation1;
         private DoubleAnimation _ballFallingAnimation;
         private DoubleAnimation _ballSpinningAnimation2;
-
         private double _centerPointXPixels;
         private double _centerPointYPixels;
         private double _outerWheelDiameterXPixels;
@@ -82,6 +80,7 @@ namespace Wheel.Views
                 
                 // Ball control.
                 _ballControl = ballControl;
+                _ballControl.Visibility = Visibility.Hidden;
                 _ballControl.RenderTransformOrigin = new Point(Constants.MidPoint, Constants.MidPoint);
                 // Create a TransformGroup.
                 TransformGroup ballTransformGroup = new TransformGroup();
@@ -98,9 +97,9 @@ namespace Wheel.Views
                 
                 // Wheel pockets.
                 Pockets = new ObservableCollection<Pocket>();
-                for (int i = 0; i < Constants.WheelNumbers.Count(); i++)
+                for (int i = 0; i < RouletteSimulator.Core.Models.WheelModels.Constants.WheelNumbers.Count(); i++)
                 {
-                    Pockets.Add(new Pocket() { Number = Constants.WheelNumbers[i], AngularPositionDegrees = i * Constants.PocketStepDegrees });
+                    Pockets.Add(new Pocket() { Number = RouletteSimulator.Core.Models.WheelModels.Constants.WheelNumbers[i], AngularPositionDegrees = i * RouletteSimulator.Core.Models.WheelModels.Constants.PocketStepDegrees });
                 }
 
                 // Random number generator.
@@ -375,7 +374,6 @@ namespace Wheel.Views
                     // Initialize the animation.
                     _wheelSpinningAnimation1 = new DoubleAnimation();
                     _wheelSpinningAnimation1.SpeedRatio = Constants.WheelSpeedRatio;
-                    //_wheelSpinningAnimation1.DecelerationRatio = Constants.WheelDecelerationRatio;
                     _wheelSpinningAnimation1.FillBehavior = FillBehavior.HoldEnd;
                     Storyboard.SetTargetName(_wheelSpinningAnimation1, Constants.WheelRotateTransformName);
                     Storyboard.SetTargetProperty(_wheelSpinningAnimation1, new PropertyPath(RotateTransform.AngleProperty));
@@ -397,8 +395,8 @@ namespace Wheel.Views
                     _wheelSpinningAnimation2.SpeedRatio = Constants.WheelSpeedRatio;
                     _wheelSpinningAnimation2.DecelerationRatio = Constants.StoppingDecelerationRatio;
                     _wheelSpinningAnimation2.FillBehavior = FillBehavior.HoldEnd;
-                    _wheelSpinningAnimation2.By = -1 * Constants.FullCircleDegrees;
-                    _wheelSpinningAnimation2.Duration = TimeSpan.FromSeconds(Constants.StoppingDurationSeconds * Constants.WheelSpeedRatio);
+                    _wheelSpinningAnimation2.By = -1 * Constants.StoppingSpinDistanceDegrees;
+                    _wheelSpinningAnimation2.Duration = TimeSpan.FromSeconds(spinDurationSeconds * Constants.WheelSpeedRatio);
                     Storyboard.SetTargetName(_wheelSpinningAnimation2, Constants.WheelRotateTransformName);
                     Storyboard.SetTargetProperty(_wheelSpinningAnimation2, new PropertyPath(RotateTransform.AngleProperty));
                     _wheelStoryBoard.Children.Add(_wheelSpinningAnimation2);  // Add the animation to the story board.
@@ -407,9 +405,9 @@ namespace Wheel.Views
                 _wheelSpinningAnimation2.BeginTime = TimeSpan.FromSeconds(spinDurationSeconds);
 
                 // Select a winning number, and retrieve the corresponding winning pocket.
-                _winningNumber = _randomNumberGenerator.Next(Constants.MinimumWinningNumber, Constants.MaximumWinningNumber);
-                Pocket winningPocket = Pockets.SingleOrDefault(x => x.Number == _winningNumber);
-                double winningNumberStartAngleDegrees = winningPocket.AngularPositionDegrees + ((RotateTransform)_wheelControl.RenderTransform).Angle;
+                int number = _randomNumberGenerator.Next(Constants.MinimumWinningNumber, Constants.MaximumWinningNumber);
+                _winningNumber = Pockets.SingleOrDefault(x => x.Number == number);
+                double winningNumberStartAngleDegrees = _winningNumber.AngularPositionDegrees + ((RotateTransform)_wheelControl.RenderTransform).Angle;
                 _winningNumberEndAngleDegrees = CorrectAngleDegrees(winningNumberStartAngleDegrees + (double)_wheelSpinningAnimation1.By);
                 
                 _wheelStoryBoard.Begin(_wheelControl, true);    // Start the story board.
@@ -485,7 +483,7 @@ namespace Wheel.Views
                 // Ball spinning animation 2.
                 if (_ballSpinningAnimation2 == null)
                 {
-                    // Initialize the ball spinning animation.
+                    // Initialize the ball spinning animation - it is a clone of the second wheel spinning animation.
                     _ballSpinningAnimation2 = _wheelSpinningAnimation2.Clone();
                     Storyboard.SetTargetName(_ballSpinningAnimation2, Constants.BallRotateTransformName);
                     Storyboard.SetTargetProperty(_ballSpinningAnimation2, new PropertyPath(RotateTransform.AngleProperty));
@@ -560,8 +558,8 @@ namespace Wheel.Views
                 double innerWheelCircumference = Math.PI * _innerWheelDiameterXPixels;
                 
                 // Pocket width and position.
-                double pocketWidthPixels = innerWheelCircumference / Constants.NumberOfPockets;
-                double pocketHeightPixels = _innerWheelDiameterXPixels * Constants.PocketHeightPercentage;
+                double pocketWidthPixels = innerWheelCircumference / RouletteSimulator.Core.Models.WheelModels.Constants.NumberOfPockets;
+                double pocketHeightPixels = _innerWheelDiameterXPixels * RouletteSimulator.Core.Models.WheelModels.Constants.PocketHeightPercentage;
                 double pocketXPositionPixels = CenterPointXPixels - (pocketWidthPixels / 2);
                 double pocketYPositionPixels = (CenterPointYPixels - (_innerWheelDiameterXPixels / 2));
                 

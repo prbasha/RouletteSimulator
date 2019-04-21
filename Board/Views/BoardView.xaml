@@ -9,7 +9,7 @@
              Height="Auto" 
              Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True" >
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Style x:Key="OutsideBetBorderStyle" TargetType="Border">
             <Setter Property="Background" Value="Black"></Setter>

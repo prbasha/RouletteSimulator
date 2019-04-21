@@ -15,6 +15,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
         private bool _placeBets;
         private int _totalCash;
         private int _currentBet;
+        private int _currentwinnings;
         private ChipType _selectedChip;
 
         #endregion
@@ -29,6 +30,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
             // Cash/bets.
             _totalCash = Constants.InitialCashDollars;
             _currentBet = 0;
+            _currentwinnings = 0;
 
             // Chips.
             _selectedChip = ChipType.Undefined;
@@ -70,6 +72,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
             set
             {
                 SetProperty(ref _placeBets, value);
+                CurrentWinnings = 0;    // Clear the current winnings.
             }
         }
 
@@ -84,7 +87,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
             }
             private set
             {
-                SetProperty(ref _totalCash, value); // Update the total cash.
+                SetProperty(ref _totalCash, value);
                 
                 // Update the selected chip.
                 if (TotalCash <= 0 || TotalCash < Chip.GetChipValue(SelectedChip))
@@ -105,7 +108,22 @@ namespace RouletteSimulator.Core.Models.PersonModels
             }
             private set
             {
-                SetProperty(ref _currentBet, value); // Update the current bet.
+                SetProperty(ref _currentBet, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the winnings from the current bet.
+        /// </summary>
+        public int CurrentWinnings
+        {
+            get
+            {
+                return _currentwinnings;
+            }
+            private set
+            {
+                SetProperty(ref _currentwinnings, value);
             }
         }
 
@@ -236,12 +254,16 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <param name="winnings"></param>
         public void ReceiveWinnings(int winnings)
         {
+            CurrentWinnings = winnings <= 0 ? winnings : winnings - CurrentBet;    // Display the winnings from the current bet.
+
             CurrentBet = 0; // Clear the current bet.
 
+            // Add the winnings to the total cash.
             if (winnings > 0)
             {
                 TotalCash = TotalCash + winnings;
             }
+            
             // TBD: If winnings are less than zero, make player sad.
             // TBD: If winnings are zero, make player mutual.
             // TBD: If winnings are greater than zero, make player happy.

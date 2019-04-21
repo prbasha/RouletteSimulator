@@ -1,5 +1,6 @@
 ﻿using Prism.Events;
 using RouletteSimulator.Core.EventAggregator;
+using RouletteSimulator.Core.Models.WheelModels;
 using System.Windows.Controls;
 
 namespace Wheel.Views
@@ -105,7 +106,7 @@ namespace Wheel.Views
         /// The WinningNumberEventHandler method is called to handle an OnWinningNumber event.
         /// </summary>
         /// <param name="winningNumber"></param>
-        private void WinningNumberEventHandler(int winningNumber)
+        private void WinningNumberEventHandler(Pocket winningNumber)
         {
             _eventAggregator.GetEvent<WinningNumberEvent>().Publish(winningNumber); // Publish the winning number.
         }

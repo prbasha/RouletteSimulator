@@ -1,5 +1,6 @@
 ﻿using Prism.Events;
 using RouletteSimulator.Core.Enumerations;
+using RouletteSimulator.Core.Models.WheelModels;
 
 namespace RouletteSimulator.Core.EventAggregator
 {
@@ -21,7 +22,7 @@ namespace RouletteSimulator.Core.EventAggregator
     /// <summary>
     /// The WinningNumberEvent class represents a winning-number event.
     /// </summary>
-    public class WinningNumberEvent : PubSubEvent<int> { }
+    public class WinningNumberEvent : PubSubEvent<Pocket> { }
 
     /// <summary>
     /// The PayWinningsEvent class represents a pay-winnings event.

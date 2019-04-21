@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using RouletteSimulator.Core.EventAggregator;
 using RouletteSimulator.Core.Models.PersonModels;
+using RouletteSimulator.Core.Models.WheelModels;
 
 namespace Dealer.ViewModels
 {
@@ -35,6 +36,7 @@ namespace Dealer.ViewModels
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<WheelSpinningEvent>().Subscribe(WheelSpinningEventHandler, true);
             _eventAggregator.GetEvent<BallTossedEvent>().Subscribe(BallTossedEventHandler, true);
+            _eventAggregator.GetEvent<WinningNumberEvent>().Subscribe(WinningNumberEventHandler, true);
             
             RouletteDealer.PlaceBets = true;    // Start accepting bets.
         }
@@ -60,8 +62,7 @@ namespace Dealer.ViewModels
         /// </summary>
         private void SpinWheelEventHandler()
         {
-            // Spin the wheel.
-            _eventAggregator.GetEvent<SpinWheelEvent>().Publish();
+            _eventAggregator.GetEvent<SpinWheelEvent>().Publish();  // Spin the wheel.
         }
 
         /// <summary>
@@ -69,8 +70,7 @@ namespace Dealer.ViewModels
         /// </summary>
         private void TossBallEventHandler()
         {
-            // Toss the ball.
-            _eventAggregator.GetEvent<TossBallEvent>().Publish();
+            _eventAggregator.GetEvent<TossBallEvent>().Publish();   // Toss the ball.
         }
 
         /// <summary>
@@ -79,8 +79,7 @@ namespace Dealer.ViewModels
         /// <param name="placeBets"></param>
         private void PlaceBetsEventHandler(bool placeBets)
         {
-            // Announce place bets status.
-            _eventAggregator.GetEvent<PlaceBetsEvent>().Publish(placeBets);
+            _eventAggregator.GetEvent<PlaceBetsEvent>().Publish(placeBets); // Announce place bets status.
         }
 
         /// <summary>
@@ -89,8 +88,7 @@ namespace Dealer.ViewModels
         /// <param name="wheelSpinning"></param>
         private void WheelSpinningEventHandler(bool wheelSpinning)
         {
-            // Update the status of the wheel.
-            RouletteDealer.IsWheelSpinning = wheelSpinning;
+            RouletteDealer.IsWheelSpinning = wheelSpinning; // Update the status of the wheel.
         }
 
         /// <summary>
@@ -99,8 +97,16 @@ namespace Dealer.ViewModels
         /// <param name="wheelSpinning"></param>
         private void BallTossedEventHandler(bool ballTossed)
         {
-            // Update the status of the ball.
-            RouletteDealer.IsBallTossed = ballTossed;
+            RouletteDealer.IsBallTossed = ballTossed;   // Update the status of the ball.
+        }
+
+        /// <summary>
+        /// The WinningNumberEventHandler method is called to handle a WinningNumberEvent event.
+        /// </summary>
+        /// <param name="winningNumber"></param>
+        private void WinningNumberEventHandler(Pocket winningNumber)
+        {
+            RouletteDealer.AnnounceWinningNumber(winningNumber);    // Announce the winning number.
         }
 
         #endregion
