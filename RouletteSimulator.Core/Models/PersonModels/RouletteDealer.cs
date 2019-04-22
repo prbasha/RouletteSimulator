@@ -1,8 +1,9 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
+using RouletteSimulator.Core.Enumerations;
 using RouletteSimulator.Core.Models.WheelModels;
 using System;
 using System.Collections.ObjectModel;
+using System.Speech.Synthesis;
 using System.Windows.Threading;
 
 namespace RouletteSimulator.Core.Models.PersonModels
@@ -10,16 +11,16 @@ namespace RouletteSimulator.Core.Models.PersonModels
     /// <summary>
     /// The RouletteDealer class represents a roulette dealer.
     /// </summary>
-    public class RouletteDealer : BindableBase
+    public class RouletteDealer : Person
     {
         #region Fields
-
-        private bool _placeBets;
+        
         private bool _isWheelSpinning;
         private bool _isBallTossed;
         private DispatcherTimer _spinTimer;
         private DispatcherTimer _ballTimer;
         private Pocket _winningNumber = null;
+        private SpeechSynthesizer _speechSynthesizer;
 
         #endregion
 
@@ -28,13 +29,16 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public RouletteDealer()
+        public RouletteDealer() : base()
         {
             // Game states.
-            _placeBets = true;
             _isWheelSpinning = false;
             _isBallTossed = false;
             WinningNumberHistory = new ObservableCollection<Pocket>();
+
+            // Speech.
+            _speechSynthesizer = new SpeechSynthesizer();
+            _speechSynthesizer.SetOutputToDefaultAudioDevice();
 
             // Timers.
             _spinTimer = new DispatcherTimer();
@@ -63,16 +67,27 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <summary>
         /// Gets or sets a boolean flag indicating if bets can be placed.
         /// </summary>
-        public bool PlaceBets
+        public override bool PlaceBets
         {
             get
             {
-                return _placeBets;
+                return base.PlaceBets;
             }
             set
             {
-                SetProperty(ref _placeBets, value);
-                OnPlaceBets?.Invoke(_placeBets);    // Publish place bets status.
+                base.PlaceBets = value;
+
+                OnPlaceBets?.Invoke(_placeBets);    // Publish the place bets status.
+                
+                // Announce the place bets status.
+                if (PlaceBets)
+                {
+                    Speak(Constants.SpeechPlaceBets);
+                }
+                else
+                {
+                    Speak(Constants.SpeechNoMoreBets);
+                }
             }
         }
 
@@ -108,8 +123,6 @@ namespace RouletteSimulator.Core.Models.PersonModels
 
                 if (!_isBallTossed)
                 {
-                    PlaceBets = true;       // Ball is not in the wheel - place bets.
-
                     if (WinningNumber != null)
                     {
                         // Add the latest winning number to the winning number history.
@@ -121,6 +134,9 @@ namespace RouletteSimulator.Core.Models.PersonModels
 
                         WinningNumber = null;   // Clear the winning number.
                     }
+
+                    PlaceBets = true;   // Ball is not in the wheel - place bets.
+                    EmotionalState = EmotionalState.Mutual; // Reset emotional state.
                 }
             }
         }
@@ -146,10 +162,27 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// Gets or sets the SpinWheelCommand.
         /// </summary>
         public DelegateCommand SpinWheelCommand { get; private set; }
-        
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The DeductBet method is called to deduct a bet amount.
+        /// </summary>
+        /// <param name="betAmount"></param>
+        public override void DeductBet(int betAmount)
+        {
+            CurrentBet = CurrentBet + betAmount;
+        }
+
+        /// <summary>
+        /// The ClearBets method is called to clear all bets.
+        /// </summary>
+        public override void ClearBets()
+        {
+            CurrentBet = 0;
+        }
 
         /// <summary>
         /// The SpinWheel method is called to spin the roulette wheel.
@@ -215,6 +248,50 @@ namespace RouletteSimulator.Core.Models.PersonModels
         public void AnnounceWinningNumber(Pocket winningNumber)
         {
             WinningNumber = winningNumber;
+
+            // Announce the winning number.
+            string winningNumberAnnouncement = winningNumber.Number.ToString();
+            if (winningNumber.IsRedNumber)
+            {
+                winningNumberAnnouncement = winningNumberAnnouncement + Constants.SpeechRed;
+            }
+            else if (winningNumber.IsBlackNumber)
+            {
+                winningNumberAnnouncement = winningNumberAnnouncement + Constants.SpeechBlack;
+            }
+            else if (winningNumber.IsGreenNumber)
+            {
+                winningNumberAnnouncement = winningNumberAnnouncement + Constants.SpeechGreen;
+            }
+            Speak(winningNumberAnnouncement);
+        }
+
+        /// <summary>
+        /// The speak method is called to say something using the dealer's SpeechSynthesizer.
+        /// </summary>
+        /// <param name="speech"></param>
+        private void Speak(string speech)
+        {
+            _speechSynthesizer.SpeakAsync(speech);
+        }
+
+        /// <summary>
+        /// The UpdateEmotionalState method is called to update the person's emotional state.
+        /// </summary>
+        protected override void UpdateEmotionalState()
+        {
+            if (CurrentWinnings == 0)
+            {
+                EmotionalState = EmotionalState.Mutual;
+            }
+            else if (CurrentWinnings > 0)
+            {
+                EmotionalState = EmotionalState.Sad;    // Player won - dealer is sad.
+            }
+            else if (CurrentWinnings < 0)
+            {
+                EmotionalState = EmotionalState.Happy;  // Player lost - dealer is happy.
+            }
         }
 
         #endregion

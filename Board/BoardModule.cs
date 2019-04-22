@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using RouletteSimulator.Core;
 
 namespace Board
 {
@@ -33,7 +34,7 @@ namespace Board
         /// <param name="containerProvider"></param>
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RegisterViewWithRegion("BoardRegion", typeof(BoardView));
+            _regionManager.RegisterViewWithRegion(RegionNames.BoardRegion, typeof(BoardView));
         }
 
         /// <summary>

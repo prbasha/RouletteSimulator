@@ -92,5 +92,10 @@
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="7.1.0.431&#xD;" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\player_happy.jpg" />
+    <Resource Include="Images\player_mutual.jpg" />
+    <Resource Include="Images\player_sad.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

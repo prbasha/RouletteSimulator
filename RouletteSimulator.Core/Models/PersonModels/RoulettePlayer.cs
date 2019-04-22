@@ -1,5 +1,4 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using RouletteSimulator.Core.Enumerations;
 using RouletteSimulator.Core.Models.ChipModels;
 
@@ -8,14 +7,11 @@ namespace RouletteSimulator.Core.Models.PersonModels
     /// <summary>
     /// The RoulettePlayer class represents the person playing the roulette game.
     /// </summary>
-    public class RoulettePlayer : BindableBase
+    public class RoulettePlayer : Person
     {
         #region Fields
-
-        private bool _placeBets;
+        
         private int _totalCash;
-        private int _currentBet;
-        private int _currentwinnings;
         private ChipType _selectedChip;
 
         #endregion
@@ -25,13 +21,11 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public RoulettePlayer()
+        public RoulettePlayer() : base()
         {
             // Cash/bets.
             _totalCash = Constants.InitialCashDollars;
-            _currentBet = 0;
-            _currentwinnings = 0;
-
+            
             // Chips.
             _selectedChip = ChipType.Undefined;
             OneChip = new One();
@@ -63,16 +57,17 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// <summary>
         /// Gets or sets the place bets status.
         /// </summary>
-        public bool PlaceBets
+        public override bool PlaceBets
         {
             get
             {
-                return _placeBets;
+                return base.PlaceBets;
             }
             set
             {
-                SetProperty(ref _placeBets, value);
-                CurrentWinnings = 0;    // Clear the current winnings.
+                base.PlaceBets = value;
+
+                EmotionalState = EmotionalState.Mutual; // Reset emotional state.
             }
         }
 
@@ -96,37 +91,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
                 }
             }
         }
-
-        /// <summary>
-        /// Gets the current bet placed by the player.
-        /// </summary>
-        public int CurrentBet
-        {
-            get
-            {
-                return _currentBet;
-            }
-            private set
-            {
-                SetProperty(ref _currentBet, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets the winnings from the current bet.
-        /// </summary>
-        public int CurrentWinnings
-        {
-            get
-            {
-                return _currentwinnings;
-            }
-            private set
-            {
-                SetProperty(ref _currentwinnings, value);
-            }
-        }
-
+        
         /// <summary>
         /// Gets or sets the chip currently selected by the player.
         /// </summary>
@@ -223,26 +188,26 @@ namespace RouletteSimulator.Core.Models.PersonModels
         #region Methods
 
         /// <summary>
-        /// The DeductBet method is called to deduct a bet amount from the player's total cash.
+        /// The DeductBet method is called to deduct a bet amount.
         /// </summary>
         /// <param name="betAmount"></param>
-        public void DeductBet(int betAmount)
+        public override void DeductBet(int betAmount)
         {
             if (TotalCash >= betAmount)
             {
-                TotalCash = TotalCash - betAmount;
+                TotalCash = TotalCash - betAmount;      // Deduct the bet from the total cash.
                 CurrentBet = CurrentBet + betAmount;
             }
         }
 
         /// <summary>
-        /// The ClearBets method is called to clear all bets, restoring the player's total cash.
+        /// The ClearBets method is called to clear all bets.
         /// </summary>
-        public void ClearBets()
+        public override void ClearBets()
         {
             if (CurrentBet > 0)
             {
-                TotalCash = TotalCash + CurrentBet;
+                TotalCash = TotalCash + CurrentBet; // Restore player's cash.
                 CurrentBet = 0;
                 OnClearBets?.Invoke();
             }
@@ -252,21 +217,34 @@ namespace RouletteSimulator.Core.Models.PersonModels
         /// The ReceiveWinnings is called to add the winnings to the player's total.
         /// </summary>
         /// <param name="winnings"></param>
-        public void ReceiveWinnings(int winnings)
+        public override void ReceiveWinnings(int winnings)
         {
-            CurrentWinnings = winnings <= 0 ? winnings : winnings - CurrentBet;    // Display the winnings from the current bet.
+            base.ReceiveWinnings(winnings);
 
-            CurrentBet = 0; // Clear the current bet.
-
-            // Add the winnings to the total cash.
+            // Add the winnings to the player's total cash.
             if (winnings > 0)
             {
                 TotalCash = TotalCash + winnings;
             }
-            
-            // TBD: If winnings are less than zero, make player sad.
-            // TBD: If winnings are zero, make player mutual.
-            // TBD: If winnings are greater than zero, make player happy.
+        }
+
+        /// <summary>
+        /// The UpdateEmotionalState method is called to update the person's emotional state.
+        /// </summary>
+        protected override void UpdateEmotionalState()
+        {
+            if (CurrentWinnings == 0)
+            {
+                EmotionalState = EmotionalState.Mutual;
+            }
+            else if (CurrentWinnings > 0)
+            {
+                EmotionalState = EmotionalState.Happy;  // Player won - player is happy.
+            }
+            else if (CurrentWinnings < 0)
+            {
+                EmotionalState = EmotionalState.Sad;    // Player lost - player is sad.
+            }
         }
 
         #endregion

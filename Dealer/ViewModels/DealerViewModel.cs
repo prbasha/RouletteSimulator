@@ -37,8 +37,10 @@ namespace Dealer.ViewModels
             _eventAggregator.GetEvent<WheelSpinningEvent>().Subscribe(WheelSpinningEventHandler, true);
             _eventAggregator.GetEvent<BallTossedEvent>().Subscribe(BallTossedEventHandler, true);
             _eventAggregator.GetEvent<WinningNumberEvent>().Subscribe(WinningNumberEventHandler, true);
-            
-            RouletteDealer.PlaceBets = true;    // Start accepting bets.
+            _eventAggregator.GetEvent<BetPlacedEvent>().Subscribe(BetPlacedEventHandler, true);
+            _eventAggregator.GetEvent<PayWinningsEvent>().Subscribe(PayWinningsEventHandler, true);
+
+            RouletteDealer.PlaceBets = true;    // Start receiving bets.
         }
 
         #endregion
@@ -107,6 +109,24 @@ namespace Dealer.ViewModels
         private void WinningNumberEventHandler(Pocket winningNumber)
         {
             RouletteDealer.AnnounceWinningNumber(winningNumber);    // Announce the winning number.
+        }
+
+        /// <summary>
+        /// The ChipSelectedEventHandler method is called to handle a BetPlacedEvent event.
+        /// </summary>
+        /// <param name="betAmount"></param>
+        private void BetPlacedEventHandler(int betAmount)
+        {
+            RouletteDealer.DeductBet(betAmount);    // Deduct the bet from the player.
+        }
+
+        /// <summary>
+        /// The PayWinningsEventHandler handles an incoming PayWinningsEvent event.
+        /// </summary>
+        /// <param name="winnings"></param>
+        private void PayWinningsEventHandler(int winnings)
+        {
+            RouletteDealer.ReceiveWinnings(winnings); // Check the winnings.
         }
 
         #endregion

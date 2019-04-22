@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using RouletteSimulator.Core;
 
 namespace Wheel
 {
@@ -43,7 +44,7 @@ namespace Wheel
         /// <param name="containerProvider"></param>
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RegisterViewWithRegion("WheelRegion", typeof(WheelView));
+            _regionManager.RegisterViewWithRegion(RegionNames.WheelRegion, typeof(WheelView));
         }
 
         /// <summary>

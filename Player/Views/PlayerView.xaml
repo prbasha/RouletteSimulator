@@ -55,46 +55,55 @@
     <Border BorderBrush="Black" BorderThickness="0" Background="Black">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="0.6*"></RowDefinition>
+                <RowDefinition Height="0.4*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Viewbox Grid.Row="0">
-                <Canvas>
-                    <!--TBD: player face-->
-                </Canvas>
-            </Viewbox>
-            <Viewbox Grid.Row="1" Stretch="Uniform" StretchDirection="Both" HorizontalAlignment="Left">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TOTAL CASH:" ></Label>
-                    <Label Grid.Column="1" Grid.Row="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
-                           Content="{Binding RoulettePlayer.TotalCash}" ContentStringFormat="{}{0:$#,##0}">
-                    </Label>
-                    <Label Grid.Column="0" Grid.Row="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="CURRENT BET:" ></Label>
-                    <Label Grid.Column="1" Grid.Row="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
-                           Content="{Binding RoulettePlayer.CurrentBet}" ContentStringFormat="{}{0:$#,##0}">
-                    </Label>
-                    <Label Grid.Column="0" Grid.Row="2" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="WINNINGS:" ></Label>
-                    <Label Grid.Column="1" Grid.Row="2" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
-                           Content="{Binding RoulettePlayer.CurrentWinnings}" ContentStringFormat="{}{0:$#,##0}">
-                    </Label>
-                    <Button Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" FontWeight="Bold" Margin="10,3,3,3" 
-                            Content="CLEAR ALL BETS"
-                            Command="{Binding RoulettePlayer.ClearBetsCommand}">
-                    </Button>
-                </Grid>
-            </Viewbox>
-            <UniformGrid Grid.Row="2" Columns="5">
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <!--Player's Cash-->
+                <Viewbox Grid.Column="0" Stretch="Uniform" StretchDirection="Both">
+                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2">
+                        <Label Grid.Column="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TOTAL CASH:" ></Label>
+                        <Label Grid.Column="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
+                               Content="{Binding RoulettePlayer.TotalCash}" ContentStringFormat="{}{0:$#,##0}">
+                        </Label>
+                        <Label Grid.Column="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="CURRENT BET:" ></Label>
+                        <Label Grid.Column="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
+                               Content="{Binding RoulettePlayer.CurrentBet}" ContentStringFormat="{}{0:$#,##0}">
+                        </Label>
+                        <Label Grid.Column="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="WINNINGS:" ></Label>
+                        <Label Grid.Column="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" 
+                               Content="{Binding RoulettePlayer.CurrentWinnings}" ContentStringFormat="{}{0:$#,##0}">
+                        </Label>
+                        <Button Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" FontWeight="Bold" Margin="10,3,3,3" 
+                                Content="CLEAR ALL BETS"
+                                Command="{Binding RoulettePlayer.ClearBetsCommand}">
+                        </Button>
+                    </UniformGrid>
+                </Viewbox>
+                <!--Player's Face-->
+                <Image Grid.Column="1" Stretch="Uniform" StretchDirection="Both" Margin="20,20,20,20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=RoulettePlayer.EmotionalState, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:EmotionalState.Mutual}}" Value="True">
+                                    <Setter Property="Source" Value="/Player;component/Images/player_mutual.jpg"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=RoulettePlayer.EmotionalState, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:EmotionalState.Happy}}" Value="True">
+                                    <Setter Property="Source" Value="/Player;component/Images/player_happy.jpg"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=RoulettePlayer.EmotionalState, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:EmotionalState.Sad}}" Value="True">
+                                    <Setter Property="Source" Value="/Player;component/Images/player_sad.jpg"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </Grid>
+            <UniformGrid Grid.Row="1" Columns="5">
                 <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 
                                  IsChecked="{Binding Path=RoulettePlayer.SelectedChip, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:ChipType.One}}">

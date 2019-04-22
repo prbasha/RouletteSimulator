@@ -60,8 +60,7 @@ namespace Player.ViewModels
         /// <param name="selectedChip"></param>
         private void ChipSelectedEventHandler(ChipType selectedChip)
         {
-            // Publish the selected chip.
-            _eventAggregator.GetEvent<SelectedChipEvent>().Publish(selectedChip);
+            _eventAggregator.GetEvent<SelectedChipEvent>().Publish(selectedChip);   // Publish the selected chip.
         }
 
         /// <summary>
@@ -69,38 +68,34 @@ namespace Player.ViewModels
         /// </summary>
         private void ClearBetsEventHandler()
         {
-            // Publish the bet cleared event.
-            _eventAggregator.GetEvent<BetClearedEvent>().Publish();
+            _eventAggregator.GetEvent<BetClearedEvent>().Publish(); // Publish the bet cleared event.
         }
 
         /// <summary>
-        /// The ChipSelectedEventHandler method is called to handle an BetPlacedEvent event.
+        /// The ChipSelectedEventHandler method is called to handle a BetPlacedEvent event.
         /// </summary>
         /// <param name="betAmount"></param>
         private void BetPlacedEventHandler(int betAmount)
         {
-            // Deduct the bet from the player.
-            RoulettePlayer.DeductBet(betAmount);
+            RoulettePlayer.DeductBet(betAmount);    // Deduct the bet from the player.
         }
 
         /// <summary>
-        /// The PlaceBetsEventHandler method is called to handle an PlaceBetsEvent event.
+        /// The PlaceBetsEventHandler method is called to handle a PlaceBetsEvent event.
         /// </summary>
         /// <param name="placeBets"></param>
         private void PlaceBetsEventHandler(bool placeBets)
         {
-            // Apply the current place bets status.
-            RoulettePlayer.PlaceBets = placeBets;
+            RoulettePlayer.PlaceBets = placeBets;   // Apply the current place bets status.
         }
 
         /// <summary>
-        /// The PayWinningsEventHandler handles an incoming PayWinningsEvent event.
+        /// The PayWinningsEventHandler method is called to handle a PayWinningsEvent event.
         /// </summary>
         /// <param name="winnings"></param>
         private void PayWinningsEventHandler(int winnings)
         {
-            // Pay the winnings to the player.
-            RoulettePlayer.ReceiveWinnings(winnings);
+            RoulettePlayer.ReceiveWinnings(winnings);   // Pay the winnings to the player.
         }
 
         #endregion

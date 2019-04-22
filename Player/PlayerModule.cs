@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using RouletteSimulator.Core;
 
 namespace Player
 {
@@ -43,7 +44,7 @@ namespace Player
         /// <param name="containerProvider"></param>
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RegisterViewWithRegion("PlayerRegion", typeof(PlayerView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PlayerRegion, typeof(PlayerView));
         }
 
         /// <summary>

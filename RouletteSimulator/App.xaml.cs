@@ -5,7 +5,6 @@ using System.Windows;
 using Dealer;
 using Player;
 using Board;
-using Bank;
 using Wheel;
 
 namespace RouletteSimulator
@@ -53,7 +52,6 @@ namespace RouletteSimulator
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             base.ConfigureModuleCatalog(moduleCatalog);
-            moduleCatalog.AddModule<BankModule>();
             moduleCatalog.AddModule<WheelModule>();
             moduleCatalog.AddModule<BoardModule>();
             moduleCatalog.AddModule<PlayerModule>();

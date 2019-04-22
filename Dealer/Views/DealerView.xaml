@@ -4,10 +4,15 @@
              xmlns:local="clr-namespace:Dealer.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xaml="clr-namespace:RouletteSimulator.Core.XAML;assembly=RouletteSimulator.Core"
+             xmlns:enums="clr-namespace:RouletteSimulator.Core.Enumerations;assembly=RouletteSimulator.Core"
              mc:Ignorable="d" 
              Height="Auto" Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
+    <UserControl.Resources>
+        <xaml:EnumToBooleanConverter x:Key="enumToBooleanConverter"></xaml:EnumToBooleanConverter>
+    </UserControl.Resources>
     <Border BorderThickness="0" Background="Black">
         <Grid>
             <Grid.RowDefinitions>
@@ -19,8 +24,24 @@
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <!--TBD Dealer's face-->
-                <Viewbox Grid.Column="0"></Viewbox>
+                <!--Dealer's face-->
+                <Image Grid.Column="0" Stretch="Uniform" StretchDirection="Both" Margin="20,20,20,20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=RouletteDealer.EmotionalState, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:EmotionalState.Mutual}}" Value="True">
+                                    <Setter Property="Source" Value="/Dealer;component/Images/dealer_mutual.jpg"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=RouletteDealer.EmotionalState, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:EmotionalState.Happy}}" Value="True">
+                                    <Setter Property="Source" Value="/Dealer;component/Images/dealer_happy.jpg"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=RouletteDealer.EmotionalState, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static enums:EmotionalState.Sad}}" Value="True">
+                                    <Setter Property="Source" Value="/Dealer;component/Images/dealer_sad.jpg"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
                 <!--Winning Number-->
                 <Grid Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -28,26 +49,34 @@
                         <ColumnDefinition Width="0.25*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <!--Current Winning Number-->
-                    <Border Grid.Column="0" Margin="20,20,20,20" BorderBrush="White" BorderThickness="1" DataContext="{Binding RouletteDealer.WinningNumber}">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsGreenNumber}" Value="True">
-                                        <Setter Property="Background" Value="LimeGreen"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsRedNumber}" Value="True">
-                                        <Setter Property="Background" Value="Red"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsBlackNumber}" Value="True">
-                                        <Setter Property="Background" Value="Black"></Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <Viewbox Stretch="Uniform" StretchDirection="Both">
-                            <Label Foreground="White" FontWeight="Bold" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="{Binding Label}"></Label>
-                        </Viewbox>
-                    </Border>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Margin="20,20,20,20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                BorderBrush="White" BorderThickness="1" 
+                                DataContext="{Binding RouletteDealer.WinningNumber}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsGreenNumber}" Value="True">
+                                            <Setter Property="Background" Value="LimeGreen"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsRedNumber}" Value="True">
+                                            <Setter Property="Background" Value="Red"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsBlackNumber}" Value="True">
+                                            <Setter Property="Background" Value="Black"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Viewbox Stretch="Uniform" StretchDirection="Both">
+                                <Label Foreground="White" FontWeight="Bold" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="{Binding Label}"></Label>
+                            </Viewbox>
+                        </Border>
+                    </Grid>
                     <!--Winning Number History-->
                     <Viewbox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Uniform" StretchDirection="Both">
                         <ItemsControl Margin="1,1,1,1" Padding="0,0,0,0" 
@@ -56,7 +85,7 @@
                                       ItemsSource="{Binding RouletteDealer.WinningNumberHistory}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Rows="10"></UniformGrid>
+                                    <UniformGrid Rows="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></UniformGrid>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
@@ -88,6 +117,7 @@
                     </Viewbox>
                 </Grid>
             </Grid>
+            <!--Spin Wheel-->
             <Viewbox Grid.Row="1" Stretch="Uniform" StretchDirection="Both" HorizontalAlignment="Left">
                 <Grid>
                     <Grid.ColumnDefinitions>

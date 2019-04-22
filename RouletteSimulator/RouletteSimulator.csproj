@@ -97,10 +97,6 @@
     <PackageReference Include="Prism.Unity" Version="7.1.0.431&#xD;" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bank\Bank.csproj">
-      <Project>{c320cf94-d6b1-4431-b17b-b07f7cfba81e}</Project>
-      <Name>Bank</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Board\Board.csproj">
       <Project>{4676ecfe-e3a6-45c3-afb6-acdf0e131970}</Project>
       <Name>Board</Name>
@@ -112,6 +108,10 @@
     <ProjectReference Include="..\Player\Player.csproj">
       <Project>{41ad8ccb-b19b-402f-9bbd-0c32a6a1d7d8}</Project>
       <Name>Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RouletteSimulator.Core\RouletteSimulator.Core.csproj">
+      <Project>{1fe47152-0306-4dcc-80d6-4de830751832}</Project>
+      <Name>RouletteSimulator.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wheel\Wheel.csproj">
       <Project>{e94b74a8-d788-429e-9417-f5a906136d24}</Project>
