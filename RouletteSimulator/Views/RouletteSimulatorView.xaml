@@ -10,7 +10,7 @@
         Width="1280" 
         Height="1024"
         WindowState="Maximized">
-    <Grid Background="LightGray">
+    <Grid Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>

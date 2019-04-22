@@ -15,8 +15,7 @@
         public const double StartPosition = 0;
         public const double WheelSpeedRatio = 2;
         public const double WheelDecelerationRatio = 0.50;
-        public const int MinimumWheelSpinDurationSeconds = 15;
-        public const int MaximumWheelSpinDurationSeconds = 21;
+        public const int WheelSpinDurationSeconds = 23;
         public const int MinimumWheelSpinDistanceDegrees = 1080;
         public const int MaximumWheelSpinDistanceDegrees = 2161;
         public const double BallSpeedRatio = 4;
@@ -32,5 +31,6 @@
         public const double BallYOffsetPercentage = 0.90;
         public const int MinimumWinningNumber = 0;
         public const int MaximumWinningNumber = 37;
+        public const string BallAudioFile = @"\Sounds\ball_rolling.wav";
     }
 }

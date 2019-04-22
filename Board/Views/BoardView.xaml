@@ -135,7 +135,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Border BorderBrush="Black" BorderThickness="0" Background="Black" x:Name="MainBorder">
+    <Border BorderBrush="Black" BorderThickness="0" Background="Black">
         <Grid>
             <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                 <Grid.ColumnDefinitions>

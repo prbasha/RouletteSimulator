@@ -25,8 +25,8 @@ namespace Wheel.Views
         {
             InitializeComponent();
             
-            DataContext = this;                                             // Set data context (for data binding).
-            RouletteWheel = new RouletteWheel(wheelControl, ballControl);   // Initialize the roulette wheel.
+            DataContext = this;                                                             // Set data context (for data binding).
+            RouletteWheel = new RouletteWheel(mainGrid, wheelControl, ballControl); // Initialize the roulette wheel.
 
             // Listen to events.
             RouletteWheel.OnWheelSpinning += new WheelSpinning(WheelSpinningEventHandler);

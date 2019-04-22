@@ -7,16 +7,16 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              Height="Auto" Width="Auto">
-    <Border x:Name="MainBorder" Background="Black">
+    <Border x:Name="mainBorder" Background="Black">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
-                <i:InvokeCommandAction Command="{Binding RouletteWheel.BorderSizeChangedCommand}" CommandParameter="{Binding ElementName=MainBorder}"></i:InvokeCommandAction>
+                <i:InvokeCommandAction Command="{Binding RouletteWheel.BorderSizeChangedCommand}" CommandParameter="{Binding ElementName=mainBorder}"></i:InvokeCommandAction>
             </i:EventTrigger>
             <i:EventTrigger EventName="SizeChanged">
-                <i:InvokeCommandAction Command="{Binding RouletteWheel.BorderSizeChangedCommand}" CommandParameter="{Binding ElementName=MainBorder}"></i:InvokeCommandAction>
+                <i:InvokeCommandAction Command="{Binding RouletteWheel.BorderSizeChangedCommand}" CommandParameter="{Binding ElementName=mainBorder}"></i:InvokeCommandAction>
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        <Grid>
+        <Grid x:Name="mainGrid">
             <!--Wheel-->
             <Viewbox Stretch="Uniform" StretchDirection="Both">
                 <Canvas Background="Transparent" IsHitTestVisible="False"
@@ -108,6 +108,7 @@
                              Height="{Binding RouletteWheel.BallDiameterYPixels, Mode=OneWay}" 
                              Fill="Silver">
                     </Ellipse>
+                    <!--<MediaElement x:Name="ballMediaElement" Source="../Sounds/ball_rolling.wav" LoadedBehavior="Manual" UnloadedBehavior="Stop"></MediaElement>-->
                 </Canvas>
             </Viewbox>
         </Grid>

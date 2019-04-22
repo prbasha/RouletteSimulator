@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using RouletteSimulator.Core.Models.WheelModels;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,6 +38,8 @@ namespace Wheel.Views
         private DoubleAnimation _ballSpinningAnimation1;
         private DoubleAnimation _ballFallingAnimation;
         private DoubleAnimation _ballSpinningAnimation2;
+        private MediaElement _ballMediaElement;
+        private MediaTimeline _ballMediaTimeLine;
         private double _centerPointXPixels;
         private double _centerPointYPixels;
         private double _outerWheelDiameterXPixels;
@@ -56,7 +59,7 @@ namespace Wheel.Views
         private double _ballCenterPositionXPixels;
         private double _ballCenterPositionYPixels;
         private double _ballYOffsetPixels;
-
+        
         #endregion
 
         #region Constructors
@@ -66,7 +69,8 @@ namespace Wheel.Views
         /// </summary>
         /// <param name="wheelControl"></param>
         /// <param name="ballControl"></param>
-        public RouletteWheel(ItemsControl wheelControl, Ellipse ballControl)
+        /// <param name="ballMediaElement"></param>
+        public RouletteWheel(Grid mainGrid, ItemsControl wheelControl, Ellipse ballControl)
         {
             try
             {
@@ -94,7 +98,16 @@ namespace Wheel.Views
                 ballTransformGroup.Children.Add(_ballRotateTransform);
                 // Add the TransformGroup to the ball control.
                 _ballControl.RenderTransform = ballTransformGroup;
-                
+
+                // Ball media (sound).
+                _ballMediaElement = new MediaElement();
+                mainGrid.Children.Add(_ballMediaElement);
+                _ballMediaElement.LoadedBehavior = MediaState.Manual;
+                _ballMediaElement.UnloadedBehavior = MediaState.Manual;
+                _ballMediaElement.Volume = 1.0;
+                _ballMediaElement.IsMuted = false;
+                _ballMediaElement.MediaOpened += new RoutedEventHandler(BallMediaElementMediaOpenedEventHandler);
+
                 // Wheel pockets.
                 Pockets = new ObservableCollection<Pocket>();
                 for (int i = 0; i < RouletteSimulator.Core.Models.WheelModels.Constants.WheelNumbers.Count(); i++)
@@ -110,10 +123,10 @@ namespace Wheel.Views
             }
             catch (Exception ex)
             {
-                throw new Exception("RouletteWheel(Canvas wheelCanvas, Canvas ballControl): " + ex.ToString());
+                throw new Exception("RouletteWheel(ItemsControl wheelControl, Ellipse ballControl, MediaElement ballMediaElement): " + ex.ToString());
             }
         }
-
+        
         #endregion
 
         #region Events
@@ -383,7 +396,7 @@ namespace Wheel.Views
                 double wheelEndAngleDegrees = -1 * _randomNumberGenerator.Next(Constants.MinimumWheelSpinDistanceDegrees, Constants.MaximumWheelSpinDistanceDegrees);
                 _wheelSpinningAnimation1.By = wheelEndAngleDegrees * Constants.WheelSpeedRatio;
                 // Duration of spin seconds - multiply by wheel speed ratio.
-                double spinDurationSeconds = _randomNumberGenerator.Next(Constants.MinimumWheelSpinDurationSeconds, Constants.MaximumWheelSpinDurationSeconds);
+                double spinDurationSeconds = Constants.WheelSpinDurationSeconds;
                 _wheelSpinningAnimation1.Duration = TimeSpan.FromSeconds(spinDurationSeconds * Constants.WheelSpeedRatio);
                 _wheelSpinningAnimation1EndTime = DateTime.Now.AddSeconds(spinDurationSeconds);
 
@@ -492,6 +505,19 @@ namespace Wheel.Views
                 // Begin time - begins after the first ball spinning animation.
                 _ballSpinningAnimation2.BeginTime = TimeSpan.FromSeconds(ballSpinningDuration.TotalSeconds);
 
+                // Ball sound.
+                if (_ballMediaTimeLine == null)
+                {
+                    _ballMediaTimeLine = new MediaTimeline();
+                    //_ballMediaTimeLine.SpeedRatio = Constants.BallSpeedRatio;
+                    _ballMediaTimeLine.FillBehavior = FillBehavior.Stop;
+                    _ballMediaTimeLine.Source = new Uri(Directory.GetCurrentDirectory() + Constants.BallAudioFile, UriKind.Relative);
+                    Storyboard.SetTarget(_ballMediaTimeLine, _ballMediaElement);
+                    _ballStoryBoard.Children.Add(_ballMediaTimeLine);
+                }
+                //_ballMediaTimeLine.Duration = TimeSpan.FromSeconds(ballSpinningDuration.TotalSeconds * Constants.BallSpeedRatio);
+                _ballMediaTimeLine.Duration = TimeSpan.FromSeconds(ballSpinningDuration.TotalSeconds);
+
                 _ballControl.Visibility = Visibility.Visible;
                 _ballStoryBoard.Begin(_ballControl, true);  // Start the story board.
                 OnBallTossed?.Invoke(true);                 // Publish the status of the ball.
@@ -519,6 +545,18 @@ namespace Wheel.Views
         {
             _ballControl.Visibility = Visibility.Hidden;
             OnBallTossed?.Invoke(false);    // Publish the status of the ball - the ball is no longer in the wheel.
+        }
+
+        /// <summary>
+        /// The BallMediaElementMediaOpenedEventHandler method is called to handle to MediaOpenedEvent for the BallMediaElement,
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void BallMediaElementMediaOpenedEventHandler(object sender, RoutedEventArgs e)
+        {
+            // Play the ball sound.
+            MediaElement mediaElement = sender as MediaElement;
+            mediaElement.Play();
         }
 
         /// <summary>
