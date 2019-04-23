@@ -180,6 +180,9 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.EvenBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=EvenBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.EvenBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=EvenBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
                             <Label Content="{Binding RouletteBoard.EvenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
@@ -227,6 +230,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.OddBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=OddBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.OddBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=OddBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
@@ -276,6 +282,9 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.RedBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=RedBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.RedBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=RedBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Path Data="M50,0L100,50 50,100 0,50z" 
                               Fill="Red" Stroke="White" StrokeThickness="2" Stretch="Fill" 
@@ -324,6 +333,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.BlackBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=BlackBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.BlackBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=BlackBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Path Data="M50,0L100,50 50,100 0,50z" 
@@ -375,6 +387,9 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstDozenBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=FirstDozenBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstDozenBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=FirstDozenBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
                             <Label Content="{Binding RouletteBoard.FirstDozenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
@@ -423,6 +438,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondDozenBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=SecondDozenBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondDozenBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=SecondDozenBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
@@ -473,6 +491,9 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdDozenBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=ThirdDozenBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdDozenBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=ThirdDozenBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
                             <Label Content="{Binding RouletteBoard.ThirdDozenBet.Label}" Style="{StaticResource LeftLabelStyle}"></Label>
@@ -516,6 +537,9 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstColumnBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=FirstColumnBetBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstColumnBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=FirstColumnBetBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
                             <Label Content="{Binding RouletteBoard.FirstColumnBet.Label}" Style="{StaticResource LabelStyle}"></Label>
@@ -555,6 +579,9 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondColumnBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=SecondColumnBetBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.SecondColumnBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=SecondColumnBetBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
                             <Label Content="{Binding RouletteBoard.SecondColumnBet.Label}" Style="{StaticResource LabelStyle}"></Label>
@@ -593,6 +620,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdColumnBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=ThirdColumnBetBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.ThirdColumnBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=ThirdColumnBetBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
@@ -640,6 +670,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.LowBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=LowBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.LowBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=LowBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
@@ -691,6 +724,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.HighBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=HighBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.HighBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=HighBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
@@ -757,6 +793,9 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=ZeroBetInnerBorder}"></i:InvokeCommandAction>
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RouletteBoard.ZeroBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=ZeroBetInnerBorder}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <Viewbox StretchDirection="Both" Stretch="Uniform">
                             <Label Content="{Binding RouletteBoard.ZeroBet.Label}" Style="{StaticResource LabelStyle}"></Label>
@@ -807,6 +846,9 @@
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="MouseLeftButtonDown">
                                             <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=StraightBetBorder}"></i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseRightButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding RemoveLastChipCommand}" CommandParameter="{Binding ElementName=StraightBetBorder}"></i:InvokeCommandAction>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <Viewbox Stretch="Uniform">
@@ -874,6 +916,9 @@
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=HorizontalSplitBetBorder}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RemoveLastChipCommand}" CommandParameter="{Binding ElementName=HorizontalSplitBetBorder}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
                                     <Viewbox Grid.ColumnSpan="3" Grid.RowSpan="3" StretchDirection="Both" Stretch="Uniform">
@@ -938,6 +983,9 @@
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=VerticalSplitBetBorder}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RemoveLastChipCommand}" CommandParameter="{Binding ElementName=VerticalSplitBetBorder}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
                                     <Viewbox Grid.ColumnSpan="3" Grid.RowSpan="3" StretchDirection="Both" Stretch="Uniform">
@@ -1001,6 +1049,9 @@
                                             </i:EventTrigger>
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=StreetBetBorder}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RemoveLastChipCommand}" CommandParameter="{Binding ElementName=StreetBetBorder}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
@@ -1071,6 +1122,9 @@
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=CornerBetBorder}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RemoveLastChipCommand}" CommandParameter="{Binding ElementName=CornerBetBorder}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
                                     <Viewbox Grid.ColumnSpan="3" Grid.RowSpan="3" StretchDirection="Both" Stretch="Uniform">
@@ -1140,6 +1194,9 @@
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding PlaceBetCommand}" CommandParameter="{Binding ElementName=DoubleStreetBetBorder}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RemoveLastChipCommand}" CommandParameter="{Binding ElementName=DoubleStreetBetBorder}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
                                     <Viewbox Grid.ColumnSpan="3" Grid.RowSpan="3" StretchDirection="Both" Stretch="Uniform">
@@ -1208,6 +1265,9 @@
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
                                         <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.PlaceBetCommand}" CommandParameter="{Binding ElementName=TrioBet1Border}"></i:InvokeCommandAction>
                                     </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseRightButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet1.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=TrioBet1Border}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Border>
                             <Viewbox Grid.ColumnSpan="3" Grid.RowSpan="3" StretchDirection="Both" Stretch="Uniform">
@@ -1254,6 +1314,9 @@
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
                                         <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.PlaceBetCommand}" CommandParameter="{Binding ElementName=TrioBet2Border}"></i:InvokeCommandAction>
                                     </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseRightButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.TrioBet2.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=TrioBet2Border}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Border>
                             <Viewbox Grid.ColumnSpan="3" Grid.RowSpan="3" StretchDirection="Both" Stretch="Uniform">
@@ -1299,6 +1362,9 @@
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
                                         <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.PlaceBetCommand}" CommandParameter="{Binding ElementName=FirstFourBetBorder}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseRightButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding RouletteBoard.FirstFourBet.RemoveLastChipCommand}" CommandParameter="{Binding ElementName=FirstFourBetBorder}"></i:InvokeCommandAction>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Border>

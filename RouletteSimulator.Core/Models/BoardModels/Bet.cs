@@ -5,6 +5,7 @@ using RouletteSimulator.Core.Models.ChipModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Media;
 using System.Windows.Controls;
 
 namespace RouletteSimulator.Core.Models.BoardModels
@@ -37,6 +38,7 @@ namespace RouletteSimulator.Core.Models.BoardModels
             HighLightBetCommand = new DelegateCommand(HighLightBet);
             ClearHighLightBetCommand = new DelegateCommand(ClearHighLightBet);
             PlaceBetCommand = new DelegateCommand(PlaceBet);
+            RemoveLastChipCommand = new DelegateCommand(RemoveLastChip);
         }
 
         /// <summary>
@@ -147,6 +149,11 @@ namespace RouletteSimulator.Core.Models.BoardModels
         public DelegateCommand PlaceBetCommand { get; private set; }
 
         /// <summary>
+        /// Gets or sets the RemoveLastChipCommand.
+        /// </summary>
+        public DelegateCommand RemoveLastChipCommand { get; private set; }
+
+        /// <summary>
         /// Gets the text label for the bet.
         /// </summary>
         public abstract string Label
@@ -235,6 +242,27 @@ namespace RouletteSimulator.Core.Models.BoardModels
             catch (Exception ex)
             {
                 throw new Exception("Bet.PlaceBet(object parameter): " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// The RemoveLastChip method is called to remove the last chip placed on the bet.
+        /// </summary>
+        public void RemoveLastChip()
+        {
+            try
+            {
+                if (Chips.Count > 0)
+                {
+                    Chip chip = Chips[Chips.Count - 1];     // Retrieve the last chip.
+                    BetAmount = BetAmount - chip.Value;     // Update the bet amount.
+                    OnBetPlaced?.Invoke(-1 * chip.Value);   // Notify that the last chip as been removed (place a negative bet).
+                    Chips.RemoveAt(Chips.Count - 1);        // Remove the last chip from the bet.
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Bet.RemoveLastChip(): " + ex.ToString());
             }
         }
         

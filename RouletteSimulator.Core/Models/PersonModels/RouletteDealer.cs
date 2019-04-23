@@ -166,24 +166,7 @@ namespace RouletteSimulator.Core.Models.PersonModels
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// The DeductBet method is called to deduct a bet amount.
-        /// </summary>
-        /// <param name="betAmount"></param>
-        public override void DeductBet(int betAmount)
-        {
-            CurrentBet = CurrentBet + betAmount;
-        }
-
-        /// <summary>
-        /// The ClearBets method is called to clear all bets.
-        /// </summary>
-        public override void ClearBets()
-        {
-            CurrentBet = 0;
-        }
-
+        
         /// <summary>
         /// The SpinWheel method is called to spin the roulette wheel.
         /// </summary>

@@ -105,14 +105,21 @@ namespace RouletteSimulator.Core.Models.PersonModels
         
         /// <summary>
         /// The DeductBet method is called to deduct a bet amount.
+        /// Note: the bet amount can be negative, in which case a bet is being removed.
         /// </summary>
         /// <param name="betAmount"></param>
-        public abstract void DeductBet(int betAmount);
+        public virtual void DeductBet(int betAmount)
+        {
+            CurrentBet = CurrentBet + betAmount;
+        }
 
         /// <summary>
         /// The ClearBets method is called to clear all bets.
         /// </summary>
-        public abstract void ClearBets();
+        public virtual void ClearBets()
+        {
+            CurrentBet = 0;
+        }
 
         /// <summary>
         /// The ReceiveWinnings is called to add the winnings to the player's total.

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:core="clr-namespace:RouletteSimulator.Core;assembly=RouletteSimulator.Core"
+        xmlns:xaml="clr-namespace:RouletteSimulator.Core.XAML;assembly=RouletteSimulator.Core"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="Roulette Simulator" 
         MinWidth="1024"
@@ -33,6 +34,16 @@
                 <RowDefinition Height="0.50*"></RowDefinition>
             </Grid.RowDefinitions>
             <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static core:RegionNames.PlayerRegion}"></ContentControl>
+            <Border Grid.Row="1" BorderBrush="Transparent" x:Name="userGuideBorder">
+                <xaml:BindableRichTextBox HorizontalAlignment="Left" VerticalAlignment="Top"
+                                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                          Width="{Binding Path=ActualWidth, ElementName=userGuideBorder}" 
+                                          Height="{Binding Path=ActualHeight, ElementName=userGuideBorder}"
+                                          Background="Black" 
+                                          IsReadOnly="True"
+                                          Source="pack:/RouletteSimulator;component/Instructions.rtf">
+                </xaml:BindableRichTextBox>
+            </Border>
         </Grid>
     </Grid>
 </Window>

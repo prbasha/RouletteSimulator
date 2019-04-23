@@ -63,7 +63,7 @@
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <!--Player's Cash-->
+                <!--Player's cash-->
                 <Viewbox Grid.Column="0" Stretch="Uniform" StretchDirection="Both">
                     <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Columns="2">
                         <Label Grid.Column="0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TOTAL CASH:" ></Label>
@@ -84,7 +84,7 @@
                         </Button>
                     </UniformGrid>
                 </Viewbox>
-                <!--Player's Face-->
+                <!--Player's face-->
                 <Image Grid.Column="1" Stretch="Uniform" StretchDirection="Both" Margin="20,20,20,20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Image.Style>
                         <Style TargetType="Image">
@@ -103,6 +103,7 @@
                     </Image.Style>
                 </Image>
             </Grid>
+            <!--Available chips-->
             <UniformGrid Grid.Row="1" Columns="5">
                 <Viewbox>
                     <RadioButton Style="{StaticResource ChipRadioButtonStyle}" 

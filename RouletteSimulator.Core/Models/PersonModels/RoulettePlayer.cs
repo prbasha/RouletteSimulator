@@ -189,14 +189,16 @@ namespace RouletteSimulator.Core.Models.PersonModels
 
         /// <summary>
         /// The DeductBet method is called to deduct a bet amount.
+        /// Note: the bet amount can be negative, in which case a bet is being removed.
         /// </summary>
         /// <param name="betAmount"></param>
         public override void DeductBet(int betAmount)
         {
+            base.DeductBet(betAmount);
+
             if (TotalCash >= betAmount)
             {
-                TotalCash = TotalCash - betAmount;      // Deduct the bet from the total cash.
-                CurrentBet = CurrentBet + betAmount;
+                TotalCash = TotalCash - betAmount;
             }
         }
 
@@ -208,9 +210,10 @@ namespace RouletteSimulator.Core.Models.PersonModels
             if (CurrentBet > 0)
             {
                 TotalCash = TotalCash + CurrentBet; // Restore player's cash.
-                CurrentBet = 0;
                 OnClearBets?.Invoke();
             }
+
+            base.ClearBets();
         }
 
         /// <summary>
