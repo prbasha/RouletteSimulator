@@ -41,7 +41,7 @@
                                           Height="{Binding Path=ActualHeight, ElementName=userGuideBorder}"
                                           Background="Black" 
                                           IsReadOnly="True"
-                                          Source="pack:/RouletteSimulator;component/Instructions.rtf">
+                                          Source="pack:/RouletteSimulator;component/Documentation/Instructions.rtf">
                 </xaml:BindableRichTextBox>
             </Border>
         </Grid>
