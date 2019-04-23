@@ -17,3 +17,5 @@ The application is made up of 4 modules:
   - Can clear all chips from the board.
 
 The winning number is chosen using the **Random** class from C# .NET.
+
+![alt text](https://github.com/prbasha/RouletteSimulator/blob/master/RouletteSimulator/Documentation/screen_shot.PNG)
