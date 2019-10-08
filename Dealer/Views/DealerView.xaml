@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              Height="Auto" Width="Auto"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True" >
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <xaml:EnumToBooleanConverter x:Key="enumToBooleanConverter"></xaml:EnumToBooleanConverter>
     </UserControl.Resources>
